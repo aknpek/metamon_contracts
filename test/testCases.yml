@@ -1,0 +1,5 @@
+testCase:
+  contractDeployer: ""
+  contractName: "Metamon"
+  contractNameReal: "Metamon NFT"
+  contractSymbol: "NFT"
