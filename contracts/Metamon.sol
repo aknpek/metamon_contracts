@@ -70,7 +70,7 @@ contract Metamon is ERC721 {
         familyMetamon[5] = 6;
     }
 
-    modifier onlyOwner(address sender) {
+    modifier onlyOwner(address sender) {s
         require(sender == owner, "Not a owner call!");
         _;
     }
@@ -150,6 +150,8 @@ contract Metamon is ERC721 {
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
+        // We will have different baseURIs for Item and Metamon 
+        // TODO: move items into different collection
         return baseURI;
     }
 
@@ -161,6 +163,11 @@ contract Metamon is ERC721 {
         returns (string memory)
     {
         require(_exists(tokenId), "Nonexistent token!");
+        // We can retrieve the information about token id 
+        // -> is it Item or Metamon
+        // -> what is the dax number
+        // -> based on the information that we retrieve we will return base_uri
+        // TODO: move items into different collection
 
         return
             bytes(baseURI).length > 0
@@ -181,6 +188,10 @@ contract Metamon is ERC721 {
     //     if (msg.sender != owner) {
     //         require(msg.value == florPrice * _quantity, "Not Enough Balance!");
     //     }
+
+    // TODO: check if the dax number can be mintable based on the phases
+    // TODO: after minting make sure to push token information into mapping
+
         uint256 j = _tokenIds;
         for (uint256 i = 0; i < _quantity; i++) {
             j++;
