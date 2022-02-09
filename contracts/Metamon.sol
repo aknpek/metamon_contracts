@@ -70,7 +70,7 @@ contract Metamon is ERC721 {
         familyMetamon[5] = 6;
     }
 
-    modifier onlyOwner(address sender) {s
+    modifier onlyOwner(address sender) {
         require(sender == owner, "Not a owner call!");
         _;
     }
