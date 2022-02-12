@@ -124,6 +124,25 @@
 				"type": "event"
 			},
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_burner",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "burnItem",
+				"type": "event"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -200,12 +219,31 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
+						"internalType": "uint8",
 						"name": "_itemType",
-						"type": "uint256"
+						"type": "uint8"
 					}
 				],
 				"name": "getFloorPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "_itemType",
+						"type": "uint8"
+					}
+				],
+				"name": "getSupplyLeft",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -256,14 +294,14 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "_recipeint",
-						"type": "address"
-					},
-					{
 						"internalType": "string",
 						"name": "_passCode",
 						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "_recipeint",
+						"type": "address"
 					},
 					{
 						"internalType": "uint8",
@@ -449,6 +487,59 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "tokenOwner",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "tokenOwners",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "tokenId",
 						"type": "uint256"
@@ -460,6 +551,19 @@
 						"internalType": "string",
 						"name": "",
 						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "totalItemTypes",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -557,11 +661,11 @@
 	},
 	"sources": {
 		"@openzeppelin/contracts/token/ERC721/ERC721.sol": {
-			"keccak256": "0x81c02855bc239e16ec09eee000a8bec691424c715188d6d881037e69c45414c4",
+			"keccak256": "0x11b84bb56dc112a6590bfe3e0efa118aa1b5891132342200d04c4ef544cb93de",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://46e3ecc8920aeb78c362a387520fe28e022cdc6d04256d9e5874eb8ff6868b6d",
-				"dweb:/ipfs/QmdfCTHrV6CZMGiM3KqGF8tWkdNvGpEmWFyy72X1LAHsz2"
+				"bzz-raw://cbc4803332d45dff58f865ed21c942fe4668e47cc7196c8dfe84102040b1d70f",
+				"dweb:/ipfs/QmXhZLsocznRWCSyhjo3vo66Z1VsuuNptAVb6ASPYsWtGx"
 			]
 		},
 		"@openzeppelin/contracts/token/ERC721/IERC721.sol": {
@@ -589,11 +693,11 @@
 			]
 		},
 		"@openzeppelin/contracts/utils/Address.sol": {
-			"keccak256": "0x51b758a8815ecc9596c66c37d56b1d33883a444631a3f916b9fe65cb863ef7c4",
+			"keccak256": "0x2ccf9d2313a313d41a791505f2b5abfdc62191b5d4334f7f7a82691c088a1c87",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://997ca03557985b3c6f9143a18b6c3a710b3bc1c7f189ee956d305a966ecfb922",
-				"dweb:/ipfs/QmQaD3Wb62F88SHqmpLttvF6wKuPDQep2LLUcKPekeRzvz"
+				"bzz-raw://b3a57d0854b2fdce6ebff933a48dca2445643d1eccfc27f00292e937f26c6a58",
+				"dweb:/ipfs/QmW45rZooS9TqR4YXUbjRbtf2Bpb5ouSarBvfW1LdGprvV"
 			]
 		},
 		"@openzeppelin/contracts/utils/Context.sol": {
@@ -629,11 +733,11 @@
 			]
 		},
 		"Documents/metamon_contracts/contracts/Item.sol": {
-			"keccak256": "0xd390a2a2e4ee1f6af3605f44a8cb0dbc62a406aa5ce46100eaa855202d6c9aeb",
+			"keccak256": "0xddd09650240bb8f02fad9cf579cc1dd9d65cb90196fda6474a0da617308c264c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://75d9435e1bb8b17ce6f3f2083b3d41816630bc7c4774cdd47a1d8006f0271fd2",
-				"dweb:/ipfs/QmPVqHGDwHpSF9vbh62wJi1owbueYaQNCW2xaTxuhprzXS"
+				"bzz-raw://7041031860ca48eefdc7825801e63a1a133f5d09a3e151a3a5d5ec9b532e2c7b",
+				"dweb:/ipfs/QmeFGwhp9btGqzC3Xk2bPW2q64ZX1PcBxFp3zAc45msb4f"
 			]
 		}
 	},
