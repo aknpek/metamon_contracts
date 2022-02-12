@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.2+commit.661d1103"
+		"version": "0.8.7+commit.e28d00a7"
 	},
 	"language": "Solidity",
 	"output": {
@@ -300,7 +300,7 @@
 					},
 					{
 						"internalType": "address",
-						"name": "_recipeint",
+						"name": "_recipient",
 						"type": "address"
 					},
 					{
@@ -431,6 +431,30 @@
 				"name": "setApprovalForAll",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "_itemType",
+						"type": "uint8"
+					}
+				],
+				"name": "specificItemOwnership",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -648,7 +672,7 @@
 		"compilationTarget": {
 			"Documents/metamon_contracts/contracts/Item.sol": "Item"
 		},
-		"evmVersion": "istanbul",
+		"evmVersion": "london",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -733,11 +757,11 @@
 			]
 		},
 		"Documents/metamon_contracts/contracts/Item.sol": {
-			"keccak256": "0xddd09650240bb8f02fad9cf579cc1dd9d65cb90196fda6474a0da617308c264c",
+			"keccak256": "0x1feef22d5b64e4518ba2169192a2962d8410215f06f654f0a27a100569846b74",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7041031860ca48eefdc7825801e63a1a133f5d09a3e151a3a5d5ec9b532e2c7b",
-				"dweb:/ipfs/QmeFGwhp9btGqzC3Xk2bPW2q64ZX1PcBxFp3zAc45msb4f"
+				"bzz-raw://57e377cfc254d6bd324b34658ad85a4e1efa2cb545f1f8553e2391e5f853c7f5",
+				"dweb:/ipfs/QmR8tuN67JwfMMpaSyToPmnXzZUHcwEvBfqyxY1GTc3Y2K"
 			]
 		}
 	},

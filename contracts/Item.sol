@@ -14,7 +14,7 @@ contract Item is ERC721 {
     uint32[7] private itemSupplies = [2500, 2500, 1000, 1000, 1000, 1000, 1000];
 
     uint256[7] private itemFloor = [0.12 ether, 0.25 ether, 0.04 ether, 0.04 ether, 0.04 ether, 0.04 ether, 0.04 ether];
-    uint256 private itemTokenIds;
+    uint256 private tokenIds;
     uint256 public itemTotalSupply = 10000;
 
     string private itemBaseURI;
@@ -23,7 +23,7 @@ contract Item is ERC721 {
 
     mapping(uint256 => uint8) public tokenItemTypes;
     mapping(address => uint8[]) public tokenOwner;
-    mapping(address => mapping(uint8 => uint256[])) public tokenOwners; // if the owner owns specific tokens in array 
+    mapping(address => mapping(uint8 => uint256[])) public tokenOwners; 
     
     ///////////////////////////////////////////////////////////////////////////
     // Events
@@ -68,28 +68,41 @@ contract Item is ERC721 {
     function getFloorPrice(
         uint8 _itemType
     ) itemType(_itemType) public view returns(uint256){
-        return itemFloor[_itemType];
+        return itemFloor[_itemType - 1];
     }
 
     function getSupplyLeft(
         uint8 _itemType
     ) itemType(_itemType) public view returns(uint256){
-        return itemSupplies[_itemType]; 
+        return itemSupplies[_itemType - 1]; 
+    }
+
+    function specificItemOwnership(
+        address _owner,
+        uint8 _itemType
+    ) public view returns(uint256){
+        // check whether owner owns specific ITEM token
+        uint256 total_ownership = tokenOwners[_owner][_itemType].length;
+        return total_ownership;
     }
 
     function mintableLeft(
         uint256 _quantity,
         uint256 _itemSupplyLeft
     ) internal pure returns(uint256){
-        if (_quantity < _itemSupplyLeft){
+        if (_quantity <= _itemSupplyLeft){
             return _quantity;
         } else {
             if (_itemSupplyLeft == 0){
-                return 0;
+                revert('Item supply not enough!');
             } else{
                 return _itemSupplyLeft;
             }
         }
+    }
+
+    function totalItemTypes() public view returns(uint256){
+        return itemTypes.length; 
     }
 
     function burn(uint256 _tokenId) private {
@@ -98,24 +111,33 @@ contract Item is ERC721 {
 
     function mintSale(
         string memory _passCode,
-        address _recipeint,
+        address _recipient,
         uint8 _itemType,
         uint256 _quantity
-    ) external passCheck(_passCode) payable {
-        // get first token conditions
-        // check the how many has been owned by the user
-        // check how many has been asked
+    ) external passCheck(_passCode) payable {       
         uint256 _itemSupplyLeft = getSupplyLeft(_itemType);
+
+        uint256 _totalOwned = specificItemOwnership(_recipient, _itemType);
+        uint256 _maxOwnable = maxOwnable[_itemType - 1];
+        require(_totalOwned <= _maxOwnable, "Max ownable quantity reached!");
+
         uint256 _itemFloor = getFloorPrice(_itemType);
-        uint256 _mintableLeft = mintableLeft(_quantity, _itemSupplyLeft);
 
-        require(_mintable * _itemFloor == msg.value, "Not exact coin send!");
+        uint256 _maxMintable = mintableLeft(_quantity, _itemSupplyLeft);
 
+        require(_maxMintable * _itemFloor <= msg.value, "Not exact coin send!");
 
+        uint256 j = tokenIds;
 
-    }
-
-    function totalItemTypes() public view returns(uint256){
-        return itemTypes.length; 
-    }
+        for (uint256 i = 0; i < _quantity; i++) {
+            j++;
+            _mint(_recipient, j);
+            tokenOwners[_recipient][_itemType].push(j);
+            tokenOwner[_recipient].push(_itemType);
+            tokenItemTypes[j] = _itemType;
+            itemSupplies[_itemType - 1] = itemSupplies[_itemType - 1] - 1;
+            emit ItemMinted(_recipient, j);
+        }
+        tokenIds = j;
+    } 
 }
