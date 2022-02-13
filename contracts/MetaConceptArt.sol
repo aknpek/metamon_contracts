@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract MetaConceptArt is ERC721, Ownable {
 
-    address public constant DEV_ADDRESS = 0xcEB5E5c55bB585CFaEF92aeB1609C4384Ec1890e;
+    address public constant DEV_ADDRESS = 0xD613c451a22346d1Eaa2Fffb72836B1F24b5B47f;
     address public constant OWNER_CW1_ADDRESS = 0x778341cFfb8C60217958Bd8B2B8a5139c686485a;
 
     uint256 public currentSupply;
@@ -19,7 +19,7 @@ contract MetaConceptArt is ERC721, Ownable {
     constructor() ERC721("MiniMetamon Concept Art", "MiniMetamon-CA") {
     }
     
-    function totalSupply() external view returns (uint) {
+    function totalSupply() external view returns (uint256) {
         return currentSupply;
     }
 
@@ -41,16 +41,11 @@ contract MetaConceptArt is ERC721, Ownable {
         require(msg.sender == DEV_ADDRESS || msg.sender == OWNER_CW1_ADDRESS || msg.sender == owner(), "Invalid Sender");
 
         (bool owner, ) = OWNER_CW1_ADDRESS.call{value: address(this).balance}("");
-        require(owner);
+        require(owner, "Caller is not an owner of the contract");
     }
 
     function setBaseURI(string memory _uri) external onlyOwner {
         baseURI = _uri;
-    }
-
-    function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory) {
-        require(_exists(tokenId), "Cannot query non-existent token");
-        return string(abi.encodePacked(baseURI, Strings.toString(tokenId), ".json"));
     }
 
     function tokensOfOwner(address _owner, uint startId, uint endId) external view returns(uint256[] memory ) {
