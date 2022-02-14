@@ -32,6 +32,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
     event ItemMinted(address _reciever, uint256 _tokenId);
     event BurnItem(address _burner, uint256 _tokenId);
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Cons
+    ///////////////////////////////////////////////////////////////////////////
     constructor() payable ERC721("Metamon Item Collection", "NFT"){
         owner = payable(msg.sender);
     }
@@ -62,7 +65,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    // State Changes
+    // Get/Set State Changes
     ///////////////////////////////////////////////////////////////////////////
     function changeFloorPrice(
         uint256 _new_price,
@@ -111,6 +114,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
         return itemTypes.length; 
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Burn Tokens
+    ///////////////////////////////////////////////////////////////////////////
     function _deleteOwnerToken(address _burner, uint256 _tokenId) internal onlyOwner(msg.sender) returns(bool) {
         uint256[] memory tokens = tokenOwner[_burner];
         for (uint256 i = 0; i < tokens.length; i++){
@@ -132,6 +138,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Mint Tokens
+    ///////////////////////////////////////////////////////////////////////////
     function mintSale(
         string memory _passCode,
         address _recipient,
