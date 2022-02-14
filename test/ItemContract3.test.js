@@ -57,12 +57,12 @@ contract('Item', () => {
         assert(balance.toNumber() === total_minted);
     });
 
-    it('Check Minted Item Types', async() => {
+    it('Check Minted Item Types Balances (*should be decreased already)', async() => {
         let item_type = 1;
 
         let total_balance = item_supplies[item_type - 1];
         const total_left = await deployedContract.getSupplyLeft(item_type); 
-        
+
         assert((total_balance - first_mint_phase['mintQuantity']) === total_left.toNumber());
     })
 })

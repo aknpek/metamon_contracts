@@ -3,7 +3,7 @@ pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract Item is ERC721 {
+    contract Item is ERC721 {
     using Strings for uint256;
 
     address payable public owner;
@@ -22,8 +22,8 @@ contract Item is ERC721 {
     string private passWord = "MADECHANGE";
 
     mapping(uint256 => uint8) public tokenItemTypes;
-    mapping(address => uint8[]) public tokenOwner;
-    mapping(address => mapping(uint8 => uint256[])) public tokenOwners; 
+    mapping(address => uint256[]) public tokenOwner;  // Represents owner's tokens *tokenIds
+    mapping(address => mapping(uint8 => uint256[])) public tokenOwners;   // Represents owner's different type of tokens' ids
     
     ///////////////////////////////////////////////////////////////////////////
     // Events
@@ -111,8 +111,25 @@ contract Item is ERC721 {
         return itemTypes.length; 
     }
 
-    function burn(uint256 _tokenId) private {
-        _burn(_tokenId);
+    function _deleteOwnerToken(address _burner, uint256 _tokenId) internal onlyOwner(msg.sender) returns(bool) {
+        uint256[] memory tokens = tokenOwner[_burner];
+        for (uint256 i = 0; i < tokens.length; i++){
+            if (tokens[i] == _tokenId){
+                delete tokenOwner[_burner][i];
+                return true;
+            }
+        }
+    }
+
+    function burn(address _burner, uint256 _tokenId) private {
+        // remove the token brom the mappings of the current owner
+        
+        if (_deleteOwnerToken(_burner, _tokenId)){
+            _burn(_tokenId);
+            emit BurnItem(_burner, _tokenId);
+        } else {
+            revert('Could not burn the token!');
+        }
     }
 
     function mintSale(
