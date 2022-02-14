@@ -1,5 +1,5 @@
-const Metamon = artifacts.require('Metamon');
+const Contract = artifacts.require('Item');
 
 module.exports = function(deployer){
-    deployer.deploy(Metamon);
+    deployer.deploy(Contract);
 }

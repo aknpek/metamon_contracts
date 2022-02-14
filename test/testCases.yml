@@ -1,5 +1,47 @@
-testCase:
+MetamonContract:
   contractDeployer: ""
   contractName: "Metamon"
   contractNameReal: "Metamon NFT"
   contractSymbol: "NFT"
+
+
+ItemContract:
+  contractName: "Item"
+  contractRealName: "Metamon Item Collection"
+  contractSymbol: "NFT"
+  contractAddress: "0x63f68884708Fd5F6C5AD6eD22E30de46f7d56CB0"
+  contractOwnerAddress: "0x9A49a55307ABd7f62E082677dE33C7EF38312c29"
+
+  itemBurnable: [1, 0, 0, 0, 0, 0, 0]
+  itemTypes: [1, 2, 3, 4, 5, 6, 7]
+  maxOwnable: [10, 1, 1, 1, 1, 1, 1]
+  itemSupplies: [2500, 2500, 1000, 1000, 1000, 1000, 1000]
+  itemFloor: [0.12, 0.25, 0.04, 0.04, 0.04, 0.04, 0.04]
+  
+  passCode: MADECHANGE
+
+  mintPhaseFirst: 
+    itemType: 1
+    mintQuantity: 10
+    recipient: "0xF4a615744B90900542749eB3e043148899d36Eb7"
+
+  mintComplex: [
+    {
+      itemType: 2,
+      mintQuantity: 10,
+      recipient: "0xF4a615744B90900542749eB3e043148899d36Eb7"
+      },
+    {
+      itemType: 3,
+      mintQuantity: 12,
+      recipient: "0xF4a615744B90900542749eB3e043148899d36Eb7"
+    }
+  ]
+      
+
+  totalItemTypes: 7
+  itemTotalSupply: 10000
+
+  
+
+  

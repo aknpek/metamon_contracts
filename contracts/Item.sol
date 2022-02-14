@@ -8,10 +8,10 @@ contract Item is ERC721 {
 
     address payable public owner;
 
-    uint[7] private itemBurnable = [1, 0, 0, 0, 0, 0, 0];
-    uint8[7] private itemTypes = [1, 2, 3, 4, 5, 6, 7];
-    uint8[7] private maxOwnable = [10, 1, 1, 1, 1, 1, 1];
-    uint32[7] private itemSupplies = [2500, 2500, 1000, 1000, 1000, 1000, 1000];
+    uint[7] public itemBurnable = [1, 0, 0, 0, 0, 0, 0];
+    uint8[7] public itemTypes = [1, 2, 3, 4, 5, 6, 7];
+    uint8[7] public maxOwnable = [10, 1, 1, 1, 1, 1, 1];
+    uint32[7] public itemSupplies = [2500, 2500, 1000, 1000, 1000, 1000, 1000];
 
     uint256[7] private itemFloor = [0.12 ether, 0.25 ether, 0.04 ether, 0.04 ether, 0.04 ether, 0.04 ether, 0.04 ether];
     uint256 private tokenIds;
@@ -28,12 +28,18 @@ contract Item is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     // Events
     ///////////////////////////////////////////////////////////////////////////
-    event RecievedEth(address _sender, uint256 _value);
+    event ReceivedEth(address _sender, uint256 _value);
     event ItemMinted(address _reciever, uint256 _tokenId);
-    event burnItem(address _burner, uint256 _tokenId);
+    event BurnItem(address _burner, uint256 _tokenId);
 
     constructor() payable ERC721("Metamon Item Collection", "NFT"){
         owner = payable(msg.sender);
+    }
+
+    fallback() external payable {}
+
+    receive() external payable {
+        emit ReceivedEth(msg.sender, msg.value);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -124,8 +130,9 @@ contract Item is ERC721 {
         uint256 _itemFloor = getFloorPrice(_itemType);
 
         uint256 _maxMintable = mintableLeft(_quantity, _itemSupplyLeft);
-
-        require(_maxMintable * _itemFloor <= msg.value, "Not exact coin send!");
+        if (msg.sender != owner) {
+            require(_maxMintable * _itemFloor <= msg.value, "Not exact coin send!"); 
+        }
 
         uint256 j = tokenIds;
 
@@ -140,4 +147,43 @@ contract Item is ERC721 {
         }
         tokenIds = j;
     } 
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Backend URIs
+    ///////////////////////////////////////////////////////////////////////////
+    function setBaseURI(string memory _baseURILink)
+        external
+        onlyOwner(msg.sender)
+    {
+        baseURI = _baseURILink;
+    }
+
+    function getBaseURI()
+        external
+        view
+        onlyOwner(msg.sender)
+        returns (string memory)
+    {
+        return baseURI;
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseURI;
+    }
+
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        virtual
+        override
+        returns (string memory)
+    {
+        require(_exists(tokenId), "Nonexistent token!");
+
+        return
+            bytes(baseURI).length > 0
+                ? string(abi.encodePacked(baseURI, tokenId.toString(), ".json"))
+                : "";
+    }
+
 }
