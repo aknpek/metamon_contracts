@@ -3,25 +3,17 @@ pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract Item is ERC721 {
+    contract Item is ERC721 {
     using Strings for uint256;
 
     address payable public owner;
 
-    uint256[7] public itemBurnable = [1, 0, 0, 0, 0, 0, 0];
+    uint[7] public itemBurnable = [1, 0, 0, 0, 0, 0, 0];
     uint8[7] public itemTypes = [1, 2, 3, 4, 5, 6, 7];
     uint8[7] public maxOwnable = [10, 1, 1, 1, 1, 1, 1];
     uint32[7] public itemSupplies = [2500, 2500, 1000, 1000, 1000, 1000, 1000];
 
-    uint256[7] private itemFloor = [
-        0.12 ether,
-        0.25 ether,
-        0.04 ether,
-        0.04 ether,
-        0.04 ether,
-        0.04 ether,
-        0.04 ether
-    ];
+    uint256[7] private itemFloor = [0.12 ether, 0.25 ether, 0.04 ether, 0.04 ether, 0.04 ether, 0.04 ether, 0.04 ether];
     uint256 private tokenIds;
     uint256 public itemTotalSupply = 10000;
 
@@ -30,9 +22,9 @@ contract Item is ERC721 {
     string private passWord = "MADECHANGE";
 
     mapping(uint256 => uint8) public tokenItemTypes;
-    mapping(address => uint256[]) public tokenOwner; // Represents owner's tokens *tokenIds
-    mapping(address => mapping(uint8 => uint256[])) public tokenOwners; // Represents owner's different type of tokens' ids
-
+    mapping(address => uint256[]) public tokenOwner;  // Represents owner's tokens *tokenIds
+    mapping(address => mapping(uint8 => uint256[])) public tokenOwners;   // Represents owner's different type of tokens' ids
+    
     ///////////////////////////////////////////////////////////////////////////
     // Events
     ///////////////////////////////////////////////////////////////////////////
@@ -43,7 +35,7 @@ contract Item is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     // Cons
     ///////////////////////////////////////////////////////////////////////////
-    constructor() payable ERC721("Metamon Item Collection", "NFT") {
+    constructor() payable ERC721("Metamon Item Collection", "NFT"){
         owner = payable(msg.sender);
     }
 
@@ -61,91 +53,74 @@ contract Item is ERC721 {
         _;
     }
 
-    modifier itemType(uint256 _itemType) {
+    modifier itemType(uint256 _itemType){
         require(1 <= _itemType && _itemType <= 7, "Item Type out of scope!");
         _;
     }
 
-    modifier passCheck(string memory _passCode) {
+    modifier passCheck(string memory _passCode){
         // This modifier limits the access into mintFunction
-        require(
-            keccak256(abi.encodePacked(_passCode)) ==
-                keccak256(abi.encodePacked(passWord)),
-            "Token not match!"
-        );
+        require(keccak256(abi.encodePacked(_passCode)) == keccak256(abi.encodePacked(passWord)), "Token not match!");
         _;
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Get/Set State Changes
     ///////////////////////////////////////////////////////////////////////////
-    function changeFloorPrice(uint256 _new_price, uint8 _itemType)
-        external
-        onlyOwner(msg.sender)
-        itemType(_itemType)
-    {
+    function changeFloorPrice(
+        uint256 _new_price,
+        uint8 _itemType
+    ) external onlyOwner(msg.sender) itemType(_itemType) {
         itemFloor[_itemType - 1] = _new_price;
     }
 
-    function getFloorPrice(uint8 _itemType)
-        public
-        view
-        itemType(_itemType)
-        returns (uint256)
-    {
+    function getFloorPrice(
+        uint8 _itemType
+    ) itemType(_itemType) public view returns(uint256){
         return itemFloor[_itemType - 1];
     }
 
-    function getSupplyLeft(uint8 _itemType)
-        public
-        view
-        itemType(_itemType)
-        returns (uint256)
-    {
-        return itemSupplies[_itemType - 1];
+    function getSupplyLeft(
+        uint8 _itemType
+    ) itemType(_itemType) public view returns(uint256){
+        return itemSupplies[_itemType - 1]; 
     }
 
-    function specificItemOwnership(address _owner, uint8 _itemType)
-        public
-        view
-        returns (uint256)
-    {
+    function specificItemOwnership(
+        address _owner,
+        uint8 _itemType
+    ) public view returns(uint256){
         // check whether owner owns specific ITEM token
         uint256 total_ownership = tokenOwners[_owner][_itemType].length;
         return total_ownership;
     }
 
-    function mintableLeft(uint256 _quantity, uint256 _itemSupplyLeft)
-        internal
-        pure
-        returns (uint256)
-    {
-        if (_quantity <= _itemSupplyLeft) {
+    function mintableLeft(
+        uint256 _quantity,
+        uint256 _itemSupplyLeft
+    ) internal pure returns(uint256){
+        if (_quantity <= _itemSupplyLeft){
             return _quantity;
         } else {
-            if (_itemSupplyLeft == 0) {
-                revert("Item supply not enough!");
-            } else {
+            if (_itemSupplyLeft == 0){
+                revert('Item supply not enough!');
+            } else{
                 return _itemSupplyLeft;
             }
         }
     }
 
-    function totalItemTypes() public view returns (uint256) {
-        return itemTypes.length;
+    function totalItemTypes() public view returns(uint256){
+        return itemTypes.length; 
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Burn Tokens
     ///////////////////////////////////////////////////////////////////////////
-    function _deleteOwnerToken(address _burner, uint256 _tokenId)
-        internal
-        onlyOwner(msg.sender)
-        returns (bool)
-    {
+    function _deleteOwnerToken(address _burner, uint256 _tokenId) internal onlyOwner(msg.sender) returns(bool) {
         uint256[] memory tokens = tokenOwner[_burner];
-        for (uint256 i = 0; i < tokens.length; i++) {
-            if (tokens[i] == _tokenId) {
+        for (uint256 i = 0; i < tokens.length; i++){
+            if (tokens[i] == _tokenId){
                 delete tokenOwner[_burner][i];
                 return true;
             }
@@ -154,12 +129,12 @@ contract Item is ERC721 {
 
     function burn(address _burner, uint256 _tokenId) private {
         // remove the token brom the mappings of the current owner
-
-        if (_deleteOwnerToken(_burner, _tokenId)) {
+        
+        if (_deleteOwnerToken(_burner, _tokenId)){
             _burn(_tokenId);
             emit BurnItem(_burner, _tokenId);
         } else {
-            revert("Could not burn the token!");
+            revert('Could not burn the token!');
         }
     }
 
@@ -171,7 +146,7 @@ contract Item is ERC721 {
         address _recipient,
         uint8 _itemType,
         uint256 _quantity
-    ) external payable passCheck(_passCode) {
+    ) external passCheck(_passCode) payable {       
         uint256 _itemSupplyLeft = getSupplyLeft(_itemType);
 
         uint256 _totalOwned = specificItemOwnership(_recipient, _itemType);
@@ -182,10 +157,7 @@ contract Item is ERC721 {
 
         uint256 _maxMintable = mintableLeft(_quantity, _itemSupplyLeft);
         if (msg.sender != owner) {
-            require(
-                _maxMintable * _itemFloor <= msg.value,
-                "Not exact coin send!"
-            );
+            require(_maxMintable * _itemFloor <= msg.value, "Not exact coin send!"); 
         }
 
         uint256 j = tokenIds;
@@ -200,7 +172,7 @@ contract Item is ERC721 {
             emit ItemMinted(_recipient, j);
         }
         tokenIds = j;
-    }
+    } 
 
     ///////////////////////////////////////////////////////////////////////////
     // Backend URIs
@@ -239,4 +211,5 @@ contract Item is ERC721 {
                 ? string(abi.encodePacked(baseURI, tokenId.toString(), ".json"))
                 : "";
     }
+
 }
