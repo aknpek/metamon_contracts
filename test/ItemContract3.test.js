@@ -15,7 +15,7 @@ contract('Item', () => {
     let deployedContract = null;
     before(async() => {
         deployedContract = await Contract.deployed();
-        constractOwner = await deployedContract.owner.call();
+        contractOwner = await deployedContract.owner.call();
     });
 
     it('Check Mint as Other Conract', async() => {
@@ -64,5 +64,22 @@ contract('Item', () => {
         const total_left = await deployedContract.getSupplyLeft(item_type); 
 
         assert((total_balance - first_mint_phase['mintQuantity']) === total_left.toNumber());
-    })
+    });
+
+    it('Check Minted Token Type', async() => { 
+        const tokenId = 1;
+        const item_type = await deployedContract.tokenItemTypes.call(tokenId);
+        assert(item_type.toNumber() === 1);
+    });
+
+    it('Check Burning Operation', async() => {
+        const tokenId = 22;  
+
+        const berfore_burn_balance = await deployedContract.balanceOf(contractOwner);
+        await deployedContract.burn(complex_mint_phase[1]['recipient'], tokenId);
+        
+        const after_burn_balance = await deployedContract.balanceOf(contractOwner);
+
+        assert(after_burn_balance > berfore_burn_balance);
+    });
 })

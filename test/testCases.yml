@@ -9,7 +9,7 @@ ItemContract:
   contractName: "Item"
   contractRealName: "Metamon Item Collection"
   contractSymbol: "NFT"
-  contractAddress: "0x63f68884708Fd5F6C5AD6eD22E30de46f7d56CB0"
+  contractAddress: "0xaB83FC388D5fAC553430A640325b1411f2a8f9a6"
   contractOwnerAddress: "0x9A49a55307ABd7f62E082677dE33C7EF38312c29"
 
   itemBurnable: [1, 0, 0, 0, 0, 0, 0]

@@ -186,6 +186,24 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "_burner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "burn",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "_new_price",
 						"type": "uint256"
@@ -867,11 +885,11 @@
 			]
 		},
 		"Documents/metamon_contracts/contracts/Item.sol": {
-			"keccak256": "0x4c1115c1d759815bdc43500a1780a9f920907989afbcc5a9294437b156a24b6f",
+			"keccak256": "0x42108d8378f6e708330aa67ab3de0f6ca61a2764a42aaa3da1aae713f92b0e04",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2ff0f13e5f188efc255b677cf4959106a9f24504c05446b8f76dbc70fbbf1277",
-				"dweb:/ipfs/QmWbayL1vSuwaHxQWWHSAPFfuj2vEPQc6qh1haMNWAVpDc"
+				"bzz-raw://034a1670ded96a2901beed92c5b849ff943631599329c67f94f21fde6db5c926",
+				"dweb:/ipfs/QmcVAYAtif4sjzMfSYuwHpic29iCaoPcg9jZeWNEftmvTW"
 			]
 		}
 	},
