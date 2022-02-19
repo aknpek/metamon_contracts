@@ -156,6 +156,9 @@ contract Item is ERC721 {
     function burn(address _burner, uint256 _tokenId) public {
         // remove the token brom the mappings of the current owner
         // check burnable tokentypes
+        uint8 _tokenType = tokenItemTypes[_tokenId];
+
+        require(itemBurnable[_tokenType - 1] == 1, "Item not burnable!");
 
         if (_deleteOwnerToken(_burner, _tokenId)) {
             _burn(_tokenId);
