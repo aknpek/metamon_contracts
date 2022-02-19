@@ -75,11 +75,10 @@ contract('Item', () => {
     it('Check Burning Operation', async() => {
         const tokenId = 22;  
 
-        const berfore_burn_balance = await deployedContract.balanceOf(contractOwner);
+        const before_burn_balance = await deployedContract.balanceOf(complex_mint_phase[1]['recipient']);
         await deployedContract.burn(complex_mint_phase[1]['recipient'], tokenId);
-        
-        const after_burn_balance = await deployedContract.balanceOf(contractOwner);
+        const after_burn_balance = await deployedContract.balanceOf(complex_mint_phase[1]['recipient']);
 
-        assert(after_burn_balance > berfore_burn_balance);
+        assert(after_burn_balance.toNumber() < before_burn_balance.toNumber());
     });
 })
