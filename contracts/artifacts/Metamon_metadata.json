@@ -65,18 +65,18 @@
 				"inputs": [
 					{
 						"indexed": false,
-						"internalType": "address",
-						"name": "_burner",
-						"type": "address"
-					},
-					{
-						"indexed": false,
 						"internalType": "uint256",
 						"name": "_tokenId",
 						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_reciever",
+						"type": "address"
 					}
 				],
-				"name": "BurnItem",
+				"name": "MetamonMint",
 				"type": "event"
 			},
 			{
@@ -86,25 +86,6 @@
 						"indexed": false,
 						"internalType": "address",
 						"name": "_reciever",
-						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "_tokenId",
-						"type": "uint256"
-					}
-				],
-				"name": "ItemMinted",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "_sender",
 						"type": "address"
 					},
 					{
@@ -186,13 +167,8 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "_burner",
-						"type": "address"
-					},
-					{
 						"internalType": "uint256",
-						"name": "_tokenId",
+						"name": "_value",
 						"type": "uint256"
 					}
 				],
@@ -210,11 +186,62 @@
 					},
 					{
 						"internalType": "uint8",
-						"name": "_itemType",
+						"name": "_index",
 						"type": "uint8"
 					}
 				],
 				"name": "changeFloorPrice",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_recipient",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_sendTokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_sendDaxId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_targetDax",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_itemTokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "evalutionMetaBurn",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_recipient",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_quantity",
+						"type": "uint256"
+					}
+				],
+				"name": "evalutionMetaItem",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -255,7 +282,7 @@
 				"inputs": [
 					{
 						"internalType": "uint8",
-						"name": "_itemType",
+						"name": "_index",
 						"type": "uint8"
 					}
 				],
@@ -271,14 +298,8 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "uint8",
-						"name": "_itemType",
-						"type": "uint8"
-					}
-				],
-				"name": "getSupplyLeft",
+				"inputs": [],
+				"name": "getWalletBalance",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -316,102 +337,13 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "itemBurnable",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "itemSupplies",
-				"outputs": [
-					{
-						"internalType": "uint32",
-						"name": "",
-						"type": "uint32"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "itemTotalSupply",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "itemTypes",
-				"outputs": [
-					{
-						"internalType": "uint8",
-						"name": "",
-						"type": "uint8"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "maxOwnable",
-				"outputs": [
-					{
-						"internalType": "uint8",
-						"name": "",
-						"type": "uint8"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "string",
-						"name": "_passCode",
-						"type": "string"
+						"internalType": "address",
+						"name": "_recipient",
+						"type": "address"
 					},
 					{
 						"internalType": "address",
-						"name": "_recipient",
+						"name": "_itemContractAddress",
 						"type": "address"
 					},
 					{
@@ -426,7 +358,13 @@
 					}
 				],
 				"name": "mintSale",
-				"outputs": [],
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
 				"stateMutability": "payable",
 				"type": "function"
 			},
@@ -560,30 +498,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "_owner",
-						"type": "address"
-					},
-					{
-						"internalType": "uint8",
-						"name": "_itemType",
-						"type": "uint8"
-					}
-				],
-				"name": "specificItemOwnership",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "bytes4",
 						"name": "interfaceId",
 						"type": "bytes4"
@@ -617,78 +531,6 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "tokenItemTypes",
-				"outputs": [
-					{
-						"internalType": "uint8",
-						"name": "",
-						"type": "uint8"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "tokenOwner",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					},
-					{
-						"internalType": "uint8",
-						"name": "",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "tokenOwners",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
 						"name": "tokenId",
 						"type": "uint256"
 					}
@@ -705,16 +547,27 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "totalItemTypes",
-				"outputs": [
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "_recipient",
+						"type": "address"
+					},
 					{
 						"internalType": "uint256",
-						"name": "",
+						"name": "_amount",
 						"type": "uint256"
 					}
 				],
-				"stateMutability": "view",
+				"name": "transferContractBalance",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -798,7 +651,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"Documents/metamon_contracts/contracts/Item.sol": "Item"
+			"Documents/metamon_contracts/contracts/Metamon.sol": "Metamon"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -884,12 +737,12 @@
 				"dweb:/ipfs/QmP7C3CHdY9urF4dEMb9wmsp1wMxHF6nhA2yQE5SKiPAdy"
 			]
 		},
-		"Documents/metamon_contracts/contracts/Item.sol": {
-			"keccak256": "0x92db376b8c13136cb68c96fe7b5bc96a3b79871897b4279ac9c087a76b52ed1e",
+		"Documents/metamon_contracts/contracts/Metamon.sol": {
+			"keccak256": "0x5b32bc86ea012206217b2567f714648a6d3d7f73719c347efeb841cf3ef2c9fb",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://17c1e6c8da06e915d2499581fa6fbeb92358b62bf2d73ed40772fa1886e81e96",
-				"dweb:/ipfs/QmebWtDVJJrtkQu6QRGpBG7GrQwygJjWhsrtLBwrZ9CrEu"
+				"bzz-raw://28beaf99dbf661ab9c0261a3738147f9df1dd906e2a8f299ba90475df41104f3",
+				"dweb:/ipfs/QmfMRtNaPqpB9GXGnFtRtitV2YrsRhbeVTLsWn6o1JJGFQ"
 			]
 		}
 	},

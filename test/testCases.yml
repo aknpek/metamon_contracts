@@ -1,15 +1,8 @@
-MetamonContract:
-  contractDeployer: ""
-  contractName: "Metamon"
-  contractNameReal: "Metamon NFT"
-  contractSymbol: "NFT"
-
-
 ItemContract:
   contractName: "Item"
   contractRealName: "Metamon Item Collection"
   contractSymbol: "NFT"
-  contractAddress: "0x1050184D00FEbeD0Fa4533d6E9D2f56fc003499B"
+  contractAddress: "0x1E6059Ec57aE39D2C73E5C3821a26FAFfD68E016"
   contractOwnerAddress: "0x9A49a55307ABd7f62E082677dE33C7EF38312c29"
 
   itemBurnable: [1, 0, 0, 0, 0, 0, 0]
@@ -42,6 +35,13 @@ ItemContract:
   totalItemTypes: 7
   itemTotalSupply: 10000
 
-  
+MetamonContract:
+  contractName: "Metamon"
+  contractRealName: "Metamon NFT Collection"
+  contractSymbol: "NFT"
+  contractAddress: "0x22255F268e8038AfB05A55a88Dab87F7c0c5D895"
+  contractOwnerAddress: "0x9A49a55307ABd7f62E082677dE33C7EF38312c29"
 
-  
+  passCode: MADECHANGE
+
+

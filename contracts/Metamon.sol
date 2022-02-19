@@ -2,8 +2,9 @@
 pragma solidity ^0.8.2;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract Item {
-    function getFloorPrice(uint8 _itemType) public view returns (uint256) {}
+
+interface ItemContract {
+    function getFloorPrice(uint8 _itemType) external returns (uint256);
 }
 
 
@@ -15,7 +16,7 @@ contract Item {
 contract Metamon is ERC721 {
     using Strings for uint256;
     address payable public owner;
-    Item _item;
+    ItemContract _item;
 
     string private itemBaseURI;
     string private metamonBaseURI;
@@ -23,27 +24,6 @@ contract Metamon is ERC721 {
 
     event ReceivedEth(address _reciever, uint256 _value);
     event MetamonMint(uint256 _tokenId, address _reciever);
-
-    uint256[7] private itemtokenTypes = [1, 2, 3, 4, 5, 6, 7]; // REPR: 7 UNIQUE ITEMS
-    uint256[7] private itemtokenSupply = [
-        1000,
-        2500,
-        1000,
-        2000,
-        3000,
-        5000,
-        2000
-    ];
-    uint256[7] private itemtokenIds = [1, 1, 1, 1, 1, 1, 1];
-    uint256[7] private itemtokenFloor = [
-        0.01 ether,
-        0.02 ether,
-        0.03 ether,
-        0.04 ether,
-        0.05 ether,
-        0.06 ether,
-        0.07 ether
-    ];
 
     uint256[6] private metamonDax = [1, 2, 3, 4, 5, 6]; // REPR: METAMONT DEX NUMBERS
     uint256[6] private metamonSupply = [1000, 2000, 1000, 3000, 4000, 1000];
@@ -59,10 +39,11 @@ contract Metamon is ERC721 {
     ];
     uint256 _tokenIds;
 
-    mapping(uint256 => uint256) private familyMetamon;
+    mapping(uint8 => uint256[]) private metamonMintPhases; // REPR: Metamon mint phases by DAX numbers;
+    mapping(uint256 => uint256) private familyMetamon; // REPR: Metamon evalution trees 
 
-    mapping(uint256 => uint256) private itemEvaluation;
-    mapping(uint256 => uint256) private burnEvaluation;
+    mapping(uint256 => uint256) private itemEvaluation; // REPR: Which item needed for which metamon evalution
+    mapping(uint256 => uint256) private burnEvaluation; // REPR: How many metamon balance needed for evalution for next metamon
 
     mapping(address => uint256) private _collectedItems; // MINTING FIRST CHECK IF ADDRESS COLLEDTED ANY ITEMS BEFORE
     mapping(address => uint256) private _collectedDax; // TOTAL COLLECTED DAX ITEMS IMPORTANT TO IDENTIFY SHINY LOGIC
@@ -80,6 +61,17 @@ contract Metamon is ERC721 {
         burnEvaluation[5] = 3;
         familyMetamon[4] = 5;
         familyMetamon[5] = 6;
+        // ****************
+        metamonMintPhases[1] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        metamonMintPhases[2] = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+        metamonMintPhases[3] = [21, 2, 3, 4, 5, 6, 7, 8, 9, 30];
+        metamonMintPhases[4] = [31, 2, 3, 4, 5, 6, 7, 8, 9, 40];
+        metamonMintPhases[5] = [41, 2, 3, 4, 5, 6, 7, 8, 9, 50];
+        metamonMintPhases[6] = [51, 2, 3, 4, 5, 6, 7, 8, 9, 60];
+        metamonMintPhases[7] = [61, 2, 3, 4, 5, 6, 7, 8, 9, 60];
+        metamonMintPhases[9] = [71, 2, 3, 4, 5, 6, 7, 8, 9, 70];
+        metamonMintPhases[10] = [81, 2, 3, 4, 5, 6, 7, 8, 9, 80];
+
     }
 
     modifier onlyOwner(address sender) {
@@ -90,7 +82,6 @@ contract Metamon is ERC721 {
     // State Changes
     function changeFloorPrice(
         uint256 _new_price,
-        uint256 _type,
         uint8 _index
     )
         external
@@ -98,24 +89,16 @@ contract Metamon is ERC721 {
         // _index tell which "ITEM" or "Metamon" starts from 0, 1, 2, 3, ... 7
         onlyOwner(msg.sender)
     {
-        if (_type == 1) {
-            itemtokenFloor[_index] = _new_price;
-        } else if (_type == 2) {
-            metamonFloor[_index] = _new_price;
-        }
+        metamonFloor[_index] = _new_price;
     }
 
-    function getFloorPrice(uint256 _type, uint8 _index)
+    function getFloorPrice(uint8 _index)
         external
         view
         onlyOwner(msg.sender)
         returns (uint256)
     {
-        if (_type == 1) {
-            return itemtokenFloor[_index];
-        } else if (_type == 2) {
             return metamonFloor[_index];
-        }
     }
 
     // Get Information
@@ -193,7 +176,8 @@ contract Metamon is ERC721 {
 
     function mintSale(
         address _recipient, 
-        address _itemCA,
+        address _itemContractAddress,
+        uint8 _itemType,
         uint256 _quantity) public payable returns(uint256) {
     //     require(
     //         _quantity > 0 && _quantity <= (totalSupply - _tokenIds),
@@ -207,9 +191,8 @@ contract Metamon is ERC721 {
     // TODO: check if the dax number can be mintable based on the phases
     // TODO: after minting make sure to push token information into mapping
 
-        _item = Item(_itemCA);
-        uint256 floor = _item.getFloorPrice(1);
-
+        _item = ItemContract(_itemContractAddress);
+        uint256 floor = _item.getFloorPrice(_itemType);
         return floor;
         // uint256 j = _tokenIds;
         // for (uint256 i = 0; i < _quantity; i++) {
@@ -235,10 +218,10 @@ contract Metamon is ERC721 {
         ) public {
         // check whether owner has item token
         
-        burn(_sendTokenId);
-        uint256 _evaluationToken = burnEvaluation[_sendDaxId];
-        uint256 _tokenIds = _tokenIds + 1;
-        _mint(_recipient, _tokenIds);
+        // burn(_send, TokenId);
+        // uint256 _evaluationToken = burnEvaluation[_sendDaxId];
+        // uint256 _tokenIds = _tokenIds + 1;
+        // _mint(_recipient, _tokenIds);
 
 
     }
