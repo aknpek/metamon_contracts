@@ -7,6 +7,11 @@ contract Item {
 }
 
 
+// Pick during the meeting 1/10000
+// Shiny logic 
+// Before the personalities in 1/10 chance call the chainlink contract 
+// Batch actions
+
 contract Metamon is ERC721 {
     using Strings for uint256;
     address payable public owner;

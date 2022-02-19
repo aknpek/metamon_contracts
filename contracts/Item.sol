@@ -150,7 +150,6 @@ contract Item is ERC721 {
                 return true;
             }
         }
-
         return false;
     }
 
