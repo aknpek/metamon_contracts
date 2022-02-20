@@ -9,9 +9,12 @@ interface ItemContract {
 
 
 // Pick during the meeting 1/10000
-// Shiny logic 
+// Shiny logic (every mint reset, if you have lucky totem higher chance, if you mintQuantity 10, it increments the probability of minting shiny on each loop of mint
+
 // Before the personalities in 1/10 chance call the chainlink contract 
 // Batch actions
+
+
 
 contract Metamon is ERC721 {
     using Strings for uint256;
@@ -25,17 +28,16 @@ contract Metamon is ERC721 {
     event ReceivedEth(address _reciever, uint256 _value);
     event MetamonMint(uint256 _tokenId, address _reciever);
 
-    uint256[6] private metamonDax = [1, 2, 3, 4, 5, 6]; // REPR: METAMONT DEX NUMBERS
+    uint256[6] private metamonDax = [1, 4, 7, 10, 11, 13]; // REPR: METAMONT DEX NUMBERS
     uint256[6] private metamonSupply = [1000, 2000, 1000, 3000, 4000, 1000];
     uint256[6] private metamontIds = [1, 1, 1, 1, 1, 1];
-    uint256[7] private metamonFloor = [
+    uint256[6] private metamonFloor = [
         .05 ether,
         .025 ether,
         0.035 ether,
         0.045 ether,
         0.055 ether,
-        0.065 ether,
-        0.075 ether
+        0.065 ether
     ];
     uint256 _tokenIds;
 
@@ -43,7 +45,7 @@ contract Metamon is ERC721 {
     mapping(uint256 => uint256) private familyMetamon; // REPR: Metamon evalution trees 
 
     mapping(uint256 => uint256) private itemEvaluation; // REPR: Which item needed for which metamon evalution
-    mapping(uint256 => uint256) private burnEvaluation; // REPR: How many metamon balance needed for evalution for next metamon
+    mapping(uint256 => uint256) private burnEvaluation; // REPR: How many metamon balance needed for evalution for next metamon dex
 
     mapping(address => uint256) private _collectedItems; // MINTING FIRST CHECK IF ADDRESS COLLEDTED ANY ITEMS BEFORE
     mapping(address => uint256) private _collectedDax; // TOTAL COLLECTED DAX ITEMS IMPORTANT TO IDENTIFY SHINY LOGIC
@@ -52,26 +54,19 @@ contract Metamon is ERC721 {
 
         owner = payable(msg.sender);
         // FILLING INFORMATION OF METAMAN AND EVALUATION
-        burnEvaluation[1] = 3;
+        burnEvaluation[1] = 2;
         burnEvaluation[2] = 3;
         familyMetamon[1] = 2;
         familyMetamon[2] = 3;
         // ****************
-        burnEvaluation[4] = 3;
+        burnEvaluation[4] = 2;
         burnEvaluation[5] = 3;
         familyMetamon[4] = 5;
         familyMetamon[5] = 6;
         // ****************
-        metamonMintPhases[1] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        metamonMintPhases[2] = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-        metamonMintPhases[3] = [21, 2, 3, 4, 5, 6, 7, 8, 9, 30];
-        metamonMintPhases[4] = [31, 2, 3, 4, 5, 6, 7, 8, 9, 40];
-        metamonMintPhases[5] = [41, 2, 3, 4, 5, 6, 7, 8, 9, 50];
-        metamonMintPhases[6] = [51, 2, 3, 4, 5, 6, 7, 8, 9, 60];
-        metamonMintPhases[7] = [61, 2, 3, 4, 5, 6, 7, 8, 9, 60];
-        metamonMintPhases[9] = [71, 2, 3, 4, 5, 6, 7, 8, 9, 70];
-        metamonMintPhases[10] = [81, 2, 3, 4, 5, 6, 7, 8, 9, 80];
-
+        metamonMintPhases[1] = [1, 4, 7, 10, 11, 13, 14, 16, 17, 19];
+        // ****************
+        burnEvaluation[129] = 5; // i.e. 5 #DEX129 has to burned for #DEX139
     }
 
     modifier onlyOwner(address sender) {
@@ -190,6 +185,8 @@ contract Metamon is ERC721 {
 
     // TODO: check if the dax number can be mintable based on the phases
     // TODO: after minting make sure to push token information into mapping
+    // TODO: if you have a luck totem, you mint from the second list (*bottom)
+    // TODO: 1/4 personality 
 
         _item = ItemContract(_itemContractAddress);
         uint256 floor = _item.getFloorPrice(_itemType);
@@ -203,8 +200,11 @@ contract Metamon is ERC721 {
         // _tokenIds = j;
     }
 
-    function evalutionMetaItem(address _recipient, uint256 _quantity) public {
-
+    function evalutionItemBurn(
+        address _recipient,
+        uint256 _sendTokenId,
+        uint256 _sendDaxId
+    ) public {
 
     }
 
@@ -212,7 +212,7 @@ contract Metamon is ERC721 {
         address _recipient, 
         uint256 _sendTokenId, 
         uint256 _sendDaxId, 
-        // uint256, _quantitySend,  
+        uint256 _quantitySend,  
         uint256 _targetDax, 
         uint256 _itemTokenId
         ) public {
@@ -222,7 +222,7 @@ contract Metamon is ERC721 {
         // uint256 _evaluationToken = burnEvaluation[_sendDaxId];
         // uint256 _tokenIds = _tokenIds + 1;
         // _mint(_recipient, _tokenIds);
-
-
     }
+
+    
 }
