@@ -28,9 +28,10 @@ contract Metamon is ERC721 {
     event ReceivedEth(address _reciever, uint256 _value);
     event MetamonMint(uint256 _tokenId, address _reciever);
 
+    uint8 private currentMintPhase = 1;
     uint256[6] private metamonDax = [1, 4, 7, 10, 11, 13]; // REPR: METAMONT DEX NUMBERS
-    uint256[6] private metamonSupply = [1000, 2000, 1000, 3000, 4000, 1000];
-    uint256[6] private metamontIds = [1, 1, 1, 1, 1, 1];
+    uint256[6] private metamonSupply = [1000, 2000, 1000, 3000, 4000, 1000]; // REPR: STARTS FROM TOKEN IDS
+    uint256[6] private metamontIds = [1, 1, 1, 1, 1, 1]; // REPR: STARTS FROM TOKEN IDS
     uint256[6] private metamonFloor = [
         .05 ether,
         .025 ether,
@@ -88,9 +89,8 @@ contract Metamon is ERC721 {
     }
 
     function getFloorPrice(uint8 _index)
-        external
+        public
         view
-        onlyOwner(msg.sender)
         returns (uint256)
     {
             return metamonFloor[_index];
@@ -169,28 +169,46 @@ contract Metamon is ERC721 {
         _burn(_value);
     }
 
+    function mintableDex(uint256 _dexId) public view returns(bool){
+        for (uint i=0; i < metamonMintPhases[currentMintPhase].length; i ++){
+            if (_dexId == metamonMintPhases[currentMintPhase][i]){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    modifier mintableDexMod(uint256 _dexId) {
+        require(mintableDex(_dexId) == true, 'Not Mintable Dex');
+        _;
+    }
+
     function mintSale(
-        address _recipient, 
-        address _itemContractAddress,
-        uint8 _itemType,
-        uint256 _quantity) public payable returns(uint256) {
-    //     require(
-    //         _quantity > 0 && _quantity <= (totalSupply - _tokenIds),
-    //         "Not Enough Reserve!"
-    //     );
+            address _recipient, 
+            address _itemContractAddress,
+            uint256 _quantity,
+            uint8 _dexId
 
-    //     if (msg.sender != owner) {
-    //         require(msg.value == florPrice * _quantity, "Not Enough Balance!");
-    //     }
+        ) public payable mintableDexMod(_dexId) returns(uint256) {
+        // TODO: after minting make sure to push token information into mapping
+        // TODO: if you have a luck totem, you mint from the second list (*bottom)
+        // TODO: 1/4 personality 
+        uint256 totalSupply = metamonSupply[_dexId] - metamonSupply[_dexId];
+        uint256 floorPrice = getFloorPrice(_dexId);
+   
+        require(
+            _quantity > 0 && _quantity <= (totalSupply - _tokenIds),
+            "Not Enough Reserve!"
+        );
 
-    // TODO: check if the dax number can be mintable based on the phases
-    // TODO: after minting make sure to push token information into mapping
-    // TODO: if you have a luck totem, you mint from the second list (*bottom)
-    // TODO: 1/4 personality 
-
+        if (msg.sender != owner) {
+            require(msg.value == floorPrice * _quantity, "Not Enough Balance!");
+        }
+        
         _item = ItemContract(_itemContractAddress);
-        uint256 floor = _item.getFloorPrice(_itemType);
-        return floor;
+        uint256 floor = _item.getFloorPrice(1);
+
+
         // uint256 j = _tokenIds;
         // for (uint256 i = 0; i < _quantity; i++) {
         //     j++;

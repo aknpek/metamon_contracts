@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.2+commit.661d1103"
+		"version": "0.8.7+commit.e28d00a7"
 	},
 	"language": "Solidity",
 	"output": {
@@ -357,14 +357,14 @@
 						"type": "address"
 					},
 					{
-						"internalType": "uint8",
-						"name": "_itemType",
-						"type": "uint8"
-					},
-					{
 						"internalType": "uint256",
 						"name": "_quantity",
 						"type": "uint256"
+					},
+					{
+						"internalType": "uint8",
+						"name": "_dexId",
+						"type": "uint8"
 					}
 				],
 				"name": "mintSale",
@@ -376,6 +376,25 @@
 					}
 				],
 				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_dexId",
+						"type": "uint256"
+					}
+				],
+				"name": "mintableDex",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -663,7 +682,7 @@
 		"compilationTarget": {
 			"Documents/metamon_contracts/contracts/Metamon.sol": "Metamon"
 		},
-		"evmVersion": "istanbul",
+		"evmVersion": "london",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -748,11 +767,11 @@
 			]
 		},
 		"Documents/metamon_contracts/contracts/Metamon.sol": {
-			"keccak256": "0x9c719d3538e7e20a209b984cac95979d83d305bc6b60c9e54e60ade7b094180c",
+			"keccak256": "0xc7caa1a34234be7654a8deb367fa3785a13926689436f78d209973c7605bbc46",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c3ada58cbc3f9811e90422687ad26a451c513bb991ac1f7425f0eb999a72dcf6",
-				"dweb:/ipfs/QmXkbcSLyfdgc5Q2ddFfgFEaQMBMnmUbSjJarZbKU7Uuo9"
+				"bzz-raw://2d27ef811a6ad406059b29537458784fb9f77542dcd12bf3842ba5b1778d2113",
+				"dweb:/ipfs/QmPx6dSeJpZXbWyQiymSgxAXDZZspXRkeM7S52v16qHrCf"
 			]
 		}
 	},
