@@ -32,7 +32,7 @@ contract Metamon is ERC721 {
     uint256[8] private metamonDax = [1, 2, 3, 4, 7, 10, 11, 13]; // REPR: METAMONT DEX NUMBERS
     uint256[8] private metamonSupply = [1000, 0, 0, 2000, 1000, 3000, 4000, 1000]; // REPR: STARTS FROM TOKEN IDS
     uint256[8] private metamonMinted = [1, 1, 1, 1, 1, 1, 1, 1]; // REPR: STARTS FROM TOKEN IDS
-    uint256[6] private metamonFloor = [.05 ether, 0 ether, 0 ether, .025 ether, 0.035 ether, 0.045 ether, 0.055 ether, 0.065 ether];
+    uint256[8] private metamonFloor = [.05 ether, 0 ether, 0 ether, .025 ether, 0.035 ether, 0.045 ether, 0.055 ether, 0.065 ether];
 
     uint256 _tokenIds;
 

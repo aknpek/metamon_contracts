@@ -186,7 +186,7 @@
 					},
 					{
 						"internalType": "uint8",
-						"name": "_index",
+						"name": "_dexId",
 						"type": "uint8"
 					}
 				],
@@ -292,11 +292,30 @@
 				"inputs": [
 					{
 						"internalType": "uint8",
-						"name": "_index",
+						"name": "_dexId",
 						"type": "uint8"
 					}
 				],
 				"name": "getFloorPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "_dexId",
+						"type": "uint8"
+					}
+				],
+				"name": "getSupplyDex",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -381,9 +400,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
+						"internalType": "uint8",
 						"name": "_dexId",
-						"type": "uint256"
+						"type": "uint8"
 					}
 				],
 				"name": "mintableDex",
@@ -767,11 +786,11 @@
 			]
 		},
 		"Documents/metamon_contracts/contracts/Metamon.sol": {
-			"keccak256": "0xc7caa1a34234be7654a8deb367fa3785a13926689436f78d209973c7605bbc46",
+			"keccak256": "0x9a1869c74e2fe52cd2bff9245af2abb4c6c3ea2d61caecbe5fe480e045cebb18",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2d27ef811a6ad406059b29537458784fb9f77542dcd12bf3842ba5b1778d2113",
-				"dweb:/ipfs/QmPx6dSeJpZXbWyQiymSgxAXDZZspXRkeM7S52v16qHrCf"
+				"bzz-raw://3ab0323113c95b9164d9db06d809e0582598980f4bc0e8fee552b438b83f304c",
+				"dweb:/ipfs/Qme9Gadcd5c3J3X1Sg1LH8oBcC7277uaBhmFufrA87UtU9"
 			]
 		}
 	},
