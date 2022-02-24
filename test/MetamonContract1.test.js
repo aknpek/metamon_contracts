@@ -15,6 +15,7 @@ contract("Metamon", () => {
     });
 
     it("Check if Metamon calls Item Contract", async() => {
+        // TODO: remove that function, it can already call the Item contract
         const floor_price = await metamonContract.mintSale(
             contractOwner, 
             item_contract_address,
@@ -24,5 +25,7 @@ contract("Metamon", () => {
 
         console.log(floor_price);
     });
+
+    
 
 })

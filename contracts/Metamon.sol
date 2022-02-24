@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 interface ItemContract {
     function getFloorPrice(uint8 _itemType) external returns (uint256);
+    function specificItemOwnership(address _owner, uint8 _itemType) external returns (uint256);
 }
 
 
@@ -18,8 +19,12 @@ interface ItemContract {
 
 contract Metamon is ERC721 {
     using Strings for uint256;
+
     address payable public owner;
-    ItemContract _item;
+    address _itemContractAddress = ""; // TODO: we will hardcode it for now
+    
+    ItemContract _item = ItemContract(_itemContractAddress);  // TODO: move this declaration outside of this function
+
 
     string private itemBaseURI;
     string private metamonBaseURI;
@@ -27,9 +32,12 @@ contract Metamon is ERC721 {
 
     event ReceivedEth(address _reciever, uint256 _value);
     event MetamonMint(uint256 _tokenId, address _reciever);
+    event MetamonBurn(uint256 _tokenId, uint8 _dexId, address _burner);
 
     uint8 private currentMintPhase = 1;
-    uint256[8] private metamonDax = [1, 2, 3, 4, 7, 10, 11, 13]; // REPR: METAMONT DEX NUMBERS
+    uint8[5] private withLuckyTotem = [99, 98, 97, 96, 95];  // TODO: total count of 100 probabilities 
+    uint32[5] private withoutLuckyTotem = [296, 292, 288, 284, 280];  // TODO: total number of 100 probabilities
+    uint256[8] private metamonDex = [1, 2, 3, 4, 7, 10, 11, 13]; // REPR: METAMONT DEX NUMBERS
     uint256[8] private metamonSupply = [1000, 0, 0, 2000, 1000, 3000, 4000, 1000]; // REPR: STARTS FROM TOKEN IDS
     uint256[8] private metamonMinted = [1, 1, 1, 1, 1, 1, 1, 1]; // REPR: STARTS FROM TOKEN IDS
     uint256[8] private metamonFloor = [.05 ether, 0 ether, 0 ether, .025 ether, 0.035 ether, 0.045 ether, 0.055 ether, 0.065 ether];
@@ -44,6 +52,9 @@ contract Metamon is ERC721 {
 
     mapping(address => uint256) private _collectedItems; // MINTING FIRST CHECK IF ADDRESS COLLEDTED ANY ITEMS BEFORE
     mapping(address => uint256) private _collectedDex; // TOTAL COLLECTED DAX ITEMS IMPORTANT TO IDENTIFY SHINY LOGIC
+
+    mapping(uint256 => bool) public metamonInfoShiny; // REPR: Holds the info about If the minted metamon was shiny or not
+    mapping(uint256 => uint8) public metamonInfoPersonality; // REPR: Holds the info about the personality of the metamon
 
     constructor() payable ERC721("Metamon NFT", "NFT") {
         owner = payable(msg.sender);
@@ -175,6 +186,38 @@ contract Metamon is ERC721 {
     }
 
     ///////////////////////////////////////////////////////////////////////////
+    // Mint / Randomness Mockup TODO: remove this section when Coinbase Implementation
+    ///////////////////////////////////////////////////////////////////////////
+    function _mockupRandomPersonality() internal pure returns(uint8) {
+        uint8[4] memory personality = [1, 2, 3, 4];
+        return personality[0];
+    }
+
+    function _mockupRandomShiny(uint256 _quantity, bool lucky) internal view returns(bool) {
+        // TODO: randomness comes from the loop
+        if (lucky){
+            uint256 probability = withLuckyTotem[_quantity - 1];
+            // TODO: there should be some randomness based on the probability
+            return true;
+        } else {
+            uint256 probability = withoutLuckyTotem[_quantity - 1];
+            // TODO: there should be some randomness based on the probability
+            return false;
+        }
+        
+    }
+
+    function _checkLuckyOwnership(address _recipient) internal view returns (bool){
+        // TODO: lucky item hardcoded as "2" for this 
+        uint256 total_ownership = _item.specificItemOwnership(_recipient, 2); // Checks whether Lucky Totem has been owned/or not
+        if (total_ownership == 0){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
     // Mint / Burn Phases
     ///////////////////////////////////////////////////////////////////////////
     function burn(uint256 _value) public {
@@ -209,25 +252,21 @@ contract Metamon is ERC721 {
 
         ) public payable mintableDexPhase(_dexId) mintableSupply(_dexId, _quantity) returns(uint256) {
         // TODO: after minting make sure to push token information into mapping
-        // TODO: if you have a luck totem, you mint from the second list (*bottom)
-        // TODO: 1/4 personality 
         uint256 floorPrice = getFloorPrice(_dexId);
-
         if (msg.sender != owner) {
             require(msg.value == floorPrice * _quantity, "Not Enough Balance!");
         }
         
-        _item = ItemContract(_itemContractAddress);
-        uint256 floor = _item.getFloorPrice(1);
-
-
-        // uint256 j = _tokenIds;
-        // for (uint256 i = 0; i < _quantity; i++) {
-        //     j++;
-        //     _mint(_recipient, j);
-        //     emit MetamonMint(j, _recipient);
-        // }
-        // _tokenIds = j;
+        bool lucky = _checkLuckyOwnership(_recipient);
+        uint256 j = _tokenIds;
+        for (uint256 i = 0; i < _quantity; i++) {
+            j++;
+            _mint(_recipient, j);
+            metamonInfoPersonality[j] = _mockupRandomPersonality();
+            metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);
+            emit MetamonMint(j, _recipient);
+        }
+        _tokenIds = j;
     }
 
     function evalutionItemBurn(
@@ -235,7 +274,7 @@ contract Metamon is ERC721 {
         uint256 _sendTokenId,
         uint256 _sendDaxId
     ) public {
-
+        // TODO: burn metamon and item together
     }
 
     function evalutionMetaBurn(
@@ -246,6 +285,7 @@ contract Metamon is ERC721 {
         uint256 _targetDax, 
         uint256 _itemTokenId
         ) public {
+        // TODO: only burn metamon
         // check whether owner has item token
         
         // burn(_send, TokenId);
