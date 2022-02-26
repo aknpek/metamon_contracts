@@ -54,10 +54,15 @@ contract("Metamon", () => {
         from: contractOwner,
       });
       assert(true);
-      return;
     } catch (e) {
       assert(false);
       return;
     }
+
+    const new_floor_price = await metamonContract.getFloorPrice(dex_id, {from: other_owner});  // other owner can reach the contract
+    assert(new_floor_price.toNumber() === new_price);
+    return;
   });
+
+
 });

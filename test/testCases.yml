@@ -50,6 +50,8 @@ MetamonContract:
   testCase1:
     newPrice: 1
     dexId: 1
+    supplyDex1: 1000
+    supplyDex2: 0
   
 
 
