@@ -32,8 +32,7 @@ ItemContract:
       recipient: "0xF4a615744B90900542749eB3e043148899d36Eb7"
     }
   ]
-      
-
+  
   totalItemTypes: 7
   itemTotalSupply: 10000
 
@@ -43,7 +42,6 @@ MetamonContract:
   contractSymbol: "NFT"
   contractAddress: "0x22255F268e8038AfB05A55a88Dab87F7c0c5D895"
   contractOwnerAddress: "0x9A49a55307ABd7f62E082677dE33C7EF38312c29"
-
   passCode: MADECHANGE
   currentMintPhase : 1
 
@@ -54,4 +52,7 @@ MetamonContract:
     supplyDex2: 0
     newSupplyDex1: 2000
 
+  testCase2:
+    mintableDexId: 1
+    nonMintableDexId: 2
 

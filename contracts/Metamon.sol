@@ -254,10 +254,10 @@ contract Metamon is ERC721 {
     }
 
     function mintSale(
+            memory string _passCode,
             address _recipient, 
             uint256 _quantity,
-            uint8 _dexId
-
+            uint8 _dexId // TODO: talk to Nick about the randomness of the dexID
         ) public payable mintableDexPhase(_dexId) mintableSupply(_dexId, _quantity) {
         // TODO: after minting make sure to push token information into mapping
         uint256 floorPrice = getFloorPrice(_dexId);
