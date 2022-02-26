@@ -1,0 +1,18 @@
+{
+    "dexId": 1,
+    "attributes": {
+        "personality": 1,
+        "shiny": false,
+        "name": "pofy",
+        "typing": "fire"
+    },
+    "representation_urls":
+        {
+            "pixel_sillouhette": "",
+            "pixel":"",
+            "2d": "",
+            "3d_static": "",
+            "3d_animated": "",
+            "nft": "" 
+        }
+}

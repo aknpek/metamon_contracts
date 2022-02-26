@@ -39,7 +39,7 @@ contract Metamon is ERC721 {
     uint32[5] private withoutLuckyTotem = [296, 292, 288, 284, 280];  // TODO: total number of 100 probabilities
     uint256[8] private metamonDex = [1, 2, 3, 4, 7, 10, 11, 13]; // REPR: METAMONT DEX NUMBERS
     uint256[8] private metamonSupply = [1000, 0, 0, 2000, 1000, 3000, 4000, 1000]; // REPR: STARTS FROM TOKEN IDS
-    uint256[8] private metamonMinted = [1, 1, 1, 1, 1, 1, 1, 1]; // REPR: STARTS FROM TOKEN IDS
+    uint256[8] private metamonMinted = [0, 0, 0, 0, 0, 0, 0, 0]; // REPR: STARTS FROM TOKEN IDS
     uint256[8] private metamonMintable = [1, 0, 0, 1, 0, 0, 0, 1]; // REPR: DIRECTLY MINTABLE METAMON DEXIDS
     uint256[8] private metamonFloor = [.05 ether, 0 ether, 0 ether, .025 ether, 0.035 ether, 0.045 ether, 0.055 ether, 0.065 ether];
 
@@ -90,9 +90,17 @@ contract Metamon is ERC721 {
         external
         onlyOwner(msg.sender)
     {
-        // _type 1 represents "ITEMS" _type 2 represents "Metamon"
-        // _index tell which "ITEM" or "Metamon" starts from 0, 1, 2, 3, ... 7
         metamonFloor[_dexId - 1] = _new_price;
+    }
+
+    function changeSupplyDexId(
+        uint256 _new_supply,
+        uint8 _dexId
+    )
+        external
+        onlyOwner(msg.sender)
+    {
+        metamonSupply[_dexId - 1] = _new_supply;
     }
 
     ///////////////////////////////////////////////////////////////////////////

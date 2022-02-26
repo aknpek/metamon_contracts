@@ -52,6 +52,6 @@ MetamonContract:
     dexId: 1
     supplyDex1: 1000
     supplyDex2: 0
-  
+    newSupplyDex1: 2000
 
 
