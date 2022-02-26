@@ -4,8 +4,8 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 
 interface ItemContract {
-    function getFloorPrice(uint8 _itemType) external returns (uint256);
-    function specificItemOwnership(address _owner, uint8 _itemType) external returns (uint256);
+    function getFloorPrice(uint8 _itemType) external view returns (uint256);
+    function specificItemOwnership(address _owner, uint8 _itemType) external view returns (uint256);
 }
 
 
@@ -21,7 +21,7 @@ contract Metamon is ERC721 {
     using Strings for uint256;
 
     address payable public owner;
-    address _itemContractAddress = ""; // TODO: we will hardcode it for now
+    address _itemContractAddress = 0x1E6059Ec57aE39D2C73E5C3821a26FAFfD68E016; // TODO: we will hardcode it for now
     
     ItemContract _item = ItemContract(_itemContractAddress);  // TODO: move this declaration outside of this function
 
@@ -246,11 +246,10 @@ contract Metamon is ERC721 {
 
     function mintSale(
             address _recipient, 
-            address _itemContractAddress,
             uint256 _quantity,
             uint8 _dexId
 
-        ) public payable mintableDexPhase(_dexId) mintableSupply(_dexId, _quantity) returns(uint256) {
+        ) public payable mintableDexPhase(_dexId) mintableSupply(_dexId, _quantity) {
         // TODO: after minting make sure to push token information into mapping
         uint256 floorPrice = getFloorPrice(_dexId);
         if (msg.sender != owner) {
