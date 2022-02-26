@@ -34,7 +34,7 @@ contract Metamon is ERC721 {
     event MetamonMint(uint256 _tokenId, address _reciever);
     event MetamonBurn(uint256 _tokenId, uint8 _dexId, address _burner);
 
-    uint8 private currentMintPhase = 1;
+    uint8 public currentMintPhase = 1;
     uint8[5] private withLuckyTotem = [99, 98, 97, 96, 95];  // TODO: total count of 100 probabilities 
     uint32[5] private withoutLuckyTotem = [296, 292, 288, 284, 280];  // TODO: total number of 100 probabilities
     uint256[8] private metamonDex = [1, 2, 3, 4, 7, 10, 11, 13]; // REPR: METAMONT DEX NUMBERS
@@ -87,10 +87,10 @@ contract Metamon is ERC721 {
         uint8 _dexId
     )
         external
-        // _type 1 represents "ITEMS" _type 2 represents "Metamon"
-        // _index tell which "ITEM" or "Metamon" starts from 0, 1, 2, 3, ... 7
         onlyOwner(msg.sender)
     {
+        // _type 1 represents "ITEMS" _type 2 represents "Metamon"
+        // _index tell which "ITEM" or "Metamon" starts from 0, 1, 2, 3, ... 7
         metamonFloor[_dexId - 1] = _new_price;
     }
 
