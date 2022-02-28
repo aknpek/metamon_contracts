@@ -30,11 +30,11 @@ contract MetaConceptArt is ERC721, Ownable {
         uint256 supply = currentSupply;
         require(supply + numberOfMints <= maxSupply,  "This would exceed the max number of allowed mints");
  
+        currentSupply += numberOfMints;
+
         for (uint256 i; i < numberOfMints ; i++) {
             _mint(mintAddress, supply + i);
         }
-
-        currentSupply += numberOfMints;
     }
     
     function withdraw() external  {
