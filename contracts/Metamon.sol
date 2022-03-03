@@ -43,7 +43,7 @@ contract Metamon is ERC721 {
     uint256[8] private metamonMintable = [1, 0, 0, 1, 0, 0, 0, 1]; // REPR: DIRECTLY MINTABLE METAMON DEXIDS
     uint256[8] private metamonFloor = [.05 ether, 0 ether, 0 ether, .025 ether, 0.035 ether, 0.045 ether, 0.055 ether, 0.065 ether];
 
-    uint256 _tokenIds;
+    uint256 private _tokenIds;
 
     mapping(uint8 => uint256[]) private metamonMintPhases; // REPR: Metamon mint phases by DAX numbers;
     mapping(uint256 => uint256) private familyMetamon; // REPR: Metamon evalution trees 
@@ -205,11 +205,11 @@ contract Metamon is ERC721 {
     function _mockupRandomShiny(uint256 _quantity, bool lucky) internal view returns(bool) {
         // TODO: randomness comes from the loop
         if (lucky){
-            uint256 probability = withLuckyTotem[_quantity - 1];
+            uint256 probability = withLuckyTotem[_quantity];
             // TODO: there should be some randomness based on the probability
             return true;
         } else {
-            uint256 probability = withoutLuckyTotem[_quantity - 1];
+            uint256 probability = withoutLuckyTotem[_quantity];
             // TODO: there should be some randomness based on the probability
             return false;
         }
@@ -254,7 +254,7 @@ contract Metamon is ERC721 {
     }
 
     function mintSale(
-            memory string _passCode,
+            string memory _passCode,
             address _recipient, 
             uint256 _quantity,
             uint8 _dexId // TODO: talk to Nick about the randomness of the dexID
@@ -270,8 +270,9 @@ contract Metamon is ERC721 {
         for (uint256 i = 0; i < _quantity; i++) {
             j++;
             _mint(_recipient, j);
-            metamonInfoPersonality[j] = _mockupRandomPersonality();
-            metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);
+            // metamonInfoPersonality[j] = _mockupRandomPersonality();
+            // metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);
+            metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;
             emit MetamonMint(j, _recipient);
         }
         _tokenIds = j;

@@ -56,3 +56,10 @@ MetamonContract:
     mintableDexId: 1
     nonMintableDexId: 2
 
+  testCase3:
+    recipient: "0xE41F62B7E38b7E742b203916ac801Fc45e2152BC"
+    quantity: 5
+    dexId: 1
+    leftDexQuantity: 995
+
+
