@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 interface ItemContract {
     function getFloorPrice(uint8 _itemType) external view returns (uint256);
     function specificItemOwnership(address _owner, uint8 _itemType) external view returns (uint256);
+    function burn(address _burner, uint256 _tokenId) external view;
 }
 
 
@@ -62,11 +63,15 @@ contract Metamon is ERC721 {
         // FILLING INFORMATION OF METAMAN AND EVALUATION
         burnEvaluation[1] = 2;
         burnEvaluation[2] = 3;
+        itemEvaluation[1] = 1;
+        itemEvaluation[2] = 1;
         familyMetamon[1] = 2;
         familyMetamon[2] = 3;
         // ****************
         burnEvaluation[4] = 2;
         burnEvaluation[5] = 3;
+        itemEvaluation[4] = 2;
+        itemEvaluation[5] = 2;
         familyMetamon[4] = 5;
         familyMetamon[5] = 6;
         // ****************
@@ -270,8 +275,8 @@ contract Metamon is ERC721 {
         for (uint256 i = 0; i < _quantity; i++) {
             j++;
             _mint(_recipient, j);
-            // metamonInfoPersonality[j] = _mockupRandomPersonality();
-            // metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);
+            metamonInfoPersonality[j] = _mockupRandomPersonality();
+            metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);
             metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;
             emit MetamonMint(j, _recipient);
         }
@@ -280,16 +285,18 @@ contract Metamon is ERC721 {
 
     function evalutionItemBurn(
         address _recipient,
-        uint256 _sendTokenId,
-        uint256 _sendDaxId
+        uint256 _sendItemTokenId,
+        uint256 _sendDexTokenId
     ) public {
         // TODO: burn metamon and item together
+        _item.burn(_recipient, _sendItemTokenId);
+        burn(_recipient, _sendDexTokenId);
     }
 
     function evalutionMetaBurn(
         address _recipient, 
         uint256 _sendTokenId, 
-        uint256 _sendDaxId, 
+        uint256 _sendDexId, 
         uint256 _quantitySend,  
         uint256 _targetDax, 
         uint256 _itemTokenId

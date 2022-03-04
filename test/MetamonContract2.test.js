@@ -52,6 +52,4 @@ contract("Metamon", () => {
 
         assert(left_dex_quantity == mintable_supply.toNumber());
     });
-
-
 });
