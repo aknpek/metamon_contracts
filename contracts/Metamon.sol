@@ -48,13 +48,13 @@ contract Metamon is ERC721 {
     uint256 private _tokenIds;
 
     mapping(uint8 => uint256[]) private metamonMintPhases; // REPR: Metamon mint phases by DAX numbers;
-    mapping(uint256 => uint256) private familyMetamon; // REPR: Metamon evalution trees 
+    mapping(uint256 => uint8) private familyMetamon; // REPR: Metamon evalution trees 
 
     mapping(uint256 => uint256) private itemEvaluation; // REPR: Which item needed for which metamon evalution
     mapping(uint256 => uint256) private burnEvaluation; // REPR: How many metamon balance needed for evalution for next metamon dex
 
     mapping(address => uint256) private _collectedItems; // MINTING FIRST CHECK IF ADDRESS COLLEDTED ANY ITEMS BEFORE
-    mapping(address => uint256) private _collectedDex; // TOTAL COLLECTED DAX ITEMS IMPORTANT TO IDENTIFY SHINY LOGIC
+    mapping(uint256 => uint8) public mintedMetamonDexId; // REPR: Minted metamon dex id
 
     mapping(uint256 => bool) public metamonInfoShiny; // REPR: Holds the info about If the minted metamon was shiny or not
     mapping(uint256 => uint8) public metamonInfoPersonality; // REPR: Holds the info about the personality of the metamon
@@ -275,8 +275,22 @@ contract Metamon is ERC721 {
 
     function mintSpecial(
         address _recipient,
-        uint8 _dexId
-    ) private 
+        uint8 _dexId, 
+        uint256 _quantity
+    ) private {
+        bool lucky = _checkLuckyOwnership(_recipient);
+        uint256 j = _tokenIds;
+        for (uint256 i = 0; i < _quantity; i ++){
+            j ++;
+            _mint(_recipient, j);
+            metamonInfoPersonality[j] = _mockupRandomPersonality();
+            metamonInfoShiny[j] = _mockupRandomShiny(i, lucky);
+            metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;
+            mintedMetamonDexId[j] = _dexId;
+            emit MetamonMint(j, _recipient);
+        }
+        _tokenIds = j;
+    }
 
     function mintSale(
             string memory _passCode,
@@ -297,6 +311,7 @@ contract Metamon is ERC721 {
             metamonInfoPersonality[j] = _mockupRandomPersonality();
             metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);
             metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;
+            mintedMetamonDexId[j] = _dexId;
             emit MetamonMint(j, _recipient);
         }
         _tokenIds = j;
@@ -309,11 +324,15 @@ contract Metamon is ERC721 {
     ) public {
         // TODO: burn metamon and item together
         // TODO: check if owner owns the token
-        require(_recipient == ownerOf(_sendItemTokenId), "Not the owner call");
+        require(_recipient == ownerOf(_sendDexTokenId), "Not the owner call");
         _item.burn(_recipient, _sendItemTokenId); // item token will handle burnable logic
-
         burn(_recipient, _sendDexTokenId); // normally you need to burn 1 metamon to evolve
-        
+        uint8 _dexId = familyMetamon[mintedMetamonDexId[_sendDexTokenId]];
+        mintSpecial(
+            _recipient,
+            _dexId,
+            1 // TODO: Quantity 1
+        );
     }
 
     function evalutionMetaBurn(
