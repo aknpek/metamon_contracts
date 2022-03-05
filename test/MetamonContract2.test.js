@@ -12,9 +12,6 @@ const quantity = yaml_data["MetamonContract"]["testCase3"]["quantity"];
 const left_dex_quantity = yaml_data["MetamonContract"]["testCase3"]["leftDexQuantity"];
 
 const dex_id = yaml_data["MetamonContract"]["testCase3"]["dexId"]; // TODO: this will be removed | will be from VRF
-
-
-
 const MetamonContract = artifacts.require(metamon_contract_name);
 
 

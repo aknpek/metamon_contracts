@@ -66,13 +66,20 @@ MetamonContract:
     passCode: MADECHANGE
 
     recipient: "0x2ef318124Cc419B09c77754a4f6b0162c084FdD6"
+    # mint metamon
     quantityMintMetamon: 3
     mintDexId: 1
 
+    # mint item
     quantityMintItem: 1
     mintItemType: 1
+    mintItemTokenId: 1
 
     sendItemTokenId: 1
     sendDexId: 2
 
-
+    # burn test metamon burn
+    sendTokenDexIdBurnable: 1
+    sendTokenDexIdNonBurnable: 4
+    quantitySend: 2
+      
