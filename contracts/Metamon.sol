@@ -39,6 +39,7 @@ contract Metamon is ERC721 {
     uint8[5] private withLuckyTotem = [99, 98, 97, 96, 95];  // TODO: total count of 100 probabilities 
     uint32[5] private withoutLuckyTotem = [296, 292, 288, 284, 280];  // TODO: total number of 100 probabilities
     uint256[8] private metamonDex = [1, 2, 3, 4, 7, 10, 11, 13]; // REPR: METAMONT DEX NUMBERS
+    uint256[13] private evalutionMintDex = [2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17, 18, 20];
     uint256[8] private metamonSupply = [1000, 0, 0, 2000, 1000, 3000, 4000, 1000]; // REPR: STARTS FROM TOKEN IDS
     uint256[8] private metamonMinted = [0, 0, 0, 0, 0, 0, 0, 0]; // REPR: STARTS FROM TOKEN IDS
     uint256[8] private metamonMintable = [1, 0, 0, 1, 0, 0, 0, 1]; // REPR: DIRECTLY MINTABLE METAMON DEXIDS
@@ -239,7 +240,7 @@ contract Metamon is ERC721 {
     }
 
     function mintableDex(uint8 _dexId) public view returns(bool){
-        // Helper functions checks if Dex Id can be mintable for current mint phase
+        // Helper function checks if Dex Id can be mintable for current mint phase
         for (uint i=0; i < metamonMintPhases[currentMintPhase].length; i ++){
             if (_dexId == metamonMintPhases[currentMintPhase][i]){
                 return true;
@@ -248,8 +249,22 @@ contract Metamon is ERC721 {
         return false;
     }
 
+    function mintableSpecial(uint8 _dexId) public view returns(bool){
+        // Helper function checks if Dex Id can be specially mintable for evalution
+        for (uint8 i=0; i < evalutionMintDex.length; i ++ ){
+            if (_dexId == evalutionMintDex[i]){
+                return true;
+            }
+        }
+    }
+
     modifier mintableDexPhase(uint8 _dexId) {
         require(mintableDex(_dexId) == true, 'Not Mintable Dex');
+        _;
+    }
+
+    modifier mintalbeSpecialDex(uint8 _dexId) {
+        require(mintableSpecial(_dexId) == true, 'Not Mintable Special Dex');
         _;
     }
 
@@ -258,13 +273,17 @@ contract Metamon is ERC721 {
         _;
     }
 
+    function mintSpecial(
+        address _recipient,
+        uint8 _dexId
+    ) private 
+
     function mintSale(
             string memory _passCode,
             address _recipient, 
             uint256 _quantity,
-            uint8 _dexId // TODO: talk to Nick about the randomness of the dexID
+            uint8 _dexId // TODO: talk to Nick about the RNG of the dexID
         ) public payable mintableDexPhase(_dexId) mintableSupply(_dexId, _quantity) {
-        // TODO: after minting make sure to push token information into mapping
         uint256 floorPrice = getFloorPrice(_dexId);
         if (msg.sender != owner) {
             require(msg.value == floorPrice * _quantity, "Not Enough Balance!");
@@ -290,10 +309,11 @@ contract Metamon is ERC721 {
     ) public {
         // TODO: burn metamon and item together
         // TODO: check if owner owns the token
-        require(_recipient == ownerOf(_sendItemTokenId), "This is not the owner");
+        require(_recipient == ownerOf(_sendItemTokenId), "Not the owner call");
         _item.burn(_recipient, _sendItemTokenId); // item token will handle burnable logic
-        
+
         burn(_recipient, _sendDexTokenId); // normally you need to burn 1 metamon to evolve
+        
     }
 
     function evalutionMetaBurn(

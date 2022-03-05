@@ -4,7 +4,8 @@ const Web3 = require("web3");
 
 const metamon_contract_name = yaml_data["MetamonContract"]["contractName"];
 const MetamonContract = artifacts.require(metamon_contract_name);
-
+const recipient = yaml_data["MetamonContract"]["contractName"];
+const 
 
 
 contract("Metamon", () => {
