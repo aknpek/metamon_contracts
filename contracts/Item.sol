@@ -140,7 +140,7 @@ contract Item is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     function _deleteOwnerToken(address _burner, uint256 _tokenId)
         internal
-        onlyOwner(msg.sender)
+        onlyOwner(msg.sender) // TODO: remove onlyOwner
         returns (bool)
     {
         uint256[] memory tokens = tokenOwner[_burner];

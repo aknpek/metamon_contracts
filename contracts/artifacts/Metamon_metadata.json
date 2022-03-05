@@ -193,19 +193,6 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_value",
-						"type": "uint256"
-					}
-				],
-				"name": "burn",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
 						"name": "_new_price",
 						"type": "uint256"
 					},
@@ -223,18 +210,49 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "_new_supply",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint8",
+						"name": "_dexId",
+						"type": "uint8"
+					}
+				],
+				"name": "changeSupplyDexId",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "currentMintPhase",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "_recipient",
 						"type": "address"
 					},
 					{
 						"internalType": "uint256",
-						"name": "_sendTokenId",
+						"name": "_sendItemTokenId",
 						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
-						"name": "_sendDaxId",
+						"name": "_sendDexTokenId",
 						"type": "uint256"
 					}
 				],
@@ -257,7 +275,7 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "_sendDaxId",
+						"name": "_sendDexId",
 						"type": "uint256"
 					},
 					{
@@ -428,6 +446,11 @@
 			},
 			{
 				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_passCode",
+						"type": "string"
+					},
 					{
 						"internalType": "address",
 						"name": "_recipient",
@@ -838,11 +861,11 @@
 			]
 		},
 		"Documents/metamon_contracts/contracts/Metamon.sol": {
-			"keccak256": "0x2f64b8c5f5dcacc77b04da1a58ebaebe7ac328c9826711e06e0efa80571d5ca7",
+			"keccak256": "0xd5d21cde9cb996df93d78c459b96b172cf1642bf5e9c50c001673cd6b552819b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bcfdb9399ee06a208f44b0aa1ee2e92ac56c540a94105009d7a30160d04aaa80",
-				"dweb:/ipfs/QmYdvLNTgCYkTJh6RGEFaK9zpXHrni7StG8MsbGTMDhbDg"
+				"bzz-raw://c2dca61cd9f05738bd7f5fcabc9dd201007437f95fa962906ba57688b2d8553a",
+				"dweb:/ipfs/QmVALzGGNJstP3fwJBVnj5PxryK8i1QRurdprjfrBjLm1Z"
 			]
 		}
 	},

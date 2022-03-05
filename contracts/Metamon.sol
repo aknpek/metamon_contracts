@@ -234,8 +234,8 @@ contract Metamon is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     // Mint / Burn Phases
     ///////////////////////////////////////////////////////////////////////////
-    function burn(uint256 _value) public {
-        _burn(_value);
+    function burn(address _burner, uint256 _tokenId) internal returns(bool) {
+        
     }
 
     function mintableDex(uint8 _dexId) public view returns(bool){
@@ -289,8 +289,11 @@ contract Metamon is ERC721 {
         uint256 _sendDexTokenId
     ) public {
         // TODO: burn metamon and item together
-        _item.burn(_recipient, _sendItemTokenId);
-        burn(_recipient, _sendDexTokenId);
+        // TODO: check if owner owns the token
+        require(_recipient == ownerOf(_sendItemTokenId), "This is not the owner");
+        _item.burn(_recipient, _sendItemTokenId); // item token will handle burnable logic
+        
+        burn(_recipient, _sendDexTokenId); // normally you need to burn 1 metamon to evolve
     }
 
     function evalutionMetaBurn(

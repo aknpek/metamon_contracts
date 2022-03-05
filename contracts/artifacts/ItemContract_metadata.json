@@ -8,6 +8,24 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "_burner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "burn",
+				"outputs": [],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint8",
 						"name": "_itemType",
 						"type": "uint8"
@@ -149,11 +167,11 @@
 			]
 		},
 		"Documents/metamon_contracts/contracts/Metamon.sol": {
-			"keccak256": "0x2f64b8c5f5dcacc77b04da1a58ebaebe7ac328c9826711e06e0efa80571d5ca7",
+			"keccak256": "0xd5d21cde9cb996df93d78c459b96b172cf1642bf5e9c50c001673cd6b552819b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bcfdb9399ee06a208f44b0aa1ee2e92ac56c540a94105009d7a30160d04aaa80",
-				"dweb:/ipfs/QmYdvLNTgCYkTJh6RGEFaK9zpXHrni7StG8MsbGTMDhbDg"
+				"bzz-raw://c2dca61cd9f05738bd7f5fcabc9dd201007437f95fa962906ba57688b2d8553a",
+				"dweb:/ipfs/QmVALzGGNJstP3fwJBVnj5PxryK8i1QRurdprjfrBjLm1Z"
 			]
 		}
 	},
