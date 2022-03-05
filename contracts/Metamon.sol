@@ -317,38 +317,31 @@ contract Metamon is ERC721 {
         _tokenIds = j;
     }
 
+    modifier ownerOfMetamon(address _recipient, uint256 _sendDexTokenId) {
+        require(_sender == ownerOf(_sendDexTokenId), "Not the owner call");
+        _;
+    }
+
     function evalutionItemBurn(
         address _recipient,
         uint256 _sendItemTokenId,
         uint256 _sendDexTokenId
-    ) public {
-        // TODO: burn metamon and item together
-        // TODO: check if owner owns the token
-        require(_recipient == ownerOf(_sendDexTokenId), "Not the owner call");
+    ) public ownerOfMetamon(_recipient, _sendItemTokenId) {
+        // TODO: burn metamon and item together for evalution
         _item.burn(_recipient, _sendItemTokenId); // item token will handle burnable logic
         burn(_recipient, _sendDexTokenId); // normally you need to burn 1 metamon to evolve
         uint8 _dexId = familyMetamon[mintedMetamonDexId[_sendDexTokenId]];
-        mintSpecial(
-            _recipient,
-            _dexId,
-            1 // TODO: Quantity 1
-        );
+        mintSpecial(_recipient, _dexId, 1);
     }
 
     function evalutionMetaBurn(
         address _recipient, 
-        uint256 _sendTokenId, 
-        uint256 _sendDexId, 
+        uint256 _sendTokenDexId, 
         uint256 _quantitySend,  
-        uint256 _targetDax, 
-        uint256 _itemTokenId
-        ) public {
-        // TODO: only burn metamon
-        // check whether owner has item token
-        
-        // burn(_send, TokenId);
-        // uint256 _evaluationToken = burnEvaluation[_sendDaxId];
-        // uint256 _tokenIds = _tokenIds + 1;
-        // _mint(_recipient, _tokenIds);
+        ) public ownerOfMetamon(_recipient, _sendTokenDexId) {
+        // TODO: only burn metamon for evalution
+        burn(_recipient, _sendTokenDexId);
+        uint8 = _dexId = familyMetamon[mintedMetamonDexId[_sendDexTokenId]]; 
+        mintSpecial(_recipient, _dexId, 1);      
     }
 }
