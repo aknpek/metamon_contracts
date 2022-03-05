@@ -143,6 +143,7 @@ contract Item is ERC721 {
         onlyOwner(msg.sender) // TODO: remove onlyOwner
         returns (bool)
     {
+        // TODO: redundant function, change it with ownerOf() -> when the item will be burned it will be automatically removed
         uint256[] memory tokens = tokenOwner[_burner];
         for (uint256 i = 0; i < tokens.length; i++) {
             if (tokens[i] == _tokenId) {
