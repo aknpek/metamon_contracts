@@ -273,7 +273,7 @@ contract Metamon is ERC721 {
         address _recipient,
         uint8 _dexId, 
         uint256 _quantity
-    ) private {
+    ) internal {
         bool lucky = _checkLuckyOwnership(_recipient);
         uint256 j = _tokenIds;
         for (uint256 i = 0; i < _quantity; i ++){
@@ -347,8 +347,8 @@ contract Metamon is ERC721 {
         // TODO: burn metamon and item together for evalution
         // _item.burn(_recipient, _sendItemTokenId); // item token will handle burnable logic
         _burn(_sendDexTokenId); // normally you need to burn 1 metamon to evolve
-        // uint8 _dexId = familyMetamon[mintedMetamonDexId[_sendDexTokenId]];
-        // mintSpecial(_recipient, _dexId, 1);
+        uint8 _dexId = familyMetamon[mintedMetamonDexId[_sendDexTokenId]];
+        mintSpecial(_recipient, _dexId, 1);
     }
 
     function evalutionMetaBurn(
