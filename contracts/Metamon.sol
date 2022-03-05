@@ -318,7 +318,7 @@ contract Metamon is ERC721 {
     }
 
     modifier ownerOfMetamon(address _recipient, uint256 _sendDexTokenId) {
-        require(_sender == ownerOf(_sendDexTokenId), "Not the owner call");
+        require(_recipient == ownerOf(_sendDexTokenId), "Not the owner call");
         _;
     }
 
@@ -337,11 +337,13 @@ contract Metamon is ERC721 {
     function evalutionMetaBurn(
         address _recipient, 
         uint256 _sendTokenDexId, 
-        uint256 _quantitySend,  
+        uint256 _quantitySend
         ) public ownerOfMetamon(_recipient, _sendTokenDexId) {
         // TODO: only burn metamon for evalution
+        uint256 _quantityCondition = burnEvaluation[mintedMetamonDexId[_sendTokenDexId]];
+        // check number of metamon ownership to check _quantityCondition
         burn(_recipient, _sendTokenDexId);
-        uint8 = _dexId = familyMetamon[mintedMetamonDexId[_sendDexTokenId]]; 
+        uint8 _dexId = familyMetamon[mintedMetamonDexId[_sendTokenDexId]]; 
         mintSpecial(_recipient, _dexId, 1);      
     }
 }
