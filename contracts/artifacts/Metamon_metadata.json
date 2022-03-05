@@ -884,11 +884,11 @@
 			]
 		},
 		"Documents/metamon_contracts/contracts/Metamon.sol": {
-			"keccak256": "0xcedaad99c0777a70e19406228c6120d87bd05944057e7eaf95d41e6942907a61",
+			"keccak256": "0x2a8e891f66ae1c74c65aa881f14524b31841b5f06f492febd3dcd4152d66b87e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://88ac17be7a53bf96acd03f53bf21716a4c8ae0904eacd7b75cabe4a88d88392f",
-				"dweb:/ipfs/QmV9iK6hC9aTbeTxdZ4ts8rrj5v5pzHW3YVRi3cd42m3s3"
+				"bzz-raw://24e55a1012f54175314053fe7c39908e4d7e0f8d3eabb0dba8aa8a773c7535bb",
+				"dweb:/ipfs/QmaUoJh8rwXZzLkYbEWTTGxvL37mo5EH8eokVd7jFjjMSt"
 			]
 		}
 	},

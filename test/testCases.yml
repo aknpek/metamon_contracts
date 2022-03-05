@@ -62,4 +62,11 @@ MetamonContract:
     dexId: 1
     leftDexQuantity: 993
 
+  testCase4:
+    recipient: "0xE41F62B7E38b7"
+    quantity: 3
+    dexId: 1
+
+    sendTokenId: [1, 2]
+    sendDexId: 2
 

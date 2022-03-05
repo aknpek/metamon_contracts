@@ -53,7 +53,7 @@ contract Metamon is ERC721 {
     mapping(uint256 => uint256) private itemEvaluation; // REPR: Which item needed for which metamon evalution
     mapping(uint256 => uint256) private burnEvaluation; // REPR: How many metamon balance needed for evalution for next metamon dex
 
-    mapping(address => uint256) private _collectedItems; // MINTING FIRST CHECK IF ADDRESS COLLEDTED ANY ITEMS BEFORE
+    mapping(address => uint256[]) private ownerCollectedMetamons; // REPR: Collected tokenIDs Metamons per address // TODO: remove when there is a burn or transfer
     mapping(uint256 => uint8) public mintedMetamonDexId; // REPR: Minted metamon dex id
 
     mapping(uint256 => bool) public metamonInfoShiny; // REPR: Holds the info about If the minted metamon was shiny or not
@@ -233,12 +233,8 @@ contract Metamon is ERC721 {
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    // Mint / Burn Phases
+    // Mint  Phases
     ///////////////////////////////////////////////////////////////////////////
-    function burn(address _burner, uint256 _tokenId) internal returns(bool) {
-        
-    }
-
     function mintableDex(uint8 _dexId) public view returns(bool){
         // Helper function checks if Dex Id can be mintable for current mint phase
         for (uint i=0; i < metamonMintPhases[currentMintPhase].length; i ++){
@@ -287,6 +283,7 @@ contract Metamon is ERC721 {
             metamonInfoShiny[j] = _mockupRandomShiny(i, lucky);
             metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;
             mintedMetamonDexId[j] = _dexId;
+            ownerCollectedMetamons[_recipient].push(j);
             emit MetamonMint(j, _recipient);
         }
         _tokenIds = j;
@@ -312,9 +309,30 @@ contract Metamon is ERC721 {
             metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);
             metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;
             mintedMetamonDexId[j] = _dexId;
+            ownerCollectedMetamons[_recipient].push(j);
             emit MetamonMint(j, _recipient);
         }
         _tokenIds = j;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Mint / Burn Phases
+    ///////////////////////////////////////////////////////////////////////////
+    function burn(address _burner, uint256 _tokenId) internal returns(bool) {
+        
+    }
+
+    function specifDexIdOwned(address _recipient, uint8 _dexId) internal returns(uint256[] memory) {
+        // Return owned dexId's tokenIds
+        uint256 counter = 0;
+        uint256[] memory collectedMetamons = ownerCollectedMetamons[_recipient];
+        uint256[] memory specificDexTokenIds;
+        for (uint256 i=0; i < collectedMetamons.length; i++) {
+            if (_dexId == mintedMetamonDexId[collectedMetamons[i]]){
+                specificDexTokenIds[i] = collectedMetamons[i];
+            }
+        }
+        return(specificDexTokenIds);
     }
 
     modifier ownerOfMetamon(address _recipient, uint256 _sendDexTokenId) {
