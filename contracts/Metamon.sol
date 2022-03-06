@@ -22,7 +22,7 @@ contract Metamon is ERC721 {
     using Strings for uint256;
 
     address payable public owner;
-    address _itemContractAddress = 0x1E6059Ec57aE39D2C73E5C3821a26FAFfD68E016; // TODO: we will hardcode it for now
+    address _itemContractAddress = 0x047b37Ef4d76C2366F795Fb557e3c15E0607b7d8; // TODO: we will hardcode it for now
     
     ItemContract _item = ItemContract(_itemContractAddress);  // TODO: move this declaration outside of this function
 
@@ -303,16 +303,15 @@ contract Metamon is ERC721 {
         
         bool lucky = _checkLuckyOwnership(_recipient);
 
-        
         uint256 j = _tokenIds;
         for (uint256 i = 0; i < _quantity; i++) {
             j++;
             _mint(_recipient, j);
-            metamonInfoPersonality[j] = _mockupRandomPersonality();
-            metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);
-            metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;
-            mintedMetamonDexId[j] = _dexId;
-            ownerCollectedMetamons[_recipient].push(j);
+            // metamonInfoPersonality[j] = _mockupRandomPersonality();
+            // metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);
+            // metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;
+            // mintedMetamonDexId[j] = _dexId;
+            // ownerCollectedMetamons[_recipient].push(j);
             emit MetamonMint(j, _recipient);
         }
         _tokenIds = j;
@@ -345,7 +344,7 @@ contract Metamon is ERC721 {
         uint256 _sendDexTokenId
     ) public ownerOfMetamon(_recipient, _sendDexTokenId) {
         // TODO: burn metamon and item together for evalution
-        // _item.burn(_recipient, _sendItemTokenId); // item token will handle burnable logic
+        _item.burn(_recipient, _sendItemTokenId); // item token will handle burnable logic
         _burn(_sendDexTokenId); // normally you need to burn 1 metamon to evolve
         uint8 _dexId = familyMetamon[mintedMetamonDexId[_sendDexTokenId]];
         mintSpecial(_recipient, _dexId, 1);
