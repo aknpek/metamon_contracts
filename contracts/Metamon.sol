@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 interface ItemContract {
     function getFloorPrice(uint8 _itemType) external view returns (uint256);
     function specificItemOwnership(address _owner, uint8 _itemType) external view returns (uint256);
-    function burn(address _burner, uint256 _tokenId) external view;
+    function burn(address _burner, uint256 _tokenId) external payable;
     function balanceOf(address _owner) external view returns(uint256);
 }
 
@@ -23,7 +23,7 @@ contract Metamon is ERC721 {
     using Strings for uint256;
 
     address payable public owner;
-    address _itemContractAddress = 0xd9145CCE52D386f254917e481eB44e9943F39138; // TODO: we will hardcode it for now
+    address _itemContractAddress = 0xd2a5bC10698FD955D1Fe6cb468a17809A08fd005; // TODO: we will hardcode it for now
     
     ItemContract _item = ItemContract(_itemContractAddress);  // TODO: move this declaration outside of this function
 
@@ -365,10 +365,21 @@ contract Metamon is ERC721 {
         // mintSpecial(_recipient, _dexId, 1);      
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Item Contract Calls
+    ///////////////////////////////////////////////////////////////////////////    
     function checkItemOwnership(
         address _owner
     ) public view returns(uint256){
         uint256 balance = _item.balanceOf(_owner);
         return balance;
+    }
+
+    function burnItem(
+        address _reciever,
+        uint256 _sendItemTokenId
+    ) public payable {
+        _item.burn(_reciever, _sendItemTokenId); 
     }
 }
