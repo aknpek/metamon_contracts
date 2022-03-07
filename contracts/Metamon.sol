@@ -7,6 +7,7 @@ interface ItemContract {
     function getFloorPrice(uint8 _itemType) external view returns (uint256);
     function specificItemOwnership(address _owner, uint8 _itemType) external view returns (uint256);
     function burn(address _burner, uint256 _tokenId) external view;
+    function balanceOf(address _owner) external view returns(uint256);
 }
 
 
@@ -22,7 +23,7 @@ contract Metamon is ERC721 {
     using Strings for uint256;
 
     address payable public owner;
-    address _itemContractAddress = 0x1E6059Ec57aE39D2C73E5C3821a26FAFfD68E016; // TODO: we will hardcode it for now
+    address _itemContractAddress = 0xd9145CCE52D386f254917e481eB44e9943F39138; // TODO: we will hardcode it for now
     
     ItemContract _item = ItemContract(_itemContractAddress);  // TODO: move this declaration outside of this function
 
@@ -345,7 +346,7 @@ contract Metamon is ERC721 {
         uint256 _sendDexTokenId
     ) public ownerOfMetamon(_recipient, _sendDexTokenId) {
         // TODO: burn metamon and item together for evalution
-        // _item.burn(_recipient, _sendItemTokenId); // item token will handle burnable logic
+        _item.burn(_recipient, _sendItemTokenId); // item token will handle burnable logic
         _burn(_sendDexTokenId); // normally you need to burn 1 metamon to evolve
         uint8 _dexId = familyMetamon[mintedMetamonDexId[_sendDexTokenId]];
         mintSpecial(_recipient, _dexId, 1);
@@ -362,5 +363,12 @@ contract Metamon is ERC721 {
         // _burn(_recipient, _sendTokenDexId);
         // uint8 _dexId = familyMetamon[mintedMetamonDexId[_sendTokenDexId]]; 
         // mintSpecial(_recipient, _dexId, 1);      
+    }
+
+    function checkItemOwnership(
+        address _owner
+    ) public view returns(uint256){
+        uint256 balance = _item.balanceOf(_owner);
+        return balance;
     }
 }

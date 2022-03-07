@@ -63,7 +63,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.2+commit.661d1103\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_burner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"burn\",\"outputs\":[],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"_itemType\",\"type\":\"uint8\"}],\"name\":\"getFloorPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"_itemType\",\"type\":\"uint8\"}],\"name\":\"specificItemOwnership\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Metamon.sol\":\"ItemContract\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/token/ERC721/ERC721.sol\":{\"keccak256\":\"0x11b84bb56dc112a6590bfe3e0efa118aa1b5891132342200d04c4ef544cb93de\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://cbc4803332d45dff58f865ed21c942fe4668e47cc7196c8dfe84102040b1d70f\",\"dweb:/ipfs/QmXhZLsocznRWCSyhjo3vo66Z1VsuuNptAVb6ASPYsWtGx\"]},\"@openzeppelin/contracts/token/ERC721/IERC721.sol\":{\"keccak256\":\"0x516a22876c1fab47f49b1bc22b4614491cd05338af8bd2e7b382da090a079990\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a439187f7126d31add4557f82d8aed6be0162007cd7182c48fd934dbab8f3849\",\"dweb:/ipfs/QmRPLguRFvrRJS7r6F1bcLvsx6q1VrgjEpZafyeL8D7xZh\"]},\"@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol\":{\"keccak256\":\"0xd5fa74b4fb323776fa4a8158800fec9d5ac0fec0d6dd046dd93798632ada265f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://33017a30a99cc5411a9e376622c31fc4a55cfc6a335e2f57f00cbf24a817ff3f\",\"dweb:/ipfs/QmWNQtWTPhA7Lo8nbxbc8KFMvZwbFYB8fSeEQ3vuapSV4a\"]},\"@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol\":{\"keccak256\":\"0x75b829ff2f26c14355d1cba20e16fe7b29ca58eb5fef665ede48bc0f9c6c74b9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a0a107160525724f9e1bbbab031defc2f298296dd9e331f16a6f7130cec32146\",\"dweb:/ipfs/QmemujxSd7gX8A9M8UwmNbz4Ms3U9FG9QfudUgxwvTmPWf\"]},\"@openzeppelin/contracts/utils/Address.sol\":{\"keccak256\":\"0x2ccf9d2313a313d41a791505f2b5abfdc62191b5d4334f7f7a82691c088a1c87\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b3a57d0854b2fdce6ebff933a48dca2445643d1eccfc27f00292e937f26c6a58\",\"dweb:/ipfs/QmW45rZooS9TqR4YXUbjRbtf2Bpb5ouSarBvfW1LdGprvV\"]},\"@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92\",\"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3\"]},\"@openzeppelin/contracts/utils/Strings.sol\":{\"keccak256\":\"0x32c202bd28995dd20c4347b7c6467a6d3241c74c8ad3edcbb610cd9205916c45\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8179c356adb19e70d6b31a1eedc8c5c7f0c00e669e2540f4099e3844c6074d30\",\"dweb:/ipfs/QmWFbivarEobbqhS1go64ootVuHfVohBseerYy9FTEd1W2\"]},\"@openzeppelin/contracts/utils/introspection/ERC165.sol\":{\"keccak256\":\"0xd10975de010d89fd1c78dc5e8a9a7e7f496198085c151648f20cba166b32582b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fb0048dee081f6fffa5f74afc3fb328483c2a30504e94a0ddd2a5114d731ec4d\",\"dweb:/ipfs/QmZptt1nmYoA5SgjwnSgWqgUSDgm4q52Yos3xhnMv3MV43\"]},\"@openzeppelin/contracts/utils/introspection/IERC165.sol\":{\"keccak256\":\"0x447a5f3ddc18419d41ff92b3773fb86471b1db25773e07f877f548918a185bf1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://be161e54f24e5c6fae81a12db1a8ae87bc5ae1b0ddc805d82a1440a68455088f\",\"dweb:/ipfs/QmP7C3CHdY9urF4dEMb9wmsp1wMxHF6nhA2yQE5SKiPAdy\"]},\"project:/contracts/Metamon.sol\":{\"keccak256\":\"0xf832b0a77772a2759baad366ba311fd085d2837673b7482495e01c2a8c421dac\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f61780805f75de28f713635c62e9afb1590d9895912d48f57d452f70cd923421\",\"dweb:/ipfs/QmZK5cf4bJeoSECohCPMc9szWAdFwmrFUaWcwzbTnMEskg\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.2+commit.661d1103\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_burner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"burn\",\"outputs\":[],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"_itemType\",\"type\":\"uint8\"}],\"name\":\"getFloorPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"_itemType\",\"type\":\"uint8\"}],\"name\":\"specificItemOwnership\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Metamon.sol\":\"ItemContract\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/token/ERC721/ERC721.sol\":{\"keccak256\":\"0x11b84bb56dc112a6590bfe3e0efa118aa1b5891132342200d04c4ef544cb93de\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://cbc4803332d45dff58f865ed21c942fe4668e47cc7196c8dfe84102040b1d70f\",\"dweb:/ipfs/QmXhZLsocznRWCSyhjo3vo66Z1VsuuNptAVb6ASPYsWtGx\"]},\"@openzeppelin/contracts/token/ERC721/IERC721.sol\":{\"keccak256\":\"0x516a22876c1fab47f49b1bc22b4614491cd05338af8bd2e7b382da090a079990\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a439187f7126d31add4557f82d8aed6be0162007cd7182c48fd934dbab8f3849\",\"dweb:/ipfs/QmRPLguRFvrRJS7r6F1bcLvsx6q1VrgjEpZafyeL8D7xZh\"]},\"@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol\":{\"keccak256\":\"0xd5fa74b4fb323776fa4a8158800fec9d5ac0fec0d6dd046dd93798632ada265f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://33017a30a99cc5411a9e376622c31fc4a55cfc6a335e2f57f00cbf24a817ff3f\",\"dweb:/ipfs/QmWNQtWTPhA7Lo8nbxbc8KFMvZwbFYB8fSeEQ3vuapSV4a\"]},\"@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol\":{\"keccak256\":\"0x75b829ff2f26c14355d1cba20e16fe7b29ca58eb5fef665ede48bc0f9c6c74b9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a0a107160525724f9e1bbbab031defc2f298296dd9e331f16a6f7130cec32146\",\"dweb:/ipfs/QmemujxSd7gX8A9M8UwmNbz4Ms3U9FG9QfudUgxwvTmPWf\"]},\"@openzeppelin/contracts/utils/Address.sol\":{\"keccak256\":\"0x2ccf9d2313a313d41a791505f2b5abfdc62191b5d4334f7f7a82691c088a1c87\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b3a57d0854b2fdce6ebff933a48dca2445643d1eccfc27f00292e937f26c6a58\",\"dweb:/ipfs/QmW45rZooS9TqR4YXUbjRbtf2Bpb5ouSarBvfW1LdGprvV\"]},\"@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92\",\"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3\"]},\"@openzeppelin/contracts/utils/Strings.sol\":{\"keccak256\":\"0x32c202bd28995dd20c4347b7c6467a6d3241c74c8ad3edcbb610cd9205916c45\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8179c356adb19e70d6b31a1eedc8c5c7f0c00e669e2540f4099e3844c6074d30\",\"dweb:/ipfs/QmWFbivarEobbqhS1go64ootVuHfVohBseerYy9FTEd1W2\"]},\"@openzeppelin/contracts/utils/introspection/ERC165.sol\":{\"keccak256\":\"0xd10975de010d89fd1c78dc5e8a9a7e7f496198085c151648f20cba166b32582b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fb0048dee081f6fffa5f74afc3fb328483c2a30504e94a0ddd2a5114d731ec4d\",\"dweb:/ipfs/QmZptt1nmYoA5SgjwnSgWqgUSDgm4q52Yos3xhnMv3MV43\"]},\"@openzeppelin/contracts/utils/introspection/IERC165.sol\":{\"keccak256\":\"0x447a5f3ddc18419d41ff92b3773fb86471b1db25773e07f877f548918a185bf1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://be161e54f24e5c6fae81a12db1a8ae87bc5ae1b0ddc805d82a1440a68455088f\",\"dweb:/ipfs/QmP7C3CHdY9urF4dEMb9wmsp1wMxHF6nhA2yQE5SKiPAdy\"]},\"project:/contracts/Metamon.sol\":{\"keccak256\":\"0x69a596a8cecf50a8c3056b7cb00ad0540afd9947cf182ecbc1c6893c3ed59f74\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b6104c700edd0fd11faa419009a8f364eeefb10ffbf0d0843b6425560a70277c\",\"dweb:/ipfs/QmTdmYR1rx5aiX7mUn5v62R1txzDMZGinPB8wARe4Tkzi9\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -71,7 +71,7 @@
   "deployedGeneratedSources": [],
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.2;\nimport \"@openzeppelin/contracts/token/ERC721/ERC721.sol\";\n\n\ninterface ItemContract {\n    function getFloorPrice(uint8 _itemType) external view returns (uint256);\n    function specificItemOwnership(address _owner, uint8 _itemType) external view returns (uint256);\n    function burn(address _burner, uint256 _tokenId) external view;\n}\n\n\n// Pick during the meeting 1/10000\n// Shiny logic (every mint reset, if you have lucky totem higher chance, if you mintQuantity 10, it increments the probability of minting shiny on each loop of mint\n\n// Before the personalities in 1/10 chance call the chainlink contract \n// Batch actions\n\n\n\ncontract Metamon is ERC721 {\n    using Strings for uint256;\n\n    address payable public owner;\n    address _itemContractAddress = 0x1E6059Ec57aE39D2C73E5C3821a26FAFfD68E016; // TODO: we will hardcode it for now\n    \n    ItemContract _item = ItemContract(_itemContractAddress);  // TODO: move this declaration outside of this function\n\n\n    string private itemBaseURI;\n    string private metamonBaseURI;\n    string private baseURI;\n\n    event ReceivedEth(address _reciever, uint256 _value);\n    event MetamonMint(uint256 _tokenId, address _reciever);\n    event MetamonBurn(uint256 _tokenId, uint8 _dexId, address _burner);\n\n    uint8 public currentMintPhase = 1;\n    uint8[5] private withLuckyTotem = [99, 98, 97, 96, 95];  // TODO: total count of 100 probabilities \n    uint32[5] private withoutLuckyTotem = [296, 292, 288, 284, 280];  // TODO: total number of 100 probabilities\n    uint256[8] private metamonDex = [1, 2, 3, 4, 7, 10, 11, 13]; // REPR: METAMONT DEX NUMBERS\n    uint256[13] private evalutionMintDex = [2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17, 18, 20];\n    uint256[8] private metamonSupply = [1000, 0, 0, 2000, 1000, 3000, 4000, 1000]; // REPR: STARTS FROM TOKEN IDS\n    uint256[8] private metamonMinted = [0, 0, 0, 0, 0, 0, 0, 0]; // REPR: STARTS FROM TOKEN IDS\n    uint256[8] private metamonMintable = [1, 0, 0, 1, 0, 0, 0, 1]; // REPR: DIRECTLY MINTABLE METAMON DEXIDS\n    uint256[8] private metamonFloor = [.05 ether, 0 ether, 0 ether, .025 ether, 0.035 ether, 0.045 ether, 0.055 ether, 0.065 ether];\n\n    uint256 private _tokenIds;\n\n    mapping(uint8 => uint256[]) private metamonMintPhases; // REPR: Metamon mint phases by DAX numbers;\n    mapping(uint256 => uint8) private familyMetamon; // REPR: Metamon evalution trees \n\n    mapping(uint256 => uint256) private itemEvaluation; // REPR: Which item needed for which metamon evalution\n    mapping(uint256 => uint256) private burnEvaluation; // REPR: How many metamon balance needed for evalution for next metamon dex\n\n    mapping(address => uint256[]) private ownerCollectedMetamons; // REPR: Collected tokenIDs Metamons per address // TODO: remove when there is a burn or transfer\n    mapping(uint256 => uint8) public mintedMetamonDexId; // REPR: Minted metamon dex id\n\n    mapping(uint256 => bool) public metamonInfoShiny; // REPR: Holds the info about If the minted metamon was shiny or not\n    mapping(uint256 => uint8) public metamonInfoPersonality; // REPR: Holds the info about the personality of the metamon\n\n    constructor() payable ERC721(\"Metamon NFT\", \"NFT\") {\n        owner = payable(msg.sender);\n        // FILLING INFORMATION OF METAMAN AND EVALUATION\n        burnEvaluation[1] = 2;\n        burnEvaluation[2] = 3;\n        itemEvaluation[1] = 1;\n        itemEvaluation[2] = 1;\n        familyMetamon[1] = 2;\n        familyMetamon[2] = 3;\n        // ****************\n        burnEvaluation[4] = 2;\n        burnEvaluation[5] = 3;\n        itemEvaluation[4] = 2;\n        itemEvaluation[5] = 2;\n        familyMetamon[4] = 5;\n        familyMetamon[5] = 6;\n        // ****************\n        metamonMintPhases[1] = [1, 4, 7, 20, 86, 133];\n        // ****************\n        burnEvaluation[129] = 5; // i.e. 5 #DEX129 has to burned for #DEX139\n    }\n\n    modifier onlyOwner(address sender) {\n        require(sender == owner, \"Not a owner call!\");\n        _;\n    }\n\n    ///////////////////////////////////////////////////////////////////////////\n    // State Changes\n    ///////////////////////////////////////////////////////////////////////////\n    function changeFloorPrice(\n        uint256 _new_price,\n        uint8 _dexId\n    )\n        external\n        onlyOwner(msg.sender)\n    {\n        metamonFloor[_dexId - 1] = _new_price;\n    }\n\n    function changeSupplyDexId(\n        uint256 _new_supply,\n        uint8 _dexId\n    )\n        external\n        onlyOwner(msg.sender)\n    {\n        metamonSupply[_dexId - 1] = _new_supply;\n    }\n\n    ///////////////////////////////////////////////////////////////////////////\n    // State Info\n    ///////////////////////////////////////////////////////////////////////////\n    function getFloorPrice(uint8 _dexId)\n        public\n        view\n        returns (uint256)\n    {\n        return metamonFloor[_dexId - 1];\n    }\n \n    function getWalletBalance()\n        public\n        view\n        onlyOwner(msg.sender)\n        returns (uint256)\n    {\n        return address(this).balance;\n    }\n\n    function getSupplyDex(uint8 _dexId)\n        public\n        view \n        returns (uint256)\n    {\n        return metamonSupply[_dexId - 1] - metamonMinted[_dexId - 1];\n    }\n    \n    ///////////////////////////////////////////////////////////////////////////\n    // Contract ETH Deals\n    ///////////////////////////////////////////////////////////////////////////\n    fallback() external payable {}\n\n    receive() external payable {\n        emit ReceivedEth(msg.sender, msg.value);\n    }\n\n    function transferContractBalance(\n        address payable _recipient,\n        uint256 _amount\n    ) external onlyOwner(msg.sender) returns (bool) {\n        require(_amount <= getWalletBalance(), \"Not Enough Balance!\");\n        _recipient.transfer(_amount);\n        return true;\n    }\n\n    ///////////////////////////////////////////////////////////////////////////\n    // Meta Data Related\n    ///////////////////////////////////////////////////////////////////////////\n    function setBaseURI(string memory _baseURILink)\n        external\n        onlyOwner(msg.sender)\n    {\n        baseURI = _baseURILink;\n    }\n\n    function getBaseURI()\n        external\n        view\n        onlyOwner(msg.sender)\n        returns (string memory)\n    {\n        return baseURI;\n    }\n\n    function _baseURI() internal view virtual override returns (string memory) {\n        // We will have different baseURIs for Item and Metamon \n        // TODO: move items into different collection\n        return baseURI;\n    }\n\n    function tokenURI(uint256 tokenId)\n        public\n        view\n        virtual\n        override\n        returns (string memory)\n    {\n        require(_exists(tokenId), \"Nonexistent token!\");\n        // We can retrieve the information about token id \n        // -> is it Item or Metamon\n        // -> what is the dax number\n        // -> based on the information that we retrieve we will return base_uri\n        // TODO: move items into different collection\n\n        return\n            bytes(baseURI).length > 0\n                ? string(abi.encodePacked(baseURI, tokenId.toString(), \".json\"))\n                : \"\";\n    }\n\n    ///////////////////////////////////////////////////////////////////////////\n    // Mint / Randomness Mockup TODO: remove this section when Coinbase Implementation\n    ///////////////////////////////////////////////////////////////////////////\n    function _mockupRandomPersonality() internal pure returns(uint8) {\n        uint8[4] memory personality = [1, 2, 3, 4];\n        return personality[0];\n    }\n\n    function _mockupRandomShiny(uint256 _quantity, bool lucky) internal view returns(bool) {\n        // TODO: randomness comes from the loop\n        if (lucky){\n            uint256 probability = withLuckyTotem[_quantity];\n            // TODO: there should be some randomness based on the probability\n            return true;\n        } else {\n            uint256 probability = withoutLuckyTotem[_quantity];\n            // TODO: there should be some randomness based on the probability\n            return false;\n        }\n        \n    }\n\n    function _checkLuckyOwnership(address _recipient) internal view returns (bool){\n        // TODO: lucky item hardcoded as \"2\" for this \n        uint256 total_ownership = _item.specificItemOwnership(_recipient, 2); // Checks whether Lucky Totem has been owned/or not\n        if (total_ownership == 0){\n            return false;\n        } else {\n            return true;\n        }\n    }\n\n    ///////////////////////////////////////////////////////////////////////////\n    // Mint  Phases\n    ///////////////////////////////////////////////////////////////////////////\n    function mintableDex(uint8 _dexId) public view returns(bool){\n        // Helper function checks if Dex Id can be mintable for current mint phase\n        for (uint i=0; i < metamonMintPhases[currentMintPhase].length; i ++){\n            if (_dexId == metamonMintPhases[currentMintPhase][i]){\n                return true;\n            }\n        }\n        return false;\n    }\n\n    function mintableSpecial(uint8 _dexId) public view returns(bool){\n        // Helper function checks if Dex Id can be specially mintable for evalution\n        for (uint8 i=0; i < evalutionMintDex.length; i ++ ){\n            if (_dexId == evalutionMintDex[i]){\n                return true;\n            }\n        }\n    }\n\n    modifier mintableDexPhase(uint8 _dexId) {\n        require(mintableDex(_dexId) == true, 'Not Mintable Dex');\n        _;\n    }\n\n    modifier mintalbeSpecialDex(uint8 _dexId) {\n        require(mintableSpecial(_dexId) == true, 'Not Mintable Special Dex');\n        _;\n    }\n\n    modifier mintableSupply(uint8 _dexId, uint256 _quantity){\n        require(_quantity <= getSupplyDex(_dexId));\n        _;\n    }\n\n    function mintSpecial(\n        address _recipient,\n        uint8 _dexId, \n        uint256 _quantity\n    ) internal {\n        bool lucky = _checkLuckyOwnership(_recipient);\n        uint256 j = _tokenIds;\n        for (uint256 i = 0; i < _quantity; i ++){\n            j ++;\n            _mint(_recipient, j);\n            metamonInfoPersonality[j] = _mockupRandomPersonality();\n            metamonInfoShiny[j] = _mockupRandomShiny(i, lucky);\n            metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;\n            mintedMetamonDexId[j] = _dexId;\n            ownerCollectedMetamons[_recipient].push(j);\n            emit MetamonMint(j, _recipient);\n        }\n        _tokenIds = j;\n    }\n\n    function mintSale(\n            string memory _passCode,\n            address _recipient, \n            uint256 _quantity,\n            uint8 _dexId // TODO: talk to Nick about the RNG of the dexID\n        ) external payable mintableDexPhase(_dexId) mintableSupply(_dexId, _quantity) {\n\n        uint256 floorPrice = getFloorPrice(_dexId);\n        if (msg.sender != owner) {\n            require(msg.value == floorPrice * _quantity, \"Not Enough Balance!\");\n        }\n        \n        bool lucky = _checkLuckyOwnership(_recipient);\n\n        \n        uint256 j = _tokenIds;\n        for (uint256 i = 0; i < _quantity; i++) {\n            j++;\n            _mint(_recipient, j);\n            metamonInfoPersonality[j] = _mockupRandomPersonality();\n            metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);\n            metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;\n            mintedMetamonDexId[j] = _dexId;\n            ownerCollectedMetamons[_recipient].push(j);\n            emit MetamonMint(j, _recipient);\n        }\n        _tokenIds = j;\n    }\n\n    ///////////////////////////////////////////////////////////////////////////\n    // Mint / Burn Phases\n    ///////////////////////////////////////////////////////////////////////////\n    function specificDexIdOwned(address _recipient, uint8 _dexId) internal returns(uint256[] memory) {\n        // Return owned dexId's tokenIds\n        uint256 counter = 0;\n        uint256[] memory collectedMetamons = ownerCollectedMetamons[_recipient];\n        uint256[] memory specificDexTokenIds;\n        for (uint256 i=0; i < collectedMetamons.length; i++) {\n            if (_dexId == mintedMetamonDexId[collectedMetamons[i]]){\n                specificDexTokenIds[i] = collectedMetamons[i];\n            }\n        }\n        return(specificDexTokenIds);\n    }\n\n    modifier ownerOfMetamon(address _recipient, uint256 _sendDexTokenId) {\n        require(_recipient == ownerOf(_sendDexTokenId), \"Not the owner call\");\n        _;\n    }\n\n    function evalutionItemBurn(\n        address _recipient,\n        uint256 _sendItemTokenId,\n        uint256 _sendDexTokenId\n    ) public ownerOfMetamon(_recipient, _sendDexTokenId) {\n        // TODO: burn metamon and item together for evalution\n        // _item.burn(_recipient, _sendItemTokenId); // item token will handle burnable logic\n        _burn(_sendDexTokenId); // normally you need to burn 1 metamon to evolve\n        uint8 _dexId = familyMetamon[mintedMetamonDexId[_sendDexTokenId]];\n        mintSpecial(_recipient, _dexId, 1);\n    }\n\n    function evalutionMetaBurn(\n        address _recipient, \n        uint256 _sendDexTokenId, \n        uint256 _quantitySend\n        ) public ownerOfMetamon(_recipient, _sendDexTokenId) {\n        // TODO: only burn metamon for evalution\n        // uint256 _quantityCondition = burnEvaluation[mintedMetamonDexId[_sendTokenDexId]];\n        // check number of metamon ownership to check _quantityCondition\n        // _burn(_recipient, _sendTokenDexId);\n        // uint8 _dexId = familyMetamon[mintedMetamonDexId[_sendTokenDexId]]; \n        // mintSpecial(_recipient, _dexId, 1);      \n    }\n}",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.2;\nimport \"@openzeppelin/contracts/token/ERC721/ERC721.sol\";\n\n\ninterface ItemContract {\n    function getFloorPrice(uint8 _itemType) external view returns (uint256);\n    function specificItemOwnership(address _owner, uint8 _itemType) external view returns (uint256);\n    function burn(address _burner, uint256 _tokenId) external view;\n}\n\n\n// Pick during the meeting 1/10000\n// Shiny logic (every mint reset, if you have lucky totem higher chance, if you mintQuantity 10, it increments the probability of minting shiny on each loop of mint\n\n// Before the personalities in 1/10 chance call the chainlink contract \n// Batch actions\n\n\n\ncontract Metamon is ERC721 {\n    using Strings for uint256;\n\n    address payable public owner;\n    address _itemContractAddress = 0x1E6059Ec57aE39D2C73E5C3821a26FAFfD68E016; // TODO: we will hardcode it for now\n    \n    ItemContract _item = ItemContract(_itemContractAddress);  // TODO: move this declaration outside of this function\n\n\n    string private itemBaseURI;\n    string private metamonBaseURI;\n    string private baseURI;\n\n    event ReceivedEth(address _reciever, uint256 _value);\n    event MetamonMint(uint256 _tokenId, address _reciever);\n    event MetamonBurn(uint256 _tokenId, uint8 _dexId, address _burner);\n\n    uint8 public currentMintPhase = 1;\n    uint8[5] private withLuckyTotem = [99, 98, 97, 96, 95];  // TODO: total count of 100 probabilities \n    uint32[5] private withoutLuckyTotem = [296, 292, 288, 284, 280];  // TODO: total number of 100 probabilities\n    uint256[8] private metamonDex = [1, 2, 3, 4, 7, 10, 11, 13]; // REPR: METAMONT DEX NUMBERS\n    uint256[13] private evalutionMintDex = [2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17, 18, 20];\n    uint256[8] private metamonSupply = [1000, 0, 0, 2000, 1000, 3000, 4000, 1000]; // REPR: STARTS FROM TOKEN IDS\n    uint256[8] private metamonMinted = [0, 0, 0, 0, 0, 0, 0, 0]; // REPR: STARTS FROM TOKEN IDS\n    uint256[8] private metamonMintable = [1, 0, 0, 1, 0, 0, 0, 1]; // REPR: DIRECTLY MINTABLE METAMON DEXIDS\n    uint256[8] private metamonFloor = [.05 ether, 0 ether, 0 ether, .025 ether, 0.035 ether, 0.045 ether, 0.055 ether, 0.065 ether];\n\n    uint256 private _tokenIds;\n\n    mapping(uint8 => uint256[]) private metamonMintPhases; // REPR: Metamon mint phases by DAX numbers;\n    mapping(uint256 => uint8) private familyMetamon; // REPR: Metamon evalution trees \n\n    mapping(uint256 => uint256) private itemEvaluation; // REPR: Which item needed for which metamon evalution\n    mapping(uint256 => uint256) private burnEvaluation; // REPR: How many metamon balance needed for evalution for next metamon dex\n\n    mapping(address => uint256[]) private ownerCollectedMetamons; // REPR: Collected tokenIDs Metamons per address // TODO: remove when there is a burn or transfer\n    mapping(uint256 => uint8) public mintedMetamonDexId; // REPR: Minted metamon dex id\n\n    mapping(uint256 => bool) public metamonInfoShiny; // REPR: Holds the info about If the minted metamon was shiny or not\n    mapping(uint256 => uint8) public metamonInfoPersonality; // REPR: Holds the info about the personality of the metamon\n\n    constructor() payable ERC721(\"Metamon NFT\", \"NFT\") {\n        owner = payable(msg.sender);\n        // FILLING INFORMATION OF METAMAN AND EVALUATION\n        burnEvaluation[1] = 2;\n        burnEvaluation[2] = 3;\n        itemEvaluation[1] = 1;\n        itemEvaluation[2] = 1;\n        familyMetamon[1] = 2;\n        familyMetamon[2] = 3;\n        // ****************\n        burnEvaluation[4] = 2;\n        burnEvaluation[5] = 3;\n        itemEvaluation[4] = 2;\n        itemEvaluation[5] = 2;\n        familyMetamon[4] = 5;\n        familyMetamon[5] = 6;\n        // ****************\n        metamonMintPhases[1] = [1, 4, 7, 20, 86, 133];\n        // ****************\n        burnEvaluation[129] = 5; // i.e. 5 #DEX129 has to burned for #DEX139\n    }\n\n    modifier onlyOwner(address sender) {\n        require(sender == owner, \"Not a owner call!\");\n        _;\n    }\n\n    ///////////////////////////////////////////////////////////////////////////\n    // State Changes\n    ///////////////////////////////////////////////////////////////////////////\n    function changeFloorPrice(\n        uint256 _new_price,\n        uint8 _dexId\n    )\n        external\n        onlyOwner(msg.sender)\n    {\n        metamonFloor[_dexId - 1] = _new_price;\n    }\n\n    function changeSupplyDexId(\n        uint256 _new_supply,\n        uint8 _dexId\n    )\n        external\n        onlyOwner(msg.sender)\n    {\n        metamonSupply[_dexId - 1] = _new_supply;\n    }\n\n    ///////////////////////////////////////////////////////////////////////////\n    // State Info\n    ///////////////////////////////////////////////////////////////////////////\n    function getFloorPrice(uint8 _dexId)\n        public\n        view\n        returns (uint256)\n    {\n        return metamonFloor[_dexId - 1];\n    }\n \n    function getWalletBalance()\n        public\n        view\n        onlyOwner(msg.sender)\n        returns (uint256)\n    {\n        return address(this).balance;\n    }\n\n    function getSupplyDex(uint8 _dexId)\n        public\n        view \n        returns (uint256)\n    {\n        return metamonSupply[_dexId - 1] - metamonMinted[_dexId - 1];\n    }\n    \n    ///////////////////////////////////////////////////////////////////////////\n    // Contract ETH Deals\n    ///////////////////////////////////////////////////////////////////////////\n    fallback() external payable {}\n\n    receive() external payable {\n        emit ReceivedEth(msg.sender, msg.value);\n    }\n\n    function transferContractBalance(\n        address payable _recipient,\n        uint256 _amount\n    ) external onlyOwner(msg.sender) returns (bool) {\n        require(_amount <= getWalletBalance(), \"Not Enough Balance!\");\n        _recipient.transfer(_amount);\n        return true;\n    }\n\n    ///////////////////////////////////////////////////////////////////////////\n    // Meta Data Related\n    ///////////////////////////////////////////////////////////////////////////\n    function setBaseURI(string memory _baseURILink)\n        external\n        onlyOwner(msg.sender)\n    {\n        baseURI = _baseURILink;\n    }\n\n    function getBaseURI()\n        external\n        view\n        onlyOwner(msg.sender)\n        returns (string memory)\n    {\n        return baseURI;\n    }\n\n    function _baseURI() internal view virtual override returns (string memory) {\n        // We will have different baseURIs for Item and Metamon \n        // TODO: move items into different collection\n        return baseURI;\n    }\n\n    function tokenURI(uint256 tokenId)\n        public\n        view\n        virtual\n        override\n        returns (string memory)\n    {\n        require(_exists(tokenId), \"Nonexistent token!\");\n        // We can retrieve the information about token id \n        // -> is it Item or Metamon\n        // -> what is the dax number\n        // -> based on the information that we retrieve we will return base_uri\n        // TODO: move items into different collection\n\n        return\n            bytes(baseURI).length > 0\n                ? string(abi.encodePacked(baseURI, tokenId.toString(), \".json\"))\n                : \"\";\n    }\n\n    ///////////////////////////////////////////////////////////////////////////\n    // Mint / Randomness Mockup TODO: remove this section when Coinbase Implementation\n    ///////////////////////////////////////////////////////////////////////////\n    function _mockupRandomPersonality() internal pure returns(uint8) {\n        uint8[4] memory personality = [1, 2, 3, 4];\n        return personality[0];\n    }\n\n    function _mockupRandomShiny(uint256 _quantity, bool lucky) internal view returns(bool) {\n        // TODO: randomness comes from the loop\n        if (lucky){\n            uint256 probability = withLuckyTotem[_quantity];\n            // TODO: there should be some randomness based on the probability\n            return true;\n        } else {\n            uint256 probability = withoutLuckyTotem[_quantity];\n            // TODO: there should be some randomness based on the probability\n            return false;\n        }\n        \n    }\n\n    function _checkLuckyOwnership(address _recipient) internal view returns (bool){\n        // TODO: lucky item hardcoded as \"2\" for this \n        uint256 total_ownership = _item.specificItemOwnership(_recipient, 2); // Checks whether Lucky Totem has been owned/or not\n        if (total_ownership == 0){\n            return false;\n        } else {\n            return true;\n        }\n    }\n\n    ///////////////////////////////////////////////////////////////////////////\n    // Mint  Phases\n    ///////////////////////////////////////////////////////////////////////////\n    function mintableDex(uint8 _dexId) public view returns(bool){\n        // Helper function checks if Dex Id can be mintable for current mint phase\n        for (uint i=0; i < metamonMintPhases[currentMintPhase].length; i ++){\n            if (_dexId == metamonMintPhases[currentMintPhase][i]){\n                return true;\n            }\n        }\n        return false;\n    }\n\n    function mintableSpecial(uint8 _dexId) public view returns(bool){\n        // Helper function checks if Dex Id can be specially mintable for evalution\n        for (uint8 i=0; i < evalutionMintDex.length; i ++ ){\n            if (_dexId == evalutionMintDex[i]){\n                return true;\n            }\n        }\n    }\n\n    modifier mintableDexPhase(uint8 _dexId) {\n        require(mintableDex(_dexId) == true, 'Not Mintable Dex');\n        _;\n    }\n\n    modifier mintalbeSpecialDex(uint8 _dexId) {\n        require(mintableSpecial(_dexId) == true, 'Not Mintable Special Dex');\n        _;\n    }\n\n    modifier mintableSupply(uint8 _dexId, uint256 _quantity){\n        require(_quantity <= getSupplyDex(_dexId));\n        _;\n    }\n\n    function mintSpecial(\n        address _recipient,\n        uint8 _dexId, \n        uint256 _quantity\n    ) internal {\n        bool lucky = _checkLuckyOwnership(_recipient);\n        uint256 j = _tokenIds;\n        for (uint256 i = 0; i < _quantity; i ++){\n            j ++;\n            _mint(_recipient, j);\n            metamonInfoPersonality[j] = _mockupRandomPersonality();\n            metamonInfoShiny[j] = _mockupRandomShiny(i, lucky);\n            metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;\n            mintedMetamonDexId[j] = _dexId;\n            ownerCollectedMetamons[_recipient].push(j);\n            emit MetamonMint(j, _recipient);\n        }\n        _tokenIds = j;\n    }\n\n    function mintSale(\n            string memory _passCode,\n            address _recipient, \n            uint256 _quantity,\n            uint8 _dexId // TODO: talk to Nick about the RNG of the dexID\n        ) external payable mintableDexPhase(_dexId) mintableSupply(_dexId, _quantity) {\n\n        uint256 floorPrice = getFloorPrice(_dexId);\n        if (msg.sender != owner) {\n            require(msg.value == floorPrice * _quantity, \"Not Enough Balance!\");\n        }\n        \n        bool lucky = _checkLuckyOwnership(_recipient);\n\n        \n        uint256 j = _tokenIds;\n        for (uint256 i = 0; i < _quantity; i++) {\n            j++;\n            _mint(_recipient, j);\n            metamonInfoPersonality[j] = _mockupRandomPersonality();\n            metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);\n            metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;\n            mintedMetamonDexId[j] = _dexId;\n            ownerCollectedMetamons[_recipient].push(j);\n            emit MetamonMint(j, _recipient);\n        }\n        _tokenIds = j;\n    }\n\n    ///////////////////////////////////////////////////////////////////////////\n    // Mint / Burn Phases\n    ///////////////////////////////////////////////////////////////////////////\n    function specificDexIdOwned(address _recipient, uint8 _dexId) internal returns(uint256[] memory) {\n        // Return owned dexId's tokenIds\n        uint256 counter = 0;\n        uint256[] memory collectedMetamons = ownerCollectedMetamons[_recipient];\n        uint256[] memory specificDexTokenIds;\n        for (uint256 i=0; i < collectedMetamons.length; i++) {\n            if (_dexId == mintedMetamonDexId[collectedMetamons[i]]){\n                specificDexTokenIds[i] = collectedMetamons[i];\n            }\n        }\n        return(specificDexTokenIds);\n    }\n\n    modifier ownerOfMetamon(address _recipient, uint256 _sendDexTokenId) {\n        require(_recipient == ownerOf(_sendDexTokenId), \"Not the owner call\");\n        _;\n    }\n\n    function evalutionItemBurn(\n        address _recipient,\n        uint256 _sendItemTokenId,\n        uint256 _sendDexTokenId\n    ) public ownerOfMetamon(_recipient, _sendDexTokenId) {\n        // TODO: burn metamon and item together for evalution\n        _item.burn(_recipient, _sendItemTokenId); // item token will handle burnable logic\n        _burn(_sendDexTokenId); // normally you need to burn 1 metamon to evolve\n        uint8 _dexId = familyMetamon[mintedMetamonDexId[_sendDexTokenId]];\n        mintSpecial(_recipient, _dexId, 1);\n    }\n\n    function evalutionMetaBurn(\n        address _recipient, \n        uint256 _sendDexTokenId, \n        uint256 _quantitySend\n        ) public ownerOfMetamon(_recipient, _sendDexTokenId) {\n        // TODO: only burn metamon for evalution\n        // uint256 _quantityCondition = burnEvaluation[mintedMetamonDexId[_sendTokenDexId]];\n        // check number of metamon ownership to check _quantityCondition\n        // _burn(_recipient, _sendTokenDexId);\n        // uint8 _dexId = familyMetamon[mintedMetamonDexId[_sendTokenDexId]]; \n        // mintSpecial(_recipient, _dexId, 1);      \n    }\n}",
   "sourcePath": "/Users/aipek/Documents/metamon_contracts/contracts/Metamon.sol",
   "ast": {
     "absolutePath": "project:/contracts/Metamon.sol",
@@ -104,13 +104,13 @@
         1609
       ],
       "Metamon": [
-        2651
+        2658
       ],
       "Strings": [
         1546
       ]
     },
-    "id": 2652,
+    "id": 2659,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
@@ -131,7 +131,7 @@
         "id": 1585,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 2652,
+        "scope": 2659,
         "sourceUnit": 866,
         "src": "56:57:9",
         "symbolAliases": [],
@@ -429,7 +429,7 @@
             "visibility": "external"
           }
         ],
-        "scope": 2652,
+        "scope": 2659,
         "src": "116:272:9"
       },
       {
@@ -458,9 +458,9 @@
         ],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 2651,
+        "id": 2658,
         "linearizedBaseContracts": [
-          2651,
+          2658,
           865,
           1026,
           981,
@@ -502,7 +502,7 @@
             "name": "owner",
             "nameLocation": "772:5:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "749:28:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -530,7 +530,7 @@
             "name": "_itemContractAddress",
             "nameLocation": "791:20:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "783:73:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -574,7 +574,7 @@
             "name": "_item",
             "nameLocation": "917:5:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "904:55:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -656,7 +656,7 @@
             "name": "itemBaseURI",
             "nameLocation": "1039:11:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1024:26:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -683,7 +683,7 @@
             "name": "metamonBaseURI",
             "nameLocation": "1071:14:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1056:29:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -710,7 +710,7 @@
             "name": "baseURI",
             "nameLocation": "1106:7:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1091:22:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -982,7 +982,7 @@
             "name": "currentMintPhase",
             "nameLocation": "1324:16:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1311:33:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -1025,7 +1025,7 @@
             "name": "withLuckyTotem",
             "nameLocation": "1367:14:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1350:54:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -1173,7 +1173,7 @@
             "name": "withoutLuckyTotem",
             "nameLocation": "1472:17:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1454:63:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -1321,7 +1321,7 @@
             "name": "metamonDex",
             "nameLocation": "1586:10:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1567:59:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -1517,7 +1517,7 @@
             "name": "evalutionMintDex",
             "nameLocation": "1682:16:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1662:85:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -1793,7 +1793,7 @@
             "name": "metamonSupply",
             "nameLocation": "1772:13:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1753:77:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -1989,7 +1989,7 @@
             "name": "metamonMinted",
             "nameLocation": "1886:13:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1867:59:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -2185,7 +2185,7 @@
             "name": "metamonMintable",
             "nameLocation": "1982:15:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1963:61:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -2381,7 +2381,7 @@
             "name": "metamonFloor",
             "nameLocation": "2091:12:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2072:127:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -2585,7 +2585,7 @@
             "name": "_tokenIds",
             "nameLocation": "2222:9:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2206:25:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -2612,7 +2612,7 @@
             "name": "metamonMintPhases",
             "nameLocation": "2274:17:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2238:53:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -2667,7 +2667,7 @@
             "name": "familyMetamon",
             "nameLocation": "2376:13:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2342:47:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -2713,7 +2713,7 @@
             "name": "itemEvaluation",
             "nameLocation": "2466:14:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2430:50:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -2759,7 +2759,7 @@
             "name": "burnEvaluation",
             "nameLocation": "2577:14:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2541:50:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -2805,7 +2805,7 @@
             "name": "ownerCollectedMetamons",
             "nameLocation": "2712:22:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2674:60:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -2861,7 +2861,7 @@
             "name": "mintedMetamonDexId",
             "nameLocation": "2871:18:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2838:51:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -2908,7 +2908,7 @@
             "name": "metamonInfoShiny",
             "nameLocation": "2959:16:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2927:48:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -2955,7 +2955,7 @@
             "name": "metamonInfoPersonality",
             "nameLocation": "3083:22:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "3050:55:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -4330,7 +4330,7 @@
               "parameters": [],
               "src": "3224:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "3173:736:9",
             "stateMutability": "payable",
             "virtual": false,
@@ -4724,7 +4724,7 @@
               "parameters": [],
               "src": "4343:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "4210:187:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -4956,7 +4956,7 @@
               "parameters": [],
               "src": "4538:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "4403:191:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -5123,7 +5123,7 @@
               ],
               "src": "4859:9:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "4778:143:9",
             "stateMutability": "view",
             "virtual": false,
@@ -5147,7 +5147,7 @@
                           "referencedDeclaration": 4294967268,
                           "src": "5069:4:9",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_Metamon_$2651",
+                            "typeIdentifier": "t_contract$_Metamon_$2658",
                             "typeString": "contract Metamon"
                           }
                         }
@@ -5155,7 +5155,7 @@
                       "expression": {
                         "argumentTypes": [
                           {
-                            "typeIdentifier": "t_contract$_Metamon_$2651",
+                            "typeIdentifier": "t_contract$_Metamon_$2658",
                             "typeString": "contract Metamon"
                           }
                         ],
@@ -5302,7 +5302,7 @@
               ],
               "src": "5030:9:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "4928:161:9",
             "stateMutability": "view",
             "virtual": false,
@@ -5558,7 +5558,7 @@
               ],
               "src": "5176:9:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "5095:172:9",
             "stateMutability": "view",
             "virtual": false,
@@ -5590,7 +5590,7 @@
               "parameters": [],
               "src": "5491:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "5463:30:9",
             "stateMutability": "payable",
             "virtual": false,
@@ -5720,7 +5720,7 @@
               "parameters": [],
               "src": "5526:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "5499:83:9",
             "stateMutability": "payable",
             "virtual": false,
@@ -6092,7 +6092,7 @@
               ],
               "src": "5727:6:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "5588:283:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -6238,7 +6238,7 @@
               "parameters": [],
               "src": "6161:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "6062:138:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -6359,7 +6359,7 @@
               ],
               "src": "6304:15:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "6206:149:9",
             "stateMutability": "view",
             "virtual": false,
@@ -6447,7 +6447,7 @@
               ],
               "src": "6420:15:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "6361:225:9",
             "stateMutability": "view",
             "virtual": true,
@@ -6972,7 +6972,7 @@
               ],
               "src": "6704:15:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "6592:619:9",
             "stateMutability": "view",
             "virtual": true,
@@ -7222,7 +7222,7 @@
               ],
               "src": "7521:7:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "7464:155:9",
             "stateMutability": "pure",
             "virtual": false,
@@ -7561,7 +7561,7 @@
               ],
               "src": "7705:6:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "7625:530:9",
             "stateMutability": "view",
             "virtual": false,
@@ -7880,7 +7880,7 @@
               ],
               "src": "8233:6:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "8161:383:9",
             "stateMutability": "view",
             "virtual": false,
@@ -8296,7 +8296,7 @@
               ],
               "src": "8784:6:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "8730:370:9",
             "stateMutability": "view",
             "virtual": false,
@@ -8640,7 +8640,7 @@
               ],
               "src": "9164:6:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "9106:317:9",
             "stateMutability": "view",
             "virtual": false,
@@ -10409,7 +10409,7 @@
               "parameters": [],
               "src": "9949:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "9835:690:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -11968,7 +11968,7 @@
               "parameters": [],
               "src": "10811:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "10531:1052:9",
             "stateMutability": "payable",
             "virtual": false,
@@ -12660,7 +12660,7 @@
               ],
               "src": "11853:18:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "11775:557:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -12893,20 +12893,104 @@
           },
           {
             "body": {
-              "id": 2635,
+              "id": 2642,
               "nodeType": "Block",
-              "src": "12689:363:9",
+              "src": "12689:360:9",
               "statements": [
                 {
                   "expression": {
                     "arguments": [
                       {
-                        "id": 2618,
+                        "id": 2620,
+                        "name": "_recipient",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2606,
+                        "src": "12772:10:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "id": 2621,
+                        "name": "_sendItemTokenId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2608,
+                        "src": "12784:16:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "id": 2617,
+                        "name": "_item",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1625,
+                        "src": "12761:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_ItemContract_$1609",
+                          "typeString": "contract ItemContract"
+                        }
+                      },
+                      "id": 2619,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "burn",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1608,
+                      "src": "12761:10:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$_t_address_$_t_uint256_$returns$__$",
+                        "typeString": "function (address,uint256) view external"
+                      }
+                    },
+                    "id": 2622,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "12761:40:9",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 2623,
+                  "nodeType": "ExpressionStatement",
+                  "src": "12761:40:9"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 2625,
                         "name": "_sendDexTokenId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 2610,
-                        "src": "12861:15:9",
+                        "src": "12858:15:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -12920,18 +13004,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 2617,
+                      "id": 2624,
                       "name": "_burn",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 649,
-                      "src": "12855:5:9",
+                      "src": "12852:5:9",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_uint256_$returns$__$",
                         "typeString": "function (uint256)"
                       }
                     },
-                    "id": 2619,
+                    "id": 2626,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -12939,31 +13023,31 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "12855:22:9",
+                    "src": "12852:22:9",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2620,
+                  "id": 2627,
                   "nodeType": "ExpressionStatement",
-                  "src": "12855:22:9"
+                  "src": "12852:22:9"
                 },
                 {
                   "assignments": [
-                    2622
+                    2629
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 2622,
+                      "id": 2629,
                       "mutability": "mutable",
                       "name": "_dexId",
-                      "nameLocation": "12942:6:9",
+                      "nameLocation": "12939:6:9",
                       "nodeType": "VariableDeclaration",
-                      "scope": 2635,
-                      "src": "12936:12:9",
+                      "scope": 2642,
+                      "src": "12933:12:9",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
@@ -12971,10 +13055,10 @@
                         "typeString": "uint8"
                       },
                       "typeName": {
-                        "id": 2621,
+                        "id": 2628,
                         "name": "uint8",
                         "nodeType": "ElementaryTypeName",
-                        "src": "12936:5:9",
+                        "src": "12933:5:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint8",
                           "typeString": "uint8"
@@ -12983,42 +13067,42 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 2628,
+                  "id": 2635,
                   "initialValue": {
                     "baseExpression": {
-                      "id": 2623,
+                      "id": 2630,
                       "name": "familyMetamon",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 1768,
-                      "src": "12951:13:9",
+                      "src": "12948:13:9",
                       "typeDescriptions": {
                         "typeIdentifier": "t_mapping$_t_uint256_$_t_uint8_$",
                         "typeString": "mapping(uint256 => uint8)"
                       }
                     },
-                    "id": 2627,
+                    "id": 2634,
                     "indexExpression": {
                       "baseExpression": {
-                        "id": 2624,
+                        "id": 2631,
                         "name": "mintedMetamonDexId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 1785,
-                        "src": "12965:18:9",
+                        "src": "12962:18:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_uint256_$_t_uint8_$",
                           "typeString": "mapping(uint256 => uint8)"
                         }
                       },
-                      "id": 2626,
+                      "id": 2633,
                       "indexExpression": {
-                        "id": 2625,
+                        "id": 2632,
                         "name": "_sendDexTokenId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 2610,
-                        "src": "12984:15:9",
+                        "src": "12981:15:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -13029,7 +13113,7 @@
                       "isPure": false,
                       "lValueRequested": false,
                       "nodeType": "IndexAccess",
-                      "src": "12965:35:9",
+                      "src": "12962:35:9",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint8",
                         "typeString": "uint8"
@@ -13040,37 +13124,37 @@
                     "isPure": false,
                     "lValueRequested": false,
                     "nodeType": "IndexAccess",
-                    "src": "12951:50:9",
+                    "src": "12948:50:9",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint8",
                       "typeString": "uint8"
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "12936:65:9"
+                  "src": "12933:65:9"
                 },
                 {
                   "expression": {
                     "arguments": [
                       {
-                        "id": 2630,
+                        "id": 2637,
                         "name": "_recipient",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 2606,
-                        "src": "13023:10:9",
+                        "src": "13020:10:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         }
                       },
                       {
-                        "id": 2631,
+                        "id": 2638,
                         "name": "_dexId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2622,
-                        "src": "13035:6:9",
+                        "referencedDeclaration": 2629,
+                        "src": "13032:6:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint8",
                           "typeString": "uint8"
@@ -13078,14 +13162,14 @@
                       },
                       {
                         "hexValue": "31",
-                        "id": 2632,
+                        "id": 2639,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "number",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "13043:1:9",
+                        "src": "13040:1:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_rational_1_by_1",
                           "typeString": "int_const 1"
@@ -13108,18 +13192,18 @@
                           "typeString": "int_const 1"
                         }
                       ],
-                      "id": 2629,
+                      "id": 2636,
                       "name": "mintSpecial",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 2401,
-                      "src": "13011:11:9",
+                      "src": "13008:11:9",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint8_$_t_uint256_$returns$__$",
                         "typeString": "function (address,uint8,uint256)"
                       }
                     },
-                    "id": 2633,
+                    "id": 2640,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -13127,21 +13211,21 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "13011:34:9",
+                    "src": "13008:34:9",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2634,
+                  "id": 2641,
                   "nodeType": "ExpressionStatement",
-                  "src": "13011:34:9"
+                  "src": "13008:34:9"
                 }
               ]
             },
             "functionSelector": "feadbaea",
-            "id": 2636,
+            "id": 2643,
             "implemented": true,
             "kind": "function",
             "modifiers": [
@@ -13198,7 +13282,7 @@
                   "name": "_recipient",
                   "nameLocation": "12554:10:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2636,
+                  "scope": 2643,
                   "src": "12546:18:9",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -13226,7 +13310,7 @@
                   "name": "_sendItemTokenId",
                   "nameLocation": "12582:16:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2636,
+                  "scope": 2643,
                   "src": "12574:24:9",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -13253,7 +13337,7 @@
                   "name": "_sendDexTokenId",
                   "nameLocation": "12616:15:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2636,
+                  "scope": 2643,
                   "src": "12608:23:9",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -13282,79 +13366,79 @@
               "parameters": [],
               "src": "12689:0:9"
             },
-            "scope": 2651,
-            "src": "12510:542:9",
+            "scope": 2658,
+            "src": "12510:539:9",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 2649,
+              "id": 2656,
               "nodeType": "Block",
-              "src": "13240:401:9",
+              "src": "13237:401:9",
               "statements": []
             },
             "functionSelector": "5d273e49",
-            "id": 2650,
+            "id": 2657,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
                 "arguments": [
                   {
-                    "id": 2645,
+                    "id": 2652,
                     "name": "_recipient",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 2638,
-                    "src": "13211:10:9",
+                    "referencedDeclaration": 2645,
+                    "src": "13208:10:9",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
                   {
-                    "id": 2646,
+                    "id": 2653,
                     "name": "_sendDexTokenId",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 2640,
-                    "src": "13223:15:9",
+                    "referencedDeclaration": 2647,
+                    "src": "13220:15:9",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   }
                 ],
-                "id": 2647,
+                "id": 2654,
                 "modifierName": {
-                  "id": 2644,
+                  "id": 2651,
                   "name": "ownerOfMetamon",
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 2604,
-                  "src": "13196:14:9"
+                  "src": "13193:14:9"
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "13196:43:9"
+                "src": "13193:43:9"
               }
             ],
             "name": "evalutionMetaBurn",
-            "nameLocation": "13067:17:9",
+            "nameLocation": "13064:17:9",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2643,
+              "id": 2650,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2638,
+                  "id": 2645,
                   "mutability": "mutable",
                   "name": "_recipient",
-                  "nameLocation": "13102:10:9",
+                  "nameLocation": "13099:10:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2650,
-                  "src": "13094:18:9",
+                  "scope": 2657,
+                  "src": "13091:18:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -13362,10 +13446,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2637,
+                    "id": 2644,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "13094:7:9",
+                    "src": "13091:7:9",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -13376,13 +13460,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 2640,
+                  "id": 2647,
                   "mutability": "mutable",
                   "name": "_sendDexTokenId",
-                  "nameLocation": "13131:15:9",
+                  "nameLocation": "13128:15:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2650,
-                  "src": "13123:23:9",
+                  "scope": 2657,
+                  "src": "13120:23:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -13390,10 +13474,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2639,
+                    "id": 2646,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "13123:7:9",
+                    "src": "13120:7:9",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -13403,13 +13487,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 2642,
+                  "id": 2649,
                   "mutability": "mutable",
                   "name": "_quantitySend",
-                  "nameLocation": "13165:13:9",
+                  "nameLocation": "13162:13:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2650,
-                  "src": "13157:21:9",
+                  "scope": 2657,
+                  "src": "13154:21:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -13417,10 +13501,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2641,
+                    "id": 2648,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "13157:7:9",
+                    "src": "13154:7:9",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -13429,26 +13513,26 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "13084:104:9"
+              "src": "13081:104:9"
             },
             "returnParameters": {
-              "id": 2648,
+              "id": 2655,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "13240:0:9"
+              "src": "13237:0:9"
             },
-            "scope": 2651,
-            "src": "13058:583:9",
+            "scope": 2658,
+            "src": "13055:583:9",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 2652,
-        "src": "684:12959:9"
+        "scope": 2659,
+        "src": "684:12956:9"
       }
     ],
-    "src": "32:13611:9"
+    "src": "32:13608:9"
   },
   "legacyAST": {
     "absolutePath": "project:/contracts/Metamon.sol",
@@ -13481,13 +13565,13 @@
         1609
       ],
       "Metamon": [
-        2651
+        2658
       ],
       "Strings": [
         1546
       ]
     },
-    "id": 2652,
+    "id": 2659,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
@@ -13508,7 +13592,7 @@
         "id": 1585,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 2652,
+        "scope": 2659,
         "sourceUnit": 866,
         "src": "56:57:9",
         "symbolAliases": [],
@@ -13806,7 +13890,7 @@
             "visibility": "external"
           }
         ],
-        "scope": 2652,
+        "scope": 2659,
         "src": "116:272:9"
       },
       {
@@ -13835,9 +13919,9 @@
         ],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 2651,
+        "id": 2658,
         "linearizedBaseContracts": [
-          2651,
+          2658,
           865,
           1026,
           981,
@@ -13879,7 +13963,7 @@
             "name": "owner",
             "nameLocation": "772:5:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "749:28:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -13907,7 +13991,7 @@
             "name": "_itemContractAddress",
             "nameLocation": "791:20:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "783:73:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -13951,7 +14035,7 @@
             "name": "_item",
             "nameLocation": "917:5:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "904:55:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -14033,7 +14117,7 @@
             "name": "itemBaseURI",
             "nameLocation": "1039:11:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1024:26:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -14060,7 +14144,7 @@
             "name": "metamonBaseURI",
             "nameLocation": "1071:14:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1056:29:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -14087,7 +14171,7 @@
             "name": "baseURI",
             "nameLocation": "1106:7:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1091:22:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -14359,7 +14443,7 @@
             "name": "currentMintPhase",
             "nameLocation": "1324:16:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1311:33:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -14402,7 +14486,7 @@
             "name": "withLuckyTotem",
             "nameLocation": "1367:14:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1350:54:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -14550,7 +14634,7 @@
             "name": "withoutLuckyTotem",
             "nameLocation": "1472:17:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1454:63:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -14698,7 +14782,7 @@
             "name": "metamonDex",
             "nameLocation": "1586:10:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1567:59:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -14894,7 +14978,7 @@
             "name": "evalutionMintDex",
             "nameLocation": "1682:16:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1662:85:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -15170,7 +15254,7 @@
             "name": "metamonSupply",
             "nameLocation": "1772:13:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1753:77:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -15366,7 +15450,7 @@
             "name": "metamonMinted",
             "nameLocation": "1886:13:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1867:59:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -15562,7 +15646,7 @@
             "name": "metamonMintable",
             "nameLocation": "1982:15:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "1963:61:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -15758,7 +15842,7 @@
             "name": "metamonFloor",
             "nameLocation": "2091:12:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2072:127:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -15962,7 +16046,7 @@
             "name": "_tokenIds",
             "nameLocation": "2222:9:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2206:25:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -15989,7 +16073,7 @@
             "name": "metamonMintPhases",
             "nameLocation": "2274:17:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2238:53:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -16044,7 +16128,7 @@
             "name": "familyMetamon",
             "nameLocation": "2376:13:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2342:47:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -16090,7 +16174,7 @@
             "name": "itemEvaluation",
             "nameLocation": "2466:14:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2430:50:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -16136,7 +16220,7 @@
             "name": "burnEvaluation",
             "nameLocation": "2577:14:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2541:50:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -16182,7 +16266,7 @@
             "name": "ownerCollectedMetamons",
             "nameLocation": "2712:22:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2674:60:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -16238,7 +16322,7 @@
             "name": "mintedMetamonDexId",
             "nameLocation": "2871:18:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2838:51:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -16285,7 +16369,7 @@
             "name": "metamonInfoShiny",
             "nameLocation": "2959:16:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "2927:48:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -16332,7 +16416,7 @@
             "name": "metamonInfoPersonality",
             "nameLocation": "3083:22:9",
             "nodeType": "VariableDeclaration",
-            "scope": 2651,
+            "scope": 2658,
             "src": "3050:55:9",
             "stateVariable": true,
             "storageLocation": "default",
@@ -17707,7 +17791,7 @@
               "parameters": [],
               "src": "3224:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "3173:736:9",
             "stateMutability": "payable",
             "virtual": false,
@@ -18101,7 +18185,7 @@
               "parameters": [],
               "src": "4343:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "4210:187:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -18333,7 +18417,7 @@
               "parameters": [],
               "src": "4538:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "4403:191:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -18500,7 +18584,7 @@
               ],
               "src": "4859:9:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "4778:143:9",
             "stateMutability": "view",
             "virtual": false,
@@ -18524,7 +18608,7 @@
                           "referencedDeclaration": 4294967268,
                           "src": "5069:4:9",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_Metamon_$2651",
+                            "typeIdentifier": "t_contract$_Metamon_$2658",
                             "typeString": "contract Metamon"
                           }
                         }
@@ -18532,7 +18616,7 @@
                       "expression": {
                         "argumentTypes": [
                           {
-                            "typeIdentifier": "t_contract$_Metamon_$2651",
+                            "typeIdentifier": "t_contract$_Metamon_$2658",
                             "typeString": "contract Metamon"
                           }
                         ],
@@ -18679,7 +18763,7 @@
               ],
               "src": "5030:9:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "4928:161:9",
             "stateMutability": "view",
             "virtual": false,
@@ -18935,7 +19019,7 @@
               ],
               "src": "5176:9:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "5095:172:9",
             "stateMutability": "view",
             "virtual": false,
@@ -18967,7 +19051,7 @@
               "parameters": [],
               "src": "5491:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "5463:30:9",
             "stateMutability": "payable",
             "virtual": false,
@@ -19097,7 +19181,7 @@
               "parameters": [],
               "src": "5526:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "5499:83:9",
             "stateMutability": "payable",
             "virtual": false,
@@ -19469,7 +19553,7 @@
               ],
               "src": "5727:6:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "5588:283:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -19615,7 +19699,7 @@
               "parameters": [],
               "src": "6161:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "6062:138:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -19736,7 +19820,7 @@
               ],
               "src": "6304:15:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "6206:149:9",
             "stateMutability": "view",
             "virtual": false,
@@ -19824,7 +19908,7 @@
               ],
               "src": "6420:15:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "6361:225:9",
             "stateMutability": "view",
             "virtual": true,
@@ -20349,7 +20433,7 @@
               ],
               "src": "6704:15:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "6592:619:9",
             "stateMutability": "view",
             "virtual": true,
@@ -20599,7 +20683,7 @@
               ],
               "src": "7521:7:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "7464:155:9",
             "stateMutability": "pure",
             "virtual": false,
@@ -20938,7 +21022,7 @@
               ],
               "src": "7705:6:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "7625:530:9",
             "stateMutability": "view",
             "virtual": false,
@@ -21257,7 +21341,7 @@
               ],
               "src": "8233:6:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "8161:383:9",
             "stateMutability": "view",
             "virtual": false,
@@ -21673,7 +21757,7 @@
               ],
               "src": "8784:6:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "8730:370:9",
             "stateMutability": "view",
             "virtual": false,
@@ -22017,7 +22101,7 @@
               ],
               "src": "9164:6:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "9106:317:9",
             "stateMutability": "view",
             "virtual": false,
@@ -23786,7 +23870,7 @@
               "parameters": [],
               "src": "9949:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "9835:690:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -25345,7 +25429,7 @@
               "parameters": [],
               "src": "10811:0:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "10531:1052:9",
             "stateMutability": "payable",
             "virtual": false,
@@ -26037,7 +26121,7 @@
               ],
               "src": "11853:18:9"
             },
-            "scope": 2651,
+            "scope": 2658,
             "src": "11775:557:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -26270,20 +26354,104 @@
           },
           {
             "body": {
-              "id": 2635,
+              "id": 2642,
               "nodeType": "Block",
-              "src": "12689:363:9",
+              "src": "12689:360:9",
               "statements": [
                 {
                   "expression": {
                     "arguments": [
                       {
-                        "id": 2618,
+                        "id": 2620,
+                        "name": "_recipient",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2606,
+                        "src": "12772:10:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "id": 2621,
+                        "name": "_sendItemTokenId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2608,
+                        "src": "12784:16:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "id": 2617,
+                        "name": "_item",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1625,
+                        "src": "12761:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_ItemContract_$1609",
+                          "typeString": "contract ItemContract"
+                        }
+                      },
+                      "id": 2619,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "burn",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1608,
+                      "src": "12761:10:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$_t_address_$_t_uint256_$returns$__$",
+                        "typeString": "function (address,uint256) view external"
+                      }
+                    },
+                    "id": 2622,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "12761:40:9",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 2623,
+                  "nodeType": "ExpressionStatement",
+                  "src": "12761:40:9"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 2625,
                         "name": "_sendDexTokenId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 2610,
-                        "src": "12861:15:9",
+                        "src": "12858:15:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -26297,18 +26465,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 2617,
+                      "id": 2624,
                       "name": "_burn",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 649,
-                      "src": "12855:5:9",
+                      "src": "12852:5:9",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_uint256_$returns$__$",
                         "typeString": "function (uint256)"
                       }
                     },
-                    "id": 2619,
+                    "id": 2626,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -26316,31 +26484,31 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "12855:22:9",
+                    "src": "12852:22:9",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2620,
+                  "id": 2627,
                   "nodeType": "ExpressionStatement",
-                  "src": "12855:22:9"
+                  "src": "12852:22:9"
                 },
                 {
                   "assignments": [
-                    2622
+                    2629
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 2622,
+                      "id": 2629,
                       "mutability": "mutable",
                       "name": "_dexId",
-                      "nameLocation": "12942:6:9",
+                      "nameLocation": "12939:6:9",
                       "nodeType": "VariableDeclaration",
-                      "scope": 2635,
-                      "src": "12936:12:9",
+                      "scope": 2642,
+                      "src": "12933:12:9",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
@@ -26348,10 +26516,10 @@
                         "typeString": "uint8"
                       },
                       "typeName": {
-                        "id": 2621,
+                        "id": 2628,
                         "name": "uint8",
                         "nodeType": "ElementaryTypeName",
-                        "src": "12936:5:9",
+                        "src": "12933:5:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint8",
                           "typeString": "uint8"
@@ -26360,42 +26528,42 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 2628,
+                  "id": 2635,
                   "initialValue": {
                     "baseExpression": {
-                      "id": 2623,
+                      "id": 2630,
                       "name": "familyMetamon",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 1768,
-                      "src": "12951:13:9",
+                      "src": "12948:13:9",
                       "typeDescriptions": {
                         "typeIdentifier": "t_mapping$_t_uint256_$_t_uint8_$",
                         "typeString": "mapping(uint256 => uint8)"
                       }
                     },
-                    "id": 2627,
+                    "id": 2634,
                     "indexExpression": {
                       "baseExpression": {
-                        "id": 2624,
+                        "id": 2631,
                         "name": "mintedMetamonDexId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 1785,
-                        "src": "12965:18:9",
+                        "src": "12962:18:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_uint256_$_t_uint8_$",
                           "typeString": "mapping(uint256 => uint8)"
                         }
                       },
-                      "id": 2626,
+                      "id": 2633,
                       "indexExpression": {
-                        "id": 2625,
+                        "id": 2632,
                         "name": "_sendDexTokenId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 2610,
-                        "src": "12984:15:9",
+                        "src": "12981:15:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -26406,7 +26574,7 @@
                       "isPure": false,
                       "lValueRequested": false,
                       "nodeType": "IndexAccess",
-                      "src": "12965:35:9",
+                      "src": "12962:35:9",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint8",
                         "typeString": "uint8"
@@ -26417,37 +26585,37 @@
                     "isPure": false,
                     "lValueRequested": false,
                     "nodeType": "IndexAccess",
-                    "src": "12951:50:9",
+                    "src": "12948:50:9",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint8",
                       "typeString": "uint8"
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "12936:65:9"
+                  "src": "12933:65:9"
                 },
                 {
                   "expression": {
                     "arguments": [
                       {
-                        "id": 2630,
+                        "id": 2637,
                         "name": "_recipient",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 2606,
-                        "src": "13023:10:9",
+                        "src": "13020:10:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         }
                       },
                       {
-                        "id": 2631,
+                        "id": 2638,
                         "name": "_dexId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2622,
-                        "src": "13035:6:9",
+                        "referencedDeclaration": 2629,
+                        "src": "13032:6:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint8",
                           "typeString": "uint8"
@@ -26455,14 +26623,14 @@
                       },
                       {
                         "hexValue": "31",
-                        "id": 2632,
+                        "id": 2639,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "number",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "13043:1:9",
+                        "src": "13040:1:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_rational_1_by_1",
                           "typeString": "int_const 1"
@@ -26485,18 +26653,18 @@
                           "typeString": "int_const 1"
                         }
                       ],
-                      "id": 2629,
+                      "id": 2636,
                       "name": "mintSpecial",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 2401,
-                      "src": "13011:11:9",
+                      "src": "13008:11:9",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint8_$_t_uint256_$returns$__$",
                         "typeString": "function (address,uint8,uint256)"
                       }
                     },
-                    "id": 2633,
+                    "id": 2640,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -26504,21 +26672,21 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "13011:34:9",
+                    "src": "13008:34:9",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2634,
+                  "id": 2641,
                   "nodeType": "ExpressionStatement",
-                  "src": "13011:34:9"
+                  "src": "13008:34:9"
                 }
               ]
             },
             "functionSelector": "feadbaea",
-            "id": 2636,
+            "id": 2643,
             "implemented": true,
             "kind": "function",
             "modifiers": [
@@ -26575,7 +26743,7 @@
                   "name": "_recipient",
                   "nameLocation": "12554:10:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2636,
+                  "scope": 2643,
                   "src": "12546:18:9",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -26603,7 +26771,7 @@
                   "name": "_sendItemTokenId",
                   "nameLocation": "12582:16:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2636,
+                  "scope": 2643,
                   "src": "12574:24:9",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -26630,7 +26798,7 @@
                   "name": "_sendDexTokenId",
                   "nameLocation": "12616:15:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2636,
+                  "scope": 2643,
                   "src": "12608:23:9",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -26659,79 +26827,79 @@
               "parameters": [],
               "src": "12689:0:9"
             },
-            "scope": 2651,
-            "src": "12510:542:9",
+            "scope": 2658,
+            "src": "12510:539:9",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 2649,
+              "id": 2656,
               "nodeType": "Block",
-              "src": "13240:401:9",
+              "src": "13237:401:9",
               "statements": []
             },
             "functionSelector": "5d273e49",
-            "id": 2650,
+            "id": 2657,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
                 "arguments": [
                   {
-                    "id": 2645,
+                    "id": 2652,
                     "name": "_recipient",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 2638,
-                    "src": "13211:10:9",
+                    "referencedDeclaration": 2645,
+                    "src": "13208:10:9",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
                   {
-                    "id": 2646,
+                    "id": 2653,
                     "name": "_sendDexTokenId",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 2640,
-                    "src": "13223:15:9",
+                    "referencedDeclaration": 2647,
+                    "src": "13220:15:9",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   }
                 ],
-                "id": 2647,
+                "id": 2654,
                 "modifierName": {
-                  "id": 2644,
+                  "id": 2651,
                   "name": "ownerOfMetamon",
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 2604,
-                  "src": "13196:14:9"
+                  "src": "13193:14:9"
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "13196:43:9"
+                "src": "13193:43:9"
               }
             ],
             "name": "evalutionMetaBurn",
-            "nameLocation": "13067:17:9",
+            "nameLocation": "13064:17:9",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2643,
+              "id": 2650,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2638,
+                  "id": 2645,
                   "mutability": "mutable",
                   "name": "_recipient",
-                  "nameLocation": "13102:10:9",
+                  "nameLocation": "13099:10:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2650,
-                  "src": "13094:18:9",
+                  "scope": 2657,
+                  "src": "13091:18:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -26739,10 +26907,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2637,
+                    "id": 2644,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "13094:7:9",
+                    "src": "13091:7:9",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -26753,13 +26921,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 2640,
+                  "id": 2647,
                   "mutability": "mutable",
                   "name": "_sendDexTokenId",
-                  "nameLocation": "13131:15:9",
+                  "nameLocation": "13128:15:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2650,
-                  "src": "13123:23:9",
+                  "scope": 2657,
+                  "src": "13120:23:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -26767,10 +26935,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2639,
+                    "id": 2646,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "13123:7:9",
+                    "src": "13120:7:9",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -26780,13 +26948,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 2642,
+                  "id": 2649,
                   "mutability": "mutable",
                   "name": "_quantitySend",
-                  "nameLocation": "13165:13:9",
+                  "nameLocation": "13162:13:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2650,
-                  "src": "13157:21:9",
+                  "scope": 2657,
+                  "src": "13154:21:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -26794,10 +26962,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2641,
+                    "id": 2648,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "13157:7:9",
+                    "src": "13154:7:9",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -26806,26 +26974,26 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "13084:104:9"
+              "src": "13081:104:9"
             },
             "returnParameters": {
-              "id": 2648,
+              "id": 2655,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "13240:0:9"
+              "src": "13237:0:9"
             },
-            "scope": 2651,
-            "src": "13058:583:9",
+            "scope": 2658,
+            "src": "13055:583:9",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 2652,
-        "src": "684:12959:9"
+        "scope": 2659,
+        "src": "684:12956:9"
       }
     ],
-    "src": "32:13611:9"
+    "src": "32:13608:9"
   },
   "compiler": {
     "name": "solc",
@@ -26833,7 +27001,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-03-05T17:02:00.534Z",
+  "updatedAt": "2022-03-07T20:34:23.127Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
