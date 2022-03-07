@@ -352,17 +352,33 @@ contract Metamon is ERC721 {
         mintSpecial(_recipient, _dexId, 1);
     }
 
+    function checkTokensDexId(uint256 _dexId, uint256[] _sendDexTokensId) internal{
+        for (uint256 i; i < _sendDexTokenId.length; i++){
+            require(_dexId == mintedMetamonDexId[i], "Not all same dex id");
+        }
+    } 
+
+    modifier checkTokensDex(uint256 _dexId, uint256[] _sendDexTokenId){
+        checkTokensDexId();
+        _;
+    }
+
     function evalutionMetaBurn(
         address _recipient, 
-        uint256 _sendDexTokenId, 
+        uint8 _dexId, 
+        uint256[] _sendDexTokenId, 
         uint256 _quantitySend
-        ) public payable ownerOfMetamon(_recipient, _sendDexTokenId) {
+        ) public payable ownerOfMetamon(_recipient, _sendDexTokenId) checkTokensDexId(_dexId, _sendDexTokenId) {
         // TODO: only burn metamon for evalution
-        // uint256 _quantityCondition = burnEvaluation[mintedMetamonDexId[_sendTokenDexId]];
+
+        uint256 _quantityCondition = burnEvaluation[_dexId];
+        uint256[] _collectedMetamons = ownerCollectedMetamons[_recipient];
         // check number of metamon ownership to check _quantityCondition
-        // _burn(_recipient, _sendTokenDexId);
-        // uint8 _dexId = familyMetamon[mintedMetamonDexId[_sendTokenDexId]]; 
-        // mintSpecial(_recipient, _dexId, 1);      
+        for (uint i; i < _sendDexTokenId.length; i ++){
+            _burn(_sendDexTokenId[i]);
+        }
+        uint8 dexId = familyMetamon[_dexId]; 
+        mintSpecial(_recipient, dexId, 1);      
     }
 
 
