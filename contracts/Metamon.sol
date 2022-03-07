@@ -344,7 +344,7 @@ contract Metamon is ERC721 {
         address _recipient,
         uint256 _sendItemTokenId,
         uint256 _sendDexTokenId
-    ) public ownerOfMetamon(_recipient, _sendDexTokenId) {
+    ) public payable ownerOfMetamon(_recipient, _sendDexTokenId) {
         // TODO: burn metamon and item together for evalution
         _item.burn(_recipient, _sendItemTokenId); // item token will handle burnable logic
         _burn(_sendDexTokenId); // normally you need to burn 1 metamon to evolve
@@ -356,7 +356,7 @@ contract Metamon is ERC721 {
         address _recipient, 
         uint256 _sendDexTokenId, 
         uint256 _quantitySend
-        ) public ownerOfMetamon(_recipient, _sendDexTokenId) {
+        ) public payable ownerOfMetamon(_recipient, _sendDexTokenId) {
         // TODO: only burn metamon for evalution
         // uint256 _quantityCondition = burnEvaluation[mintedMetamonDexId[_sendTokenDexId]];
         // check number of metamon ownership to check _quantityCondition
