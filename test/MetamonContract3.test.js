@@ -98,7 +98,6 @@ contract("Metamon", () => {
             }
         ); 
         const howManyMetamonMintedLeft = await metamonContract.balanceOf(recipient, {from: recipient});
-        console.log(howManyMetamonMintedLeft.toNumber())
         assert(howManyMetamonMintedLeft.toNumber() == numberMetamonLeft); // one burned one received therefore no changes
     });
 
