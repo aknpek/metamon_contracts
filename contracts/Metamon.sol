@@ -32,6 +32,8 @@ contract Metamon is ERC721 {
     string private metamonBaseURI;
     string private baseURI;
 
+    bool public collectArtifact = false;
+
     event ReceivedEth(address _reciever, uint256 _value);
     event MetamonMint(uint256 _tokenId, address _reciever);
     event MetamonBurn(uint256 _tokenId, uint8 _dexId, address _burner);
@@ -45,6 +47,8 @@ contract Metamon is ERC721 {
     uint256[8] private metamonMinted = [0, 0, 0, 0, 0, 0, 0, 0]; // REPR: STARTS FROM TOKEN IDS
     uint256[8] private metamonMintable = [1, 0, 0, 1, 0, 0, 0, 1]; // REPR: DIRECTLY MINTABLE METAMON DEXIDS
     uint256[8] private metamonFloor = [.05 ether, 0 ether, 0 ether, .025 ether, 0.035 ether, 0.045 ether, 0.055 ether, 0.065 ether];
+
+    
 
     uint256 private _tokenIds;
 
@@ -60,8 +64,13 @@ contract Metamon is ERC721 {
     mapping(uint256 => bool) public metamonInfoShiny; // REPR: Holds the info about If the minted metamon was shiny or not
     mapping(uint256 => uint8) public metamonInfoPersonality; // REPR: Holds the info about the personality of the metamon
 
+    mapping(uint8 => uint256[]) public artifactBatches; // REPR: Metamons need to be collected to mint Artifacts
+
     constructor() payable ERC721("Metamon NFT", "NFT") {
         owner = payable(msg.sender);
+
+        artifactBatches[1] = [1, 4, 7, 20, 86, 133, 10, 13, 84, 16, 19, 96, 128];
+
         // FILLING INFORMATION OF METAMAN AND EVALUATION
         burnEvaluation[1] = 2;
         burnEvaluation[2] = 3;
@@ -322,6 +331,20 @@ contract Metamon is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     // Mint / Burn Phases
     ///////////////////////////////////////////////////////////////////////////
+    function artifactCollectTime(bool _collect) public onlyOwner(msg.sender){
+        collectArtifact = _collect;
+    }
+
+    modifier artifactCollectibe(){
+        require(collectArtifact == true, 'Artifacts not collectible');
+        _;
+    }
+
+    function mintArtifact(address _recipient, uint8 _targetArtifact) external artifactCollectibe() {
+        
+
+    } 
+
     function specificDexIdOwned(address _recipient, uint8 _dexId) internal returns(uint256[] memory) {
         // Return owned dexId's tokenIds
         uint256 counter = 0;
@@ -352,27 +375,27 @@ contract Metamon is ERC721 {
         mintSpecial(_recipient, _dexId, 1);
     }
 
-    function checkTokensDexId(uint256 _dexId, uint256[] _sendDexTokensId) internal{
-        for (uint256 i; i < _sendDexTokenId.length; i++){
+    function checkTokensDexId(uint256 _dexId, uint256[] memory _sendDexTokensId) internal {
+        for (uint256 i; i < _sendDexTokensId.length; i++){
             require(_dexId == mintedMetamonDexId[i], "Not all same dex id");
         }
     } 
 
-    modifier checkTokensDex(uint256 _dexId, uint256[] _sendDexTokenId){
-        checkTokensDexId();
+    modifier checkTokensDex(uint256 _dexId, uint256[] memory  _sendDexTokensId){
+        checkTokensDexId(_dexId, _sendDexTokensId);
         _;
     }
 
     function evalutionMetaBurn(
         address _recipient, 
         uint8 _dexId, 
-        uint256[] _sendDexTokenId, 
+        uint256[] memory _sendDexTokenId, 
         uint256 _quantitySend
-        ) public payable ownerOfMetamon(_recipient, _sendDexTokenId) checkTokensDexId(_dexId, _sendDexTokenId) {
-        // TODO: only burn metamon for evalution
+        ) public payable checkTokensDex(_dexId, _sendDexTokenId) {
+        // TODO: only burn metamon for evalution # ownerOfMetamon(_recipient, _sendDexTokenId) 
 
         uint256 _quantityCondition = burnEvaluation[_dexId];
-        uint256[] _collectedMetamons = ownerCollectedMetamons[_recipient];
+        uint256[] memory _collectedMetamons = ownerCollectedMetamons[_recipient];
         // check number of metamon ownership to check _quantityCondition
         for (uint i; i < _sendDexTokenId.length; i ++){
             _burn(_sendDexTokenId[i]);
