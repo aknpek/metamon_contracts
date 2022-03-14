@@ -4,7 +4,7 @@ ItemContract:
   contractName: "Item"
   contractRealName: "Metamon Item Collection"
   contractSymbol: "NFT"
-  contractAddress: "0x1E6059Ec57aE39D2C73E5C3821a26FAFfD68E016"
+  contractAddress: "0x7cd34087833e5D02243DAF1b8F39Ea81E323109a"
   contractOwnerAddress: "0x9A49a55307ABd7f62E082677dE33C7EF38312c29"
 
   itemBurnable: [1, 0, 0, 0, 0, 0, 0]
@@ -40,7 +40,7 @@ MetamonContract:
   contractName: "Metamon"
   contractRealName: "Metamon NFT Collection"
   contractSymbol: "NFT"
-  contractAddress: "0x22255F268e8038AfB05A55a88Dab87F7c0c5D895"
+  contractAddress: "0x32d8545a552401cda8Fc7De080049ee41c30C412"
   contractOwnerAddress: "0x9A49a55307ABd7f62E082677dE33C7EF38312c29"
   passCode: MADECHANGE
   currentMintPhase : 1
@@ -83,3 +83,12 @@ MetamonContract:
     sendTokenDexIdNonBurnable: 4
     quantitySend: 2
       
+
+  testCase5:
+    passCode: MADECHANGE
+
+    recipient: "0xF4a615744B90900542749eB3e043148899d36Eb7"
+    # mint metamon from phase 1 all dex ids
+    quantityMintMetamon: 2
+    mintDexIds: [1, 4, 7]
+    

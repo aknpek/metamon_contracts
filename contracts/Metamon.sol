@@ -41,14 +41,12 @@ contract Metamon is ERC721 {
     uint8 public currentMintPhase = 1;
     uint8[5] private withLuckyTotem = [99, 98, 97, 96, 95];  // TODO: total count of 100 probabilities 
     uint32[5] private withoutLuckyTotem = [296, 292, 288, 284, 280];  // TODO: total number of 100 probabilities
-    uint256[8] private metamonDex = [1, 2, 3, 4, 7, 10, 11, 13]; // REPR: METAMONT DEX NUMBERS
+    uint256[8] private metamonDex = [1, 2, 3, 4, 5, 6, 7, 10]; // REPR: METAMONT DEX NUMBERS
     uint256[13] private evalutionMintDex = [2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17, 18, 20];
-    uint256[8] private metamonSupply = [1000, 0, 0, 2000, 1000, 3000, 4000, 1000]; // REPR: STARTS FROM TOKEN IDS
+    uint256[8] private metamonSupply = [1000, 0, 0, 2000, 0, 0, 1000, 3000]; // REPR: STARTS FROM TOKEN IDS
     uint256[8] private metamonMinted = [0, 0, 0, 0, 0, 0, 0, 0]; // REPR: STARTS FROM TOKEN IDS
     uint256[8] private metamonMintable = [1, 0, 0, 1, 0, 0, 0, 1]; // REPR: DIRECTLY MINTABLE METAMON DEXIDS
     uint256[8] private metamonFloor = [.05 ether, 0 ether, 0 ether, .025 ether, 0.035 ether, 0.045 ether, 0.055 ether, 0.065 ether];
-
-    
 
     uint256 private _tokenIds;
 
@@ -69,7 +67,7 @@ contract Metamon is ERC721 {
     constructor() payable ERC721("Metamon NFT", "NFT") {
         owner = payable(msg.sender);
 
-        artifactBatches[1] = [1, 4, 7, 20, 86, 133, 10, 13, 84, 16, 19, 96, 128];
+        artifactBatches[1] = [1, 4, 7, 20, 86, 133];
 
         // FILLING INFORMATION OF METAMAN AND EVALUATION
         burnEvaluation[1] = 2;
