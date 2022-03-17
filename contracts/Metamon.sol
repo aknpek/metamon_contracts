@@ -311,7 +311,7 @@ contract Metamon is ERC721 {
             require(msg.value == floorPrice * _quantity, "Not Enough Balance!");
         }
 
-        bool lucky = false;  // _checkLuckyOwnership(_recipient);
+        bool lucky = false;  // TODO: _checkLuckyOwnership(_recipient);
 
         uint256 j = _tokenIds;
         for (uint256 i = 0; i < _quantity; i++) {
