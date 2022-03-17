@@ -24,7 +24,7 @@ contract Metamon is ERC721 {
 
     address payable public owner;
     address _itemContractAddress = 0xd2a5bC10698FD955D1Fe6cb468a17809A08fd005; // TODO: we will hardcode it for now
-    
+
     ItemContract _item = ItemContract(_itemContractAddress);  // TODO: move this declaration outside of this function
 
 
@@ -39,7 +39,7 @@ contract Metamon is ERC721 {
     event MetamonBurn(uint256 _tokenId, uint8 _dexId, address _burner);
 
     uint8 public currentMintPhase = 1;
-    uint8[5] private withLuckyTotem = [99, 98, 97, 96, 95];  // TODO: total count of 100 probabilities 
+    uint8[5] private withLuckyTotem = [99, 98, 97, 96, 95];  // TODO: total count of 100 probabilities
     uint32[5] private withoutLuckyTotem = [296, 292, 288, 284, 280];  // TODO: total number of 100 probabilities
     uint256[8] private metamonDex = [1, 2, 3, 4, 5, 6, 7, 10]; // REPR: METAMONT DEX NUMBERS
     uint256[13] private evalutionMintDex = [2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17, 18, 20];
@@ -51,7 +51,7 @@ contract Metamon is ERC721 {
     uint256 private _tokenIds;
 
     mapping(uint8 => uint256[]) private metamonMintPhases; // REPR: Metamon mint phases by DAX numbers;
-    mapping(uint256 => uint8) private familyMetamon; // REPR: Metamon evalution trees 
+    mapping(uint256 => uint8) private familyMetamon; // REPR: Metamon evalution trees
 
     mapping(uint256 => uint256) private itemEvaluation; // REPR: Which item needed for which metamon evalution
     mapping(uint256 => uint256) private burnEvaluation; // REPR: How many metamon balance needed for evalution for next metamon dex
@@ -127,7 +127,7 @@ contract Metamon is ERC721 {
     {
         return metamonFloor[_dexId - 1];
     }
- 
+
     function getWalletBalance()
         public
         view
@@ -139,12 +139,12 @@ contract Metamon is ERC721 {
 
     function getSupplyDex(uint8 _dexId)
         public
-        view 
+        view
         returns (uint256)
     {
         return metamonSupply[_dexId - 1] - metamonMinted[_dexId - 1];
     }
-    
+
     ///////////////////////////////////////////////////////////////////////////
     // Contract ETH Deals
     ///////////////////////////////////////////////////////////////////////////
@@ -183,7 +183,7 @@ contract Metamon is ERC721 {
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
-        // We will have different baseURIs for Item and Metamon 
+        // We will have different baseURIs for Item and Metamon
         // TODO: move items into different collection
         return baseURI;
     }
@@ -196,7 +196,7 @@ contract Metamon is ERC721 {
         returns (string memory)
     {
         require(_exists(tokenId), "Nonexistent token!");
-        // We can retrieve the information about token id 
+        // We can retrieve the information about token id
         // -> is it Item or Metamon
         // -> what is the dax number
         // -> based on the information that we retrieve we will return base_uri
@@ -227,11 +227,11 @@ contract Metamon is ERC721 {
             // TODO: there should be some randomness based on the probability
             return false;
         }
-        
+
     }
 
     function _checkLuckyOwnership(address _recipient) internal view returns (bool){
-        // TODO: lucky item hardcoded as "2" for this 
+        // TODO: lucky item hardcoded as "2" for this
         uint256 total_ownership = _item.specificItemOwnership(_recipient, 2); // Checks whether Lucky Totem has been owned/or not
         if (total_ownership == 0){
             return false;
@@ -260,6 +260,7 @@ contract Metamon is ERC721 {
                 return true;
             }
         }
+        return false;
     }
 
     modifier mintableDexPhase(uint8 _dexId) {
@@ -279,7 +280,7 @@ contract Metamon is ERC721 {
 
     function mintSpecial(
         address _recipient,
-        uint8 _dexId, 
+        uint8 _dexId,
         uint256 _quantity
     ) internal {
         bool lucky = _checkLuckyOwnership(_recipient);
@@ -289,17 +290,18 @@ contract Metamon is ERC721 {
             _mint(_recipient, j);
             metamonInfoPersonality[j] = _mockupRandomPersonality();
             metamonInfoShiny[j] = _mockupRandomShiny(i, lucky);
-            metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;
+
             mintedMetamonDexId[j] = _dexId;
             ownerCollectedMetamons[_recipient].push(j);
             emit MetamonMint(j, _recipient);
         }
+         metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + _quantity;
         _tokenIds = j;
     }
 
     function mintSale(
             string memory _passCode,
-            address _recipient, 
+            address _recipient,
             uint256 _quantity,
             uint8 _dexId // TODO: talk to Nick about the RNG of the dexID
         ) external payable mintableDexPhase(_dexId) mintableSupply(_dexId, _quantity) {
@@ -308,21 +310,20 @@ contract Metamon is ERC721 {
         if (msg.sender != owner) {
             require(msg.value == floorPrice * _quantity, "Not Enough Balance!");
         }
-        
-        bool lucky = _checkLuckyOwnership(_recipient);
 
-        
+        bool lucky = false;  // _checkLuckyOwnership(_recipient);
+
         uint256 j = _tokenIds;
         for (uint256 i = 0; i < _quantity; i++) {
             j++;
             _mint(_recipient, j);
             metamonInfoPersonality[j] = _mockupRandomPersonality();
             metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);
-            metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + 1;
             mintedMetamonDexId[j] = _dexId;
             ownerCollectedMetamons[_recipient].push(j);
             emit MetamonMint(j, _recipient);
         }
+        metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + _quantity;
         _tokenIds = j;
     }
 
@@ -339,9 +340,9 @@ contract Metamon is ERC721 {
     }
 
     function mintArtifact(address _recipient, uint8 _targetArtifact) external artifactCollectibe() {
-        
 
-    } 
+
+    }
 
     function specificDexIdOwned(address _recipient, uint8 _dexId) internal returns(uint256[] memory) {
         // Return owned dexId's tokenIds
@@ -377,7 +378,7 @@ contract Metamon is ERC721 {
         for (uint256 i; i < _sendDexTokensId.length; i++){
             require(_dexId == mintedMetamonDexId[i], "Not all same dex id");
         }
-    } 
+    }
 
     modifier checkTokensDex(uint256 _dexId, uint256[] memory  _sendDexTokensId){
         checkTokensDexId(_dexId, _sendDexTokensId);
@@ -385,12 +386,12 @@ contract Metamon is ERC721 {
     }
 
     function evalutionMetaBurn(
-        address _recipient, 
-        uint8 _dexId, 
-        uint256[] memory _sendDexTokenId, 
+        address _recipient,
+        uint8 _dexId,
+        uint256[] memory _sendDexTokenId,
         uint256 _quantitySend
         ) public payable checkTokensDex(_dexId, _sendDexTokenId) {
-        // TODO: only burn metamon for evalution # ownerOfMetamon(_recipient, _sendDexTokenId) 
+        // TODO: only burn metamon for evalution # ownerOfMetamon(_recipient, _sendDexTokenId)
 
         uint256 _quantityCondition = burnEvaluation[_dexId];
         uint256[] memory _collectedMetamons = ownerCollectedMetamons[_recipient];
@@ -398,14 +399,14 @@ contract Metamon is ERC721 {
         for (uint i; i < _sendDexTokenId.length; i ++){
             _burn(_sendDexTokenId[i]);
         }
-        uint8 dexId = familyMetamon[_dexId]; 
-        mintSpecial(_recipient, dexId, 1);      
+        uint8 dexId = familyMetamon[_dexId];
+        mintSpecial(_recipient, dexId, 1);
     }
 
 
     ///////////////////////////////////////////////////////////////////////////
     // Item Contract Calls
-    ///////////////////////////////////////////////////////////////////////////    
+    ///////////////////////////////////////////////////////////////////////////
     function checkItemOwnership(
         address _owner
     ) public view returns(uint256){
@@ -417,6 +418,6 @@ contract Metamon is ERC721 {
         address _reciever,
         uint256 _sendItemTokenId
     ) public payable {
-        _item.burn(_reciever, _sendItemTokenId); 
+        _item.burn(_reciever, _sendItemTokenId);
     }
 }

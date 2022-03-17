@@ -64,63 +64,19 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "_tokenId",
-						"type": "uint256"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint8",
-						"name": "_dexId",
-						"type": "uint8"
-					},
-					{
-						"indexed": false,
+						"indexed": true,
 						"internalType": "address",
-						"name": "_burner",
-						"type": "address"
-					}
-				],
-				"name": "MetamonBurn",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "_tokenId",
-						"type": "uint256"
-					},
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "_reciever",
-						"type": "address"
-					}
-				],
-				"name": "MetamonMint",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "_reciever",
+						"name": "previousOwner",
 						"type": "address"
 					},
 					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "_value",
-						"type": "uint256"
+						"indexed": true,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
 					}
 				],
-				"name": "ReceivedEth",
+				"name": "OwnershipTransferred",
 				"type": "event"
 			},
 			{
@@ -149,10 +105,6 @@
 				"type": "event"
 			},
 			{
-				"stateMutability": "payable",
-				"type": "fallback"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -166,43 +118,6 @@
 					}
 				],
 				"name": "approve",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint8",
-						"name": "",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "artifactBatches",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "bool",
-						"name": "_collect",
-						"type": "bool"
-					}
-				],
-				"name": "artifactCollectTime",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -229,156 +144,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "_reciever",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_sendItemTokenId",
-						"type": "uint256"
-					}
-				],
-				"name": "burnItem",
-				"outputs": [],
-				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_new_price",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint8",
-						"name": "_dexId",
-						"type": "uint8"
-					}
-				],
-				"name": "changeFloorPrice",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_new_supply",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint8",
-						"name": "_dexId",
-						"type": "uint8"
-					}
-				],
-				"name": "changeSupplyDexId",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_owner",
-						"type": "address"
-					}
-				],
-				"name": "checkItemOwnership",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "collectArtifact",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "currentMintPhase",
-				"outputs": [
-					{
-						"internalType": "uint8",
-						"name": "",
-						"type": "uint8"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_recipient",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_sendItemTokenId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_sendDexTokenId",
-						"type": "uint256"
-					}
-				],
-				"name": "evalutionItemBurn",
-				"outputs": [],
-				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_recipient",
-						"type": "address"
-					},
-					{
-						"internalType": "uint8",
-						"name": "_dexId",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint256[]",
-						"name": "_sendDexTokenId",
-						"type": "uint256[]"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_quantitySend",
-						"type": "uint256"
-					}
-				],
-				"name": "evalutionMetaBurn",
-				"outputs": [],
-				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "uint256",
 						"name": "tokenId",
 						"type": "uint256"
@@ -390,70 +155,6 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getBaseURI",
-				"outputs": [
-					{
-						"internalType": "string",
-						"name": "",
-						"type": "string"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint8",
-						"name": "_dexId",
-						"type": "uint8"
-					}
-				],
-				"name": "getFloorPrice",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint8",
-						"name": "_dexId",
-						"type": "uint8"
-					}
-				],
-				"name": "getSupplyDex",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getWalletBalance",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -486,142 +187,19 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "metamonInfoPersonality",
-				"outputs": [
-					{
-						"internalType": "uint8",
-						"name": "",
-						"type": "uint8"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "metamonInfoShiny",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "address",
-						"name": "_recipient",
-						"type": "address"
-					},
-					{
-						"internalType": "uint8",
-						"name": "_targetArtifact",
-						"type": "uint8"
-					}
-				],
-				"name": "mintArtifact",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "string",
-						"name": "_passCode",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "_recipient",
+						"name": "recipient",
 						"type": "address"
 					},
 					{
 						"internalType": "uint256",
-						"name": "_quantity",
+						"name": "quantity",
 						"type": "uint256"
-					},
-					{
-						"internalType": "uint8",
-						"name": "_dexId",
-						"type": "uint8"
 					}
 				],
-				"name": "mintSale",
+				"name": "mintPublic",
 				"outputs": [],
 				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint8",
-						"name": "_dexId",
-						"type": "uint8"
-					}
-				],
-				"name": "mintableDex",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint8",
-						"name": "_dexId",
-						"type": "uint8"
-					}
-				],
-				"name": "mintableSpecial",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "mintedMetamonDexId",
-				"outputs": [
-					{
-						"internalType": "uint8",
-						"name": "",
-						"type": "uint8"
-					}
-				],
-				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -642,7 +220,7 @@
 				"name": "owner",
 				"outputs": [
 					{
-						"internalType": "address payable",
+						"internalType": "address",
 						"name": "",
 						"type": "address"
 					}
@@ -667,6 +245,13 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "renounceOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -741,19 +326,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "string",
-						"name": "_baseURILink",
-						"type": "string"
-					}
-				],
-				"name": "setBaseURI",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "bytes4",
 						"name": "interfaceId",
 						"type": "bytes4"
@@ -805,30 +377,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address payable",
-						"name": "_recipient",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_amount",
-						"type": "uint256"
-					}
-				],
-				"name": "transferContractBalance",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "address",
 						"name": "from",
 						"type": "address"
@@ -850,8 +398,17 @@
 				"type": "function"
 			},
 			{
-				"stateMutability": "payable",
-				"type": "receive"
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -872,8 +429,14 @@
 				"name()": {
 					"details": "See {IERC721Metadata-name}."
 				},
+				"owner()": {
+					"details": "Returns the address of the current owner."
+				},
 				"ownerOf(uint256)": {
 					"details": "See {IERC721-ownerOf}."
+				},
+				"renounceOwnership()": {
+					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
 				},
 				"safeTransferFrom(address,address,uint256)": {
 					"details": "See {IERC721-safeTransferFrom}."
@@ -895,6 +458,9 @@
 				},
 				"transferFrom(address,address,uint256)": {
 					"details": "See {IERC721-transferFrom}."
+				},
+				"transferOwnership(address)": {
+					"details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
 				}
 			},
 			"version": 1
@@ -907,7 +473,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"Documents/metamon_contracts/contracts/Metamon.sol": "Metamon"
+			"Documents/metamon_contracts/contracts/Example.sol": "Example"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -921,6 +487,14 @@
 		"remappings": []
 	},
 	"sources": {
+		"@openzeppelin/contracts/access/Ownable.sol": {
+			"keccak256": "0x24e0364e503a9bbde94c715d26573a76f14cd2a202d45f96f52134ab806b67b9",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e12cbaa7378fd9b62280e4e1d164bedcb4399ce238f5f98fc0eefb7e50577981",
+				"dweb:/ipfs/QmXRoFGUgfsaRkoPT5bxNMtSayKTQ8GZATLPXf69HcRA51"
+			]
+		},
 		"@openzeppelin/contracts/token/ERC721/ERC721.sol": {
 			"keccak256": "0x11b84bb56dc112a6590bfe3e0efa118aa1b5891132342200d04c4ef544cb93de",
 			"license": "MIT",
@@ -993,12 +567,12 @@
 				"dweb:/ipfs/QmP7C3CHdY9urF4dEMb9wmsp1wMxHF6nhA2yQE5SKiPAdy"
 			]
 		},
-		"Documents/metamon_contracts/contracts/Metamon.sol": {
-			"keccak256": "0xbe92fd376c5a4d07939f369b560270107cc792ce25dc5350811774f2b8097551",
+		"Documents/metamon_contracts/contracts/Example.sol": {
+			"keccak256": "0xadcafe35cefb5e7e21af69956b562d89d691a1b636cc67887d8c934fb67fb835",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a0cf7540d6d43105777a7efc4e40f7c57c750042b9510eb19e042bb403792367",
-				"dweb:/ipfs/QmZvP1y7QrSUonmevZ5fBgywavofpxrFDvGrXNVcxawuvy"
+				"bzz-raw://63068090012c82f07ff0884c51d745650441bdd47347c51afd576790de5bfa68",
+				"dweb:/ipfs/QmUKA1btJSTZdQS14rGdcHmKhxBsk7HSD4QzFwQi1abfAh"
 			]
 		}
 	},

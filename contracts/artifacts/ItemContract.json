@@ -31,6 +31,7 @@
 	},
 	"data": {
 		"bytecode": {
+			"functionDebugData": {},
 			"generatedSources": [],
 			"linkReferences": {},
 			"object": "",
@@ -38,6 +39,7 @@
 			"sourceMap": ""
 		},
 		"deployedBytecode": {
+			"functionDebugData": {},
 			"generatedSources": [],
 			"immutableReferences": {},
 			"linkReferences": {},
@@ -47,12 +49,32 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
+			"balanceOf(address)": "70a08231",
 			"burn(address,uint256)": "9dc29fac",
 			"getFloorPrice(uint8)": "486fc6d3",
 			"specificItemOwnership(address,uint8)": "0cb98b71"
 		}
 	},
 	"abi": [
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_owner",
+					"type": "address"
+				}
+			],
+			"name": "balanceOf",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
 		{
 			"inputs": [
 				{
@@ -68,7 +90,7 @@
 			],
 			"name": "burn",
 			"outputs": [],
-			"stateMutability": "view",
+			"stateMutability": "payable",
 			"type": "function"
 		},
 		{
