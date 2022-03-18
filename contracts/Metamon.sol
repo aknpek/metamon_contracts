@@ -67,7 +67,7 @@ contract Metamon is ERC721 {
     constructor() payable ERC721("Metamon NFT", "NFT") {
         owner = payable(msg.sender);
 
-        artifactBatches[1] = [1, 4, 7, 20, 86, 133];
+        artifactBatches[1] = [1, 4, 7, 20, 86, 133];  // TODO: we can use metmaon Mint phases, it can be removed
 
         // FILLING INFORMATION OF METAMAN AND EVALUATION
         burnEvaluation[1] = 2;
@@ -317,13 +317,13 @@ contract Metamon is ERC721 {
         for (uint256 i = 0; i < _quantity; i++) {
             j++;
             _mint(_recipient, j);
-            metamonInfoPersonality[j] = _mockupRandomPersonality();
-            metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);
+            // metamonInfoPersonality[j] = _mockupRandomPersonality();  // TODO: change with VRF
+            // metamonInfoShiny[j]= _mockupRandomShiny(i, lucky);  // TODO: change with VRF
             mintedMetamonDexId[j] = _dexId;
             ownerCollectedMetamons[_recipient].push(j);
             emit MetamonMint(j, _recipient);
         }
-        metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + _quantity;
+       metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + _quantity;
         _tokenIds = j;
     }
 

@@ -53,8 +53,8 @@ contract("Metamon", () => {
             quantity_mint_metamon,
             mint_dex_id
         );
-//        const howManyMetamonMinted = await metamonContract.balanceOf(recipient, {from: recipient});
-//        assert(howManyMetamonMinted.toNumber() == quantity_mint_metamon);
+        const howManyMetamonMinted = await metamonContract.balanceOf(recipient, {from: recipient});
+        assert(howManyMetamonMinted.toNumber() == quantity_mint_metamon);
     });
 
     it("Check first evalution meta burn non-burnable logic", async() => {

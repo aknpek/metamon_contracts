@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.7+commit.e28d00a7"
+		"version": "0.8.2+commit.661d1103"
 	},
 	"language": "Solidity",
 	"output": {
@@ -909,7 +909,7 @@
 		"compilationTarget": {
 			"Documents/metamon_contracts/contracts/Metamon.sol": "Metamon"
 		},
-		"evmVersion": "london",
+		"evmVersion": "istanbul",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -994,11 +994,11 @@
 			]
 		},
 		"Documents/metamon_contracts/contracts/Metamon.sol": {
-			"keccak256": "0xbe92fd376c5a4d07939f369b560270107cc792ce25dc5350811774f2b8097551",
+			"keccak256": "0x57ea7b9b7f59f6c6e1276666189e919ead42eb04aae8e1f27749b53e4c165812",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a0cf7540d6d43105777a7efc4e40f7c57c750042b9510eb19e042bb403792367",
-				"dweb:/ipfs/QmZvP1y7QrSUonmevZ5fBgywavofpxrFDvGrXNVcxawuvy"
+				"bzz-raw://e16f13c64aee53847a0ff92e48cbfcd8a76cee70e9312976f956451263c1e4ab",
+				"dweb:/ipfs/QmVhf8HmrEFjs5DrUtdP4ZNbbHxmzTyQd3oeyy7xKvepe4"
 			]
 		}
 	},

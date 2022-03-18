@@ -29,6 +29,7 @@ contract("Metamon", () => {
         let numberOfMinted = 0
 
         for(i = 0; i < mint_dex_ids.length; i++) {
+            console.log(i, ' How many have been minted?')
             await metamonContract.mintSale(
                 pass_code,
                 recipient,
@@ -48,4 +49,5 @@ contract("Metamon", () => {
     it("Check artifact mint logic", async() => {
 
     });
+
 })
