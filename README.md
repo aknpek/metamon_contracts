@@ -32,3 +32,13 @@ truffle test
 ```
 
 
+# VRF Explanation
+
+1.) We have an example contract **VRF_Example.sol**
+2.) Add **LINK** balance to your wallet from faucets at https://faucets.chain.link/rinkeby
+3.) We need to create a subscription at https://vrf.chain.link/rinkeby/ for *rinkeby
+4.) Add **LINK** amount to created subscription
+5.) Add *SubscriptionID into contract (either within deployment or have a dedicated *function)
+6.) Add deployed **Contract Address** to **subscription** in Chainlink
+7.) Send a request to deployed contract to trigger VRF function
+
