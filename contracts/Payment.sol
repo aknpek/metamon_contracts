@@ -2,7 +2,7 @@
 pragma solidity ^0.8.2;
 
 struct withdrawers {
-    uint256 mintableAmount;
+    uint256 payableAmount;
     uint256 percantage;
     bool isExist;
 }
@@ -14,7 +14,18 @@ contract Payment {
 
     address public owner;
 
+    /*
+    allPhaseTypes = [1, 2, 3, 4, 5];
+
+        1: Item Presale
+        2: Metamon Mint
+        3: Item Metamon Secondary Sales
+        4: Trainers
+        5: Concept Art
+    */
+
     mapping(address => mapping(address => withdrawers)) private phaseTypes;
+    mapping(address => address[]) private phaseOwners;
     mapping(address => uint256) private lockedAmountPerPhase;
 
     event ReceivedEth(address sender, uint256 value);
@@ -35,6 +46,20 @@ contract Payment {
         emit ReceivedEth(msg.sender, msg.value);
     }
 
+    function receiveAmountDistribute(address phaseType) public payable {
+        // TODO: check if phase exist
+        lockedAmountPerPhase[phaseType] += msg.value;
+
+        address[] memory _phaseOwners = phaseOwners[phaseType];
+        for (uint256 i = 0; i < _phaseOwners.length; i++) {
+            uint256 _percantage = phaseTypes[phaseType][_phaseOwners[i]]
+                .percantage;
+            phaseTypes[phaseType][_phaseOwners[i]].payableAmount +=
+                msg.value *
+                (_percantage / 100);
+        }
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Modifiers
     ///////////////////////////////////////////////////////////////////////////
@@ -43,11 +68,18 @@ contract Payment {
         _;
     }
 
+    modifier withdrawerCheck(uint256 phaseType, address withdrawer) {
+        require(
+            phaseTypes[phaseType][withdrawer].isExist == true,
+            "Not exist withdrawer!"
+        );
+    }
+
     function addWithdrawer(
         address phaseType,
         address withdrawer,
         uint256 percantage
-    ) public onlyOwner(msg.sender) returns (bool) {
+    ) public onlyOwner(msg.sender) withdrawerCheck(phaseType, withdrawer) {
         /*Adding withdrawer addresses into specific phase types with percantage
 
         Args: 
@@ -58,29 +90,48 @@ contract Payment {
         Returns:
             bool: if success true else false
         */
-        require(
-            phaseTypes[phaseType][withdrawer].isExist == true,
-            "Not exist withdrawer!"
-        );
+        phaseOwners[phaseType].push(withdrawer);
 
         phaseTypes[phaseType][withdrawer].isExist = true;
         phaseTypes[phaseType][withdrawer].percantage = percantage;
         phaseTypes[phaseType][withdrawer].mintableAmount = 0;
     }
 
+    function removeWithdrawer(uint256 phaseType, address withdrawer)
+        public
+        onlyOwner(msg.sender)
+        withdrawerCheck(phaseType, withdrawer)
+    {
+        require(
+            phaseTypes[phaseType][withdrawer].isExist == true,
+            "Not exists withdrawer!"
+        );
+        delete phaseOwners[phaseType];
+        delete phaseTypes[phaseType][withdrawer];
+    }
+
     function Withdraw(
         address phaseType,
-        address withdrawer,
+        address payable withdrawer,
         uint256 amount
-    ) public returns (bool) {
+    ) public {
+        require(msg.sender == withdrawer, "Not withdrawer!"); // validate user itself
+
         require(
             phaseTypes[phaseType][withdrawer].isExist == true,
             "Not exist withdrawer!"
-        );
+        ); // validate user
 
         require(
             phaseTypes[phaseType][withdrawer].mintableAmount <= amount,
             "Not enough amount!"
-        );
+        ); // validate amount
+
+        withdrawer.transfer(amount);
+    }
+
+    function ownerWithdraw(uint256 amount) public onlyOwner(msg.sender) {
+        require(amount <= address(this).balance, "Too much asked!");
+        msg.sender.transfer(amount);
     }
 }
