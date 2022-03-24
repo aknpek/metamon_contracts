@@ -68,11 +68,12 @@ contract Payment {
         _;
     }
 
-    modifier withdrawerCheck(uint256 phaseType, address withdrawer) {
+    modifier withdrawerCheck(address phaseType, address withdrawer) {
         require(
             phaseTypes[phaseType][withdrawer].isExist == true,
             "Not exist withdrawer!"
         );
+        _;
     }
 
     function addWithdrawer(
@@ -94,10 +95,10 @@ contract Payment {
 
         phaseTypes[phaseType][withdrawer].isExist = true;
         phaseTypes[phaseType][withdrawer].percantage = percantage;
-        phaseTypes[phaseType][withdrawer].mintableAmount = 0;
+        phaseTypes[phaseType][withdrawer].payableAmount = 0;
     }
 
-    function removeWithdrawer(uint256 phaseType, address withdrawer)
+    function removeWithdrawer(address phaseType, address withdrawer)
         public
         onlyOwner(msg.sender)
         withdrawerCheck(phaseType, withdrawer)
@@ -123,15 +124,18 @@ contract Payment {
         ); // validate user
 
         require(
-            phaseTypes[phaseType][withdrawer].mintableAmount <= amount,
+            phaseTypes[phaseType][withdrawer].payableAmount <= amount,
             "Not enough amount!"
         ); // validate amount
 
         withdrawer.transfer(amount);
     }
 
-    function ownerWithdraw(uint256 amount) public onlyOwner(msg.sender) {
+    function ownerWithdraw(address payable receiver, uint256 amount)
+        public
+        onlyOwner(msg.sender)
+    {
         require(amount <= address(this).balance, "Too much asked!");
-        msg.sender.transfer(amount);
+        receiver.transfer(amount);
     }
 }
