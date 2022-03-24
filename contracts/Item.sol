@@ -47,6 +47,9 @@ contract Item is ERC721 {
         owner = payable(msg.sender);
     }
 
+
+    # TODO: add withdraw function
+
     fallback() external payable {}
 
     receive() external payable {
