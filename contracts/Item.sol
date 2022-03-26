@@ -8,7 +8,7 @@ contract Item is ERC721 {
 
     address payable public owner;
 
-    uint256[7] public itemBurnable = [1, 0, 0, 0, 0, 0, 0];
+    uint8[7] public itemBurnable = [1, 0, 0, 0, 0, 0, 0];
     uint8[7] public itemTypes = [1, 2, 3, 4, 5, 6, 7];
     uint8[7] public maxOwnable = [10, 1, 1, 1, 1, 1, 1];
     uint32[7] public itemSupplies = [2500, 2500, 1000, 1000, 1000, 1000, 1000];
@@ -47,8 +47,7 @@ contract Item is ERC721 {
         owner = payable(msg.sender);
     }
 
-
-    # TODO: add withdraw function
+    // TODO: add withdraw function
 
     fallback() external payable {}
 
@@ -182,7 +181,10 @@ contract Item is ERC721 {
 
         uint256 _totalOwned = specificItemOwnership(_recipient, _itemType);
         uint256 _maxOwnable = maxOwnable[_itemType - 1];
-        require(_totalOwned <= _maxOwnable, "Max ownable quantity reached!");
+        require(
+            _totalOwned + _quantity <= _maxOwnable,
+            "Max ownable quantity reached!"
+        );
 
         uint256 _itemFloor = getFloorPrice(_itemType);
 
@@ -245,5 +247,4 @@ contract Item is ERC721 {
                 ? string(abi.encodePacked(baseURI, tokenId.toString(), ".json"))
                 : "";
     }
-
 }
