@@ -72,8 +72,8 @@ contract("Item", () => {
 
   it("Check Adding Multiple Contract Caller to Whitelist", async () => {
 
-    var complexMintPhaseAddresses = [];
-    var complexMintPhaseAddressesWhitelisted = [];
+    let complexMintPhaseAddresses = [];
+    let complexMintPhaseAddressesWhitelisted = [];
     for(i = 0; i < complex_mint_phase.length; i++){
       complexMintPhaseAddresses.push(complex_mint_phase[i].recipient);
     }
