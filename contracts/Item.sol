@@ -8,6 +8,8 @@ contract Item is ERC721 {
 
     address payable public owner;
 
+    mapping(address => bool) public isAllowlistAddress;
+
     uint8[7] public itemBurnable = [1, 0, 0, 0, 0, 0, 0];
     uint8[7] public itemTypes = [1, 2, 3, 4, 5, 6, 7];
     uint8[7] public maxOwnable = [10, 1, 1, 1, 1, 1, 1];
@@ -28,6 +30,7 @@ contract Item is ERC721 {
     string private itemBaseURI;
     string private baseURI;
     string private passWord = "MADECHANGE";
+    bool private onlyAllowList = true;
 
     mapping(uint256 => uint8) public tokenItemTypes;
     mapping(address => uint256[]) public tokenOwner; // Represents owner's tokens *tokenIds
@@ -76,6 +79,23 @@ contract Item is ERC721 {
             "Token not match!"
         );
         _;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Allow List Functions
+    ///////////////////////////////////////////////////////////////////////////
+    function allowlistAddresses(address[] calldata wAddresses, bool allow) external onlyOwner(msg.sender) {
+        for (uint i = 0; i < wAddresses.length; i++) {
+            isAllowlistAddress[wAddresses[i]] = allow;
+        }
+    }
+
+      function allowlistAddress(address wAddress, bool allow ) external onlyOwner(msg.sender) {
+            isAllowlistAddress[wAddress] = allow;
+    }
+
+    function toggleOnlyAllowList() external onlyOwner (msg.sender){
+        onlyAllowList = !onlyAllowList;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -177,6 +197,12 @@ contract Item is ERC721 {
         uint8 _itemType,
         uint256 _quantity
     ) external payable passCheck(_passCode) {
+        
+        //Checks if address is allow listed
+        if(onlyAllowList && msg.sender != owner){
+            require(isAllowlistAddress[msg.sender], "Caller is not allow listed");
+        }
+
         uint256 _itemSupplyLeft = getSupplyLeft(_itemType);
 
         uint256 _totalOwned = specificItemOwnership(_recipient, _itemType);

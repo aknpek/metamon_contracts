@@ -18,7 +18,7 @@ contract("Item", () => {
     contractOwner = await deployedContract.owner.call();
   });
 
-  it("Check Mint as Other Conract", async () => {
+  it("Check Mint as Owner", async () => {
     await deployedContract.mintSale(
       pass_code,
       first_mint_phase["recipient"],
@@ -31,7 +31,7 @@ contract("Item", () => {
     assert(balance.toNumber() === first_mint_phase["mintQuantity"]);
   });
 
-  it("Check Mint as Owner", async () => {
+  it("Check Mint as Other Contract Not Whitelisted", async () => {
     let total_minted = first_mint_phase["mintQuantity"]; // We are still in the same state, therefore, we need to consider the first test function
 
     for (i = 0; i < complex_mint_phase.length; i++) {
@@ -56,6 +56,47 @@ contract("Item", () => {
     );
     assert(balance.toNumber() === total_minted);
   });
+
+  it("Check Adding Contract Caller to Whitelist", async () => {
+    await deployedContract.allowlistAddress(first_mint_phase["recipient"], true);
+
+    let promise = deployedContract.isAllowlistAddress(first_mint_phase["recipient"]);
+    let whitelisted = false;
+    Promise.resolve(promise).then(function(value) {
+      whitelisted = value;
+
+      assert(whitelisted === true);
+    });
+  
+  })
+
+  it("Check Mint as Contract Whitelisted", async () => {
+    let total_minted = first_mint_phase["mintQuantity"]; // We are still in the same state, therefore, we need to consider the first test function
+
+    for (i = 0; i < complex_mint_phase.length; i++) {
+      let _floor = item_floors[complex_mint_phase[i]["itemType"] - 1];
+      let _send_eth = _floor * complex_mint_phase[i]["mintQuantity"];
+
+      await deployedContract.mintSale(
+        pass_code,
+        complex_mint_phase[i]["recipient"],
+        complex_mint_phase[i]["itemType"],
+        complex_mint_phase[i]["mintQuantity"],
+        {
+          from: complex_mint_phase[i]["recipient"],
+          value: Web3.utils.toWei(`${_send_eth}`, "ether"),
+        }
+      );
+      total_minted += complex_mint_phase[i]["mintQuantity"];
+    }
+
+    const balance = await deployedContract.balanceOf(
+      complex_mint_phase[1]["recipient"]
+    );
+    assert(balance.toNumber() === total_minted);
+  });
+
+
 
   it("Check Minted Item Types Balances (*should be decreased already)", async () => {
     let item_type = 1;
@@ -94,7 +135,7 @@ contract("Item", () => {
     }
   });
 
-  it("Check Burning Operation for Buranble Token", async () => {
+  it("Check Burning Operation for Burnable Token", async () => {
     const tokenId = 1; // Since in the testCases yml, we first mint tokenType 1 tokens, therefore, they are burnable
 
     const before_burn_balance = await deployedContract.balanceOf(
