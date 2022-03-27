@@ -2,11 +2,13 @@
 pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Item is ERC721 {
+contract Item is ERC721, Ownable, ReentrancyGuard {
     using Strings for uint256;
 
-    address payable public owner;
+    address payable public paymentContractAddress;
 
     mapping(address => bool) public isAllowlistAddress;
 
@@ -46,11 +48,7 @@ contract Item is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     // Cons
     ///////////////////////////////////////////////////////////////////////////
-    constructor() payable ERC721("Metamon Item Collection", "NFT") {
-        owner = payable(msg.sender);
-    }
-
-    // TODO: add withdraw function
+    constructor() payable ERC721("Metamon Item Collection", "NFT") {}
 
     fallback() external payable {}
 
@@ -61,11 +59,6 @@ contract Item is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     // Pre-Function Conditions
     ///////////////////////////////////////////////////////////////////////////
-    modifier onlyOwner(address _sender) {
-        require(_sender == owner, "Not a owner call!");
-        _;
-    }
-
     modifier itemType(uint256 _itemType) {
         require(1 <= _itemType && _itemType <= 7, "Item Type out of scope!");
         _;
@@ -84,17 +77,20 @@ contract Item is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     // Allow List Functions
     ///////////////////////////////////////////////////////////////////////////
-    function allowlistAddresses(address[] calldata wAddresses, bool allow) external onlyOwner(msg.sender) {
-        for (uint i = 0; i < wAddresses.length; i++) {
+    function allowlistAddresses(address[] calldata wAddresses, bool allow)
+        external
+        onlyOwner
+    {
+        for (uint256 i = 0; i < wAddresses.length; i++) {
             isAllowlistAddress[wAddresses[i]] = allow;
         }
     }
 
-      function allowlistAddress(address wAddress, bool allow ) external onlyOwner(msg.sender) {
-            isAllowlistAddress[wAddress] = allow;
+    function allowlistAddress(address wAddress, bool allow) external onlyOwner {
+        isAllowlistAddress[wAddress] = allow;
     }
 
-    function toggleOnlyAllowList() external onlyOwner (msg.sender){
+    function toggleOnlyAllowList() external onlyOwner {
         onlyAllowList = !onlyAllowList;
     }
 
@@ -103,7 +99,7 @@ contract Item is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     function changeFloorPrice(uint256 _new_price, uint8 _itemType)
         external
-        onlyOwner(msg.sender)
+        onlyOwner
         itemType(_itemType)
     {
         itemFloor[_itemType - 1] = _new_price;
@@ -157,12 +153,19 @@ contract Item is ERC721 {
         return itemTypes.length;
     }
 
+    function setPayableAddress(address payable _paymentContractAddress)
+        external
+        onlyOwner
+    {
+        paymentContractAddress = _paymentContractAddress;
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Burn Tokens
     ///////////////////////////////////////////////////////////////////////////
     function _deleteOwnerToken(address _burner, uint256 _tokenId)
         internal
-        onlyOwner(msg.sender) // TODO: remove onlyOwner
+        onlyOwner
         returns (bool)
     {
         // TODO: redundant function, change it with ownerOf() -> when the item will be burned it will be automatically removed
@@ -176,6 +179,7 @@ contract Item is ERC721 {
         return false;
     }
 
+    // TODO: Only tokens owned by the holder can be burned by the holder
     function burn(address _burner, uint256 _tokenId) public {
         uint8 _tokenType = tokenItemTypes[_tokenId];
         require(itemBurnable[_tokenType - 1] == 1, "Item not burnable!");
@@ -196,11 +200,13 @@ contract Item is ERC721 {
         address _recipient,
         uint8 _itemType,
         uint256 _quantity
-    ) external payable passCheck(_passCode) {
-        
+    ) external payable passCheck(_passCode) nonReentrant {
         //Checks if address is allow listed
-        if(onlyAllowList && msg.sender != owner){
-            require(isAllowlistAddress[msg.sender], "Caller is not allow listed");
+        if (onlyAllowList && msg.sender != owner()) {
+            require(
+                isAllowlistAddress[msg.sender],
+                "Caller is not allow listed"
+            );
         }
 
         uint256 _itemSupplyLeft = getSupplyLeft(_itemType);
@@ -215,7 +221,7 @@ contract Item is ERC721 {
         uint256 _itemFloor = getFloorPrice(_itemType);
 
         uint256 _maxMintable = mintableLeft(_quantity, _itemSupplyLeft);
-        if (msg.sender != owner) {
+        if (msg.sender != owner()) {
             require(
                 _maxMintable * _itemFloor <= msg.value,
                 "Not exact coin send!"
@@ -239,19 +245,11 @@ contract Item is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     // Backend URIs
     ///////////////////////////////////////////////////////////////////////////
-    function setBaseURI(string memory _baseURILink)
-        external
-        onlyOwner(msg.sender)
-    {
+    function setBaseURI(string memory _baseURILink) external onlyOwner {
         baseURI = _baseURILink;
     }
 
-    function getBaseURI()
-        external
-        view
-        onlyOwner(msg.sender)
-        returns (string memory)
-    {
+    function getBaseURI() external view onlyOwner returns (string memory) {
         return baseURI;
     }
 
@@ -272,5 +270,15 @@ contract Item is ERC721 {
             bytes(baseURI).length > 0
                 ? string(abi.encodePacked(baseURI, tokenId.toString(), ".json"))
                 : "";
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Withdraw
+    ///////////////////////////////////////////////////////////////////////////
+    function withdraw() external onlyOwner nonReentrant {
+        (bool success, ) = paymentContractAddress.call{
+            value: address(this).balance
+        }("");
+        require(success, "Transfer failed.");
     }
 }

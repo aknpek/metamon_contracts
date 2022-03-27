@@ -33,65 +33,78 @@ contract("Item", () => {
 
   it("Check Mint as Other Contract Not Whitelisted", async () => {
     let total_minted = first_mint_phase["mintQuantity"]; // We are still in the same state, therefore, we need to consider the first test function
+    try {
+      for (i = 0; i < complex_mint_phase.length; i++) {
+        let _floor = item_floors[complex_mint_phase[i]["itemType"] - 1];
+        let _send_eth = _floor * complex_mint_phase[i]["mintQuantity"];
 
-    for (i = 0; i < complex_mint_phase.length; i++) {
-      let _floor = item_floors[complex_mint_phase[i]["itemType"] - 1];
-      let _send_eth = _floor * complex_mint_phase[i]["mintQuantity"];
+        await deployedContract.mintSale(
+          pass_code,
+          complex_mint_phase[i]["recipient"],
+          complex_mint_phase[i]["itemType"],
+          complex_mint_phase[i]["mintQuantity"],
+          {
+            from: complex_mint_phase[i]["recipient"],
+            value: Web3.utils.toWei(`${_send_eth}`, "ether"),
+          }
+        );
+        total_minted += complex_mint_phase[i]["mintQuantity"];
+      }
 
-      await deployedContract.mintSale(
-        pass_code,
-        complex_mint_phase[i]["recipient"],
-        complex_mint_phase[i]["itemType"],
-        complex_mint_phase[i]["mintQuantity"],
-        {
-          from: complex_mint_phase[i]["recipient"],
-          value: Web3.utils.toWei(`${_send_eth}`, "ether"),
-        }
+      const balance = await deployedContract.balanceOf(
+        complex_mint_phase[1]["recipient"]
       );
-      total_minted += complex_mint_phase[i]["mintQuantity"];
-    }
 
-    const balance = await deployedContract.balanceOf(
-      complex_mint_phase[1]["recipient"]
-    );
-    assert(balance.toNumber() === total_minted);
+      assert(balance.toNumber() === total_minted);
+    } catch {
+      assert(true);
+      return;
+    }
+    assert(false);
+    return;
   });
 
   it("Check Adding Contract Caller to Whitelist", async () => {
-    await deployedContract.allowlistAddress(first_mint_phase["recipient"], true);
+    await deployedContract.allowlistAddress(
+      first_mint_phase["recipient"],
+      true
+    );
 
-    let promise = deployedContract.isAllowlistAddress(first_mint_phase["recipient"]);
+    let promise = deployedContract.isAllowlistAddress(
+      first_mint_phase["recipient"]
+    );
     let whitelisted = false;
-    Promise.resolve(promise).then(function(value) {
+    Promise.resolve(promise).then(function (value) {
       whitelisted = value;
 
       assert(whitelisted === true);
     });
-  
-  })
+  });
 
   it("Check Adding Multiple Contract Caller to Whitelist", async () => {
-
     let complexMintPhaseAddresses = [];
     let complexMintPhaseAddressesWhitelisted = [];
-    for(i = 0; i < complex_mint_phase.length; i++){
+    for (i = 0; i < complex_mint_phase.length; i++) {
       complexMintPhaseAddresses.push(complex_mint_phase[i].recipient);
     }
 
     await deployedContract.allowlistAddresses(complexMintPhaseAddresses, true);
 
-    for(i = 0; i< complexMintPhaseAddresses; i++){
-      let promise = deployedContract.isAllowlistAddress(complexMintPhaseAddresses[i]);
+    for (i = 0; i < complexMintPhaseAddresses; i++) {
+      let promise = deployedContract.isAllowlistAddress(
+        complexMintPhaseAddresses[i]
+      );
       let whitelisted = false;
-      Promise.resolve(promise).then(function(value) {
+      Promise.resolve(promise).then(function (value) {
         whitelisted = value;
         complexMintPhaseAddressesWhitelisted.push(whitelisted);
-        
       });
     }
 
-    assert(complexMintPhaseAddressesWhitelisted.every((x) => x.should.equal(true)));
-  })
+    assert(
+      complexMintPhaseAddressesWhitelisted.every((x) => x.should.equal(true))
+    );
+  });
 
   it("Check Mint as Contract Whitelisted", async () => {
     let total_minted = first_mint_phase["mintQuantity"]; // We are still in the same state, therefore, we need to consider the first test function
@@ -118,8 +131,6 @@ contract("Item", () => {
     );
     assert(balance.toNumber() === total_minted);
   });
-
-
 
   it("Check Minted Item Types Balances (*should be decreased already)", async () => {
     let item_type = 1;
@@ -150,7 +161,7 @@ contract("Item", () => {
         complex_mint_phase[1]["recipient"]
       );
       assert(after_burn_balance.toNumber() < before_burn_balance.toNumber());
-      assert(false)
+      assert(false);
       return;
     } catch {
       assert(true);
