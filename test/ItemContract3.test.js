@@ -70,6 +70,29 @@ contract("Item", () => {
   
   })
 
+  it("Check Adding Multiple Contract Caller to Whitelist", async () => {
+
+    var complexMintPhaseAddresses = [];
+    var complexMintPhaseAddressesWhitelisted = [];
+    for(i = 0; i < complex_mint_phase.length; i++){
+      complexMintPhaseAddresses.push(complex_mint_phase[i].recipient);
+    }
+
+    await deployedContract.allowlistAddresses(complexMintPhaseAddresses, true);
+
+    for(i = 0; i< complexMintPhaseAddresses; i++){
+      let promise = deployedContract.isAllowlistAddress(complexMintPhaseAddresses[i]);
+      let whitelisted = false;
+      Promise.resolve(promise).then(function(value) {
+        whitelisted = value;
+        complexMintPhaseAddressesWhitelisted.push(whitelisted);
+        
+      });
+    }
+
+    assert(complexMintPhaseAddressesWhitelisted.every((x) => x.should.equal(true)));
+  })
+
   it("Check Mint as Contract Whitelisted", async () => {
     let total_minted = first_mint_phase["mintQuantity"]; // We are still in the same state, therefore, we need to consider the first test function
 
