@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.2;
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 struct withdrawers {
     uint256 payableAmount;
@@ -7,7 +8,7 @@ struct withdrawers {
     bool isExist;
 }
 
-contract Payment {
+contract Payment is ERC721 {
     bool public concept_withdraw;
     bool public trainers_withdraw;
     bool public itemPresale_withdraw;
@@ -33,7 +34,7 @@ contract Payment {
     event TrainersWithdrawn(address receiver, uint256 value);
     event ItemPresaleWithdrawn(address receiver, uint256 value);
 
-    constructor() payable {
+    constructor() payable ERC721("NFT Payments", "Payment") {
         owner = msg.sender;
     }
 

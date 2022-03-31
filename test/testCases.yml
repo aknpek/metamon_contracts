@@ -97,3 +97,20 @@ MetamonContract:
     passCode: MADECHANGE
     dexId: 1
     massiveQuantity: 20
+
+PaymentContract:
+  contractName: Payment
+  contractAddress: 0xdba8cb092d92a29a588C1c66f1F346aa2FAfD1F5
+
+  testCase1:
+    phaseType: 1
+
+    withDrawer1: "0x99B6cde1603fa6b80e2861078354df1dDF198c59"
+    percantage1: 5
+
+    withDrawer2: "0xE41F62B7E38b7E742b203916ac801Fc45e2152BC"
+    percantage2: 5
+
+    withDrawer3: "0xFE8488a178EF9B5b00fE7C4e1Fe41947Ea70a6B9"
+    percantage3: 5
+     
