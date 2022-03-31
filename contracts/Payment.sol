@@ -25,8 +25,8 @@ contract Payment is ERC721 {
         5: Concept Art
     */
 
-    mapping(address => mapping(address => withdrawers)) private phaseTypes;
-    mapping(address => address[]) private phaseOwners;
+    mapping(address => mapping(address => withdrawers)) public phaseTypes;
+    mapping(address => address[]) public phaseOwners;
     mapping(address => uint256) private lockedAmountPerPhase;
 
     event ReceivedEth(address sender, uint256 value);
@@ -69,10 +69,14 @@ contract Payment is ERC721 {
         _;
     }
 
-    modifier withdrawerCheck(address phaseType, address withdrawer) {
+    modifier withdrawerCheck(
+        address phaseType,
+        address withdrawer,
+        bool exists
+    ) {
         require(
-            phaseTypes[phaseType][withdrawer].isExist == true,
-            "Not exist withdrawer!"
+            phaseTypes[phaseType][withdrawer].isExist == exists,
+            "Withdrawer!"
         );
         _;
     }
@@ -81,7 +85,7 @@ contract Payment is ERC721 {
         address phaseType,
         address withdrawer,
         uint256 percantage
-    ) public onlyOwner(msg.sender) withdrawerCheck(phaseType, withdrawer) {
+    ) public onlyOwner(msg.sender) {
         /*Adding withdrawer addresses into specific phase types with percantage
 
         Args: 
@@ -102,12 +106,8 @@ contract Payment is ERC721 {
     function removeWithdrawer(address phaseType, address withdrawer)
         public
         onlyOwner(msg.sender)
-        withdrawerCheck(phaseType, withdrawer)
+        withdrawerCheck(phaseType, withdrawer, false)
     {
-        require(
-            phaseTypes[phaseType][withdrawer].isExist == true,
-            "Not exists withdrawer!"
-        );
         delete phaseOwners[phaseType];
         delete phaseTypes[phaseType][withdrawer];
     }
