@@ -55,9 +55,8 @@ contract Payment is ERC721 {
         for (uint256 i = 0; i < _phaseOwners.length; i++) {
             uint256 _percantage = phaseTypes[phaseType][_phaseOwners[i]]
                 .percantage;
-            phaseTypes[phaseType][_phaseOwners[i]].payableAmount +=
-                msg.value *
-                (_percantage / 100);
+            phaseTypes[phaseType][_phaseOwners[i]].payableAmount += ((msg
+                .value * _percantage) / 100);
         }
     }
 
@@ -86,6 +85,7 @@ contract Payment is ERC721 {
         address withdrawer,
         uint256 percantage
     ) public onlyOwner(msg.sender) {
+        // TODO: we might like to add for loop
         /*Adding withdrawer addresses into specific phase types with percantage
 
         Args: 
@@ -106,7 +106,7 @@ contract Payment is ERC721 {
     function removeWithdrawer(address phaseType, address withdrawer)
         public
         onlyOwner(msg.sender)
-        withdrawerCheck(phaseType, withdrawer, false)
+        withdrawerCheck(phaseType, withdrawer, true)
     {
         delete phaseOwners[phaseType];
         delete phaseTypes[phaseType][withdrawer];
@@ -130,6 +130,15 @@ contract Payment is ERC721 {
         ); // validate amount
 
         withdrawer.transfer(amount);
+    }
+
+    function checkAmounts(address phaseType)
+        public
+        view
+        onlyOwner(msg.sender)
+        returns (uint256)
+    {
+        return lockedAmountPerPhase[phaseType];
     }
 
     function ownerWithdraw(address payable receiver, uint256 amount)

@@ -31,6 +31,8 @@ truffle migrate --network development
 truffle test
 ```
 
+- Inside the ./test folder we have testCases, where you should update **itemContractAddress** and **metamonContractAddress** variables.
+
 
 # VRF Explanation
 

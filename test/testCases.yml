@@ -87,7 +87,7 @@ MetamonContract:
   testCase5:
     passCode: MADECHANGE
 
-    recipient: "0xF4a615744B90900542749eB3e043148899d36Eb7"
+    recipient: "0x497b6166f53a49d7F945B48d920177853F0b3fE5"
     # mint metamon from phase 1 all dex ids
     quantityMintMetamon: 1
     mintDexIds: [1, 4, 7, 20, 86, 133]
@@ -100,7 +100,7 @@ MetamonContract:
 
 PaymentContract:
   contractName: Payment
-  contractAddress: "0x2c928df2e4553659084dDd29C01D1d87C8adea84"
+  contractAddress: "0x8feD387De5a2E2A56155Ab122a41B4C21eD07256"
 
   testCase1:
     phaseType: 1
@@ -113,4 +113,18 @@ PaymentContract:
 
     withDrawer3: "0xFE8488a178EF9B5b00fE7C4e1Fe41947Ea70a6B9"
     percantage3: 5
+
+  
+  testCase2:
+    phaseType: 1
+
+    withDrawer1: "0xFE8488a178EF9B5b00fE7C4e1Fe41947Ea70a6B9"
+    percantage1: 20
+
+    withDrawer2: "0xFB5159e3751828B2c558e18b624Bc45c67DD30CD"
+    percantage2: 50
+
+    withDrawer3: "0xb1Fb1785Bb0D6b0C519299fD366d3B03eE66485E"
+    percantage3: 30
      
+    moneySender: "0xab27364D028d739f5d9A1265bEe84Cb636e1AD17"

@@ -58,4 +58,36 @@ contract("Payment", () => {
       return;
     }
   });
+
+  it("Handle without adding is-exist, after adding is-exist", async () => {
+    let withdrawers = await paymentContract.phaseTypes.call(
+      phaseType1,
+      withDrawer3
+    );
+
+    assert.equal(withdrawers.isExist, false);
+
+    await paymentContract.addWithdrawer(phaseType1, withDrawer3, percantage3);
+
+    let withdrawers_e = await paymentContract.phaseTypes.call(
+      phaseType1,
+      withDrawer3
+    );
+
+    assert.equal(withdrawers_e.isExist, true);
+  });
+
+  it("Send Money to Contract and Withdraw", async () => {
+    await paymentContract.sendTransaction({
+      from: contractOwner,
+      value: Web3.utils.toWei("1", "ether"),
+    });
+  });
+
+  it("Withdraw Contract Balance", async () => {
+    await paymentContract.ownerWithdraw(
+      contractOwner,
+      Web3.utils.toWei("1", "ether")
+    );
+  });
 });
