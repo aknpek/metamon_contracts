@@ -22,7 +22,7 @@ contract("Payment", () => {
   let paymentContract = null;
   before(async () => {
     paymentContract = await PaymentContract.deployed();
-    owner = paymentContract.owner.call();
+    owner = await paymentContract.owner.call();
   });
 
   it("Add with-drawers", async () => {
@@ -78,15 +78,15 @@ contract("Payment", () => {
 
     console.log(
       Web3.utils.fromWei(`${BigInt(withdrawer_info_1.payableAmount)}`, "ether"),
-      " how much eth here?"
+      " how much eth here for Drawer1"
     );
     console.log(
       Web3.utils.fromWei(`${BigInt(withdrawer_info_2.payableAmount)}`, "ether"),
-      " how much eth here?"
+      " how much eth here for Drawer2"
     );
     console.log(
       Web3.utils.fromWei(`${BigInt(withdrawer_info_3.payableAmount)}`, "ether"),
-      " how much eth here?"
+      " how much eth here for Drawer3"
     );
   });
 
@@ -94,5 +94,59 @@ contract("Payment", () => {
     const locked_amount = await paymentContract.checkAmounts(phaseType1);
 
     assert.equal(BigInt(locked_amount), Web3.utils.toWei(".2", "ether"));
+  });
+
+  it("Check withdraw as withdrawer2 from phase1", async () => {
+    try {
+      await paymentContract.Withdraw(
+        phaseType1,
+        withDrawer1,
+        Web3.utils.toWei(".04", "ether"),
+        {
+          from: withDrawer1,
+        }
+      );
+
+      assert(true);
+      return;
+    } catch {
+      assert(false);
+      return;
+    }
+  });
+
+  it("Check over withdraw as withdrawer2 from phase1", async () => {
+    try {
+      await paymentContract.Withdraw(
+        phaseType1,
+        withDrawer1,
+        Web3.utils.toWei("0.04", "ether"),
+        {
+          from: withdraw1,
+        }
+      );
+      assert(false);
+      return;
+    } catch {
+      assert(true);
+      return;
+    }
+  });
+
+  it("Check as owner withdraw everything", async () => {
+    try {
+      await paymentContract.ownerWithdraw(
+        owner,
+        Web3.utils.toWei("0.1", "ether"),
+        {
+          from: owner,
+        }
+      );
+      assert(true);
+      return;
+    } catch {
+      assert(false);
+      return;
+    }
   });
 });
