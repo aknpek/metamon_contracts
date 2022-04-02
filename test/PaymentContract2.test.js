@@ -61,19 +61,38 @@ contract("Payment", () => {
       value: Web3.utils.toWei(".1", "ether"),
     });
 
-    const withdrawer_info = await paymentContract.phaseTypes.call(
+    const withdrawer_info_1 = await paymentContract.phaseTypes.call(
+      phaseType1,
+      withDrawer1
+    );
+
+    const withdrawer_info_2 = await paymentContract.phaseTypes.call(
       phaseType1,
       withDrawer2
     );
 
-    console.log(BigInt(withdrawer_info.payableAmount));
+    const withdrawer_info_3 = await paymentContract.phaseTypes.call(
+      phaseType1,
+      withDrawer3
+    );
+
+    console.log(
+      Web3.utils.fromWei(`${BigInt(withdrawer_info_1.payableAmount)}`, "ether"),
+      " how much eth here?"
+    );
+    console.log(
+      Web3.utils.fromWei(`${BigInt(withdrawer_info_2.payableAmount)}`, "ether"),
+      " how much eth here?"
+    );
+    console.log(
+      Web3.utils.fromWei(`${BigInt(withdrawer_info_3.payableAmount)}`, "ether"),
+      " how much eth here?"
+    );
   });
 
   it("Check Locked amount per phase", async () => {
     const locked_amount = await paymentContract.checkAmounts(phaseType1);
 
-    console.log(
-      `Total Locked Amount in the contract: ${BigInt(locked_amount)}`
-    );
+    assert.equal(BigInt(locked_amount), Web3.utils.toWei(".2", "ether"));
   });
 });
