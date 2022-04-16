@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.2;
 
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./Strings.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract Item is ERC1155, Ownable, ReentrancyGuard {
-    using Strings for uint256;
-
+contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
+    using Strings for string;
     address payable public paymentContractAddress;
 
     mapping(address => bool) public isAllowlistAddress;
@@ -63,7 +62,7 @@ contract Item is ERC1155, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Cons
     ///////////////////////////////////////////////////////////////////////////
-    constructor() payable ERC1155("Metamon Item Collection", "NFT") {}
+    constructor() payable ERC1155("https://gateway.pinata.cloud/ipfs/INSERT_IPFS_HASH_HERE/{id}.json") {}
 
     fallback() external payable {}
 
@@ -200,7 +199,7 @@ contract Item is ERC1155, Ownable, ReentrancyGuard {
         require(itemBurnable[_tokenType - 1] == 1, "Item not burnable!");
 
         if (_deleteOwnerToken(_burner, _tokenId)) {
-            _burn(_tokenId);
+            _burn(_burner, _tokenId, 1);
             emit BurnItem(_burner, _tokenId);
         } else {
             revert("Could not burn the token!");
@@ -247,7 +246,7 @@ contract Item is ERC1155, Ownable, ReentrancyGuard {
 
         for (uint256 i = 0; i < _quantity; i++) {
             j++;
-            _mint(_recipient, j);
+            _mint(_recipient, j, 1, "");
             tokenOwners[_recipient][_itemType].push(j);
             tokenOwner[_recipient].push(j);
             tokenItemTypes[j] = _itemType;
@@ -260,31 +259,9 @@ contract Item is ERC1155, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Backend URIs
     ///////////////////////////////////////////////////////////////////////////
-    function setBaseURI(string memory _baseURILink) external onlyOwner {
-        baseURI = _baseURILink;
-    }
-
-    function getBaseURI() external view onlyOwner returns (string memory) {
-        return baseURI;
-    }
-
-    function _baseURI() internal view virtual override returns (string memory) {
-        return baseURI;
-    }
-
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        virtual
-        override
-        returns (string memory)
+    function setURI(string memory newuri) external onlyOwner 
     {
-        require(_exists(tokenId), "Nonexistent token!");
-
-        return
-            bytes(baseURI).length > 0
-                ? string(abi.encodePacked(baseURI, tokenId.toString(), ".json"))
-                : "";
+        _setURI(newuri);
     }
 
     ///////////////////////////////////////////////////////////////////////////
