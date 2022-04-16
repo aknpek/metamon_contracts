@@ -7,12 +7,18 @@ struct withdrawers {
     bool isExist;
 }
 
+struct concensusFlag {
+    bool isConsent;
+    bool isAuthority;
+}
+
 contract Payment {
     bool public concept_withdraw;
     bool public trainers_withdraw;
     bool public itemPresale_withdraw;
 
     address public owner;
+    address[] public concensusGroupMap;
 
     /*
     allPhaseTypes = [1, 2, 3, 4, 5];
@@ -24,6 +30,7 @@ contract Payment {
         5: Concept Art
     */
 
+    mapping(address => concensusFlag) public concensusGroup;
     mapping(address => mapping(address => withdrawers)) public phaseTypes;
     mapping(address => address[]) public phaseOwners;
     mapping(address => uint256) private lockedAmountPerPhase;
@@ -33,8 +40,12 @@ contract Payment {
     event TrainersWithdrawn(address receiver, uint256 value);
     event ItemPresaleWithdrawn(address receiver, uint256 value);
 
-    constructor() payable {
+    constructor(address[] memory concensus) payable {
         owner = msg.sender;
+        for (uint256 i = 0; i < concensus.length; i++) {
+            concensusGroup[concensus[i]] = concensusFlag(false, true);
+            concensusGroupMap.push(concensus[i]);
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -44,6 +55,26 @@ contract Payment {
 
     receive() external payable {
         emit ReceivedEth(msg.sender, msg.value);
+    }
+
+    function concensusRate() internal view returns (bool) {
+        uint256 vote_accept = 0;
+        uint256 vote_reject = 0;
+
+        for (uint i = 0; i < concensusGroupMap.length; i++) {
+            if (concensusGroup[concensusGroupMap[i]].isAuthority) {
+                if (concensusGroup[concensusGroupMap[i]].isConsent) {
+                    vote_accept++;
+                } else {
+                    vote_reject++;
+                }
+            }
+        }
+        if (vote_accept > vote_reject) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function receiveAmountDistribute(address phaseType) public payable {
@@ -63,6 +94,11 @@ contract Payment {
     ///////////////////////////////////////////////////////////////////////////
     // Modifiers
     ///////////////////////////////////////////////////////////////////////////
+    modifier onlyConsensus() {
+        require(concensusRate(), "Not concensus!");
+        _;
+    }
+
     modifier onlyOwner(address sender) {
         require(sender == owner, "Not a owner call!");
         _;
