@@ -1,19 +1,34 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.2;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./Strings.sol";
 
-contract Item is ERC721, Ownable, ReentrancyGuard {
+contract Item is ERC1155, Ownable, ReentrancyGuard {
     using Strings for uint256;
 
     address payable public paymentContractAddress;
 
     mapping(address => bool) public isAllowlistAddress;
 
+    uint8 private TEAR_OF_THE_GODDESS = 1;
+    uint8 private LUCKY_TOTEM = 2;
+    uint8 private SPIRIT_OF_FIRE = 3;
+    uint8 private SPIRIT_OF_WATER = 4;
+    uint8 private SPIRIT_OF_EARTH = 5;
+    uint8 private SPIRIT_OF_ELECTRICTY = 6;
+    uint8 private ASTRAL_SPIRIT = 7;
+
     uint8[7] public itemBurnable = [1, 0, 0, 0, 0, 0, 0];
-    uint8[7] public itemTypes = [1, 2, 3, 4, 5, 6, 7];
+    uint8[7] public itemTypes = [TEAR_OF_THE_GODDESS,
+                                 LUCKY_TOTEM,
+                                 SPIRIT_OF_FIRE,
+                                 SPIRIT_OF_WATER,
+                                 SPIRIT_OF_EARTH,
+                                 SPIRIT_OF_ELECTRICTY,
+                                 ASTRAL_SPIRIT];
     uint8[7] public maxOwnable = [10, 1, 1, 1, 1, 1, 1];
     uint32[7] public itemSupplies = [2500, 2500, 1000, 1000, 1000, 1000, 1000];
 
@@ -48,7 +63,7 @@ contract Item is ERC721, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Cons
     ///////////////////////////////////////////////////////////////////////////
-    constructor() payable ERC721("Metamon Item Collection", "NFT") {}
+    constructor() payable ERC1155("Metamon Item Collection", "NFT") {}
 
     fallback() external payable {}
 
