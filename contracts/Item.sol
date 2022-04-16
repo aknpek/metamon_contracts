@@ -6,6 +6,8 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
+//Owner => token id => supply
+//address => Id => Int
 contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     using Strings for string;
     address payable public paymentContractAddress;
