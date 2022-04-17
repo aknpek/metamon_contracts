@@ -2,10 +2,10 @@ otherOwner: "0xFB5159e3751828B2c558e18b624Bc45c67DD30CD"
 
 ItemContract:
   contractName: "Item"
-  contractRealName: "Metamon Item Collection"
-  contractSymbol: "NFT"
+  contractRealName: "MiniMetamon Item"
+  contractSymbol: "MiniMetamon-Item"
   contractAddress: "0xBaa90A333C63A8086083EbAb2a249B561298548F"
-  contractOwnerAddress: "0x9A49a55307ABd7f62E082677dE33C7EF38312c29"
+  contractOwnerAddress: "0x9F0F3B1F0758A15DcAe9bE2CEA3137D662730F88"
 
   itemBurnable: [1, 0, 0, 0, 0, 0, 0]
   itemTypes: [1, 2, 3, 4, 5, 6, 7]

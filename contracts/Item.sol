@@ -6,10 +6,17 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
+
+
 //Owner => token id => supply
 //address => Id => Int
 contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     using Strings for string;
+
+    //Set contract name and symbol
+    string public name = "MiniMetamon Item";
+    string public symbol = "MiniMetamon-Item";
+
     address payable public paymentContractAddress;
 
     mapping(address => bool) public isAllowlistAddress;
@@ -207,7 +214,6 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
             revert("Could not burn the token!");
         }
     }
-
     ///////////////////////////////////////////////////////////////////////////
     // Mint Tokens
     ///////////////////////////////////////////////////////////////////////////
@@ -248,7 +254,7 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
 
         for (uint256 i = 0; i < _quantity; i++) {
             j++;
-            _mint(_recipient, j, 1, "");
+            _mint(_recipient, _itemType, 1, "");
             tokenOwners[_recipient][_itemType].push(j);
             tokenOwner[_recipient].push(j);
             tokenItemTypes[j] = _itemType;
