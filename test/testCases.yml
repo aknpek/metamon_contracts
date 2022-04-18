@@ -101,6 +101,10 @@ MetamonContract:
 PaymentContract:
   contractName: Payment
   contractAddress: "0x8feD387De5a2E2A56155Ab122a41B4C21eD07256"
+  contractConcensus: [
+    "0x99B6cde1603fa6b80e2861078354df1dDF198c59",
+    "0xE41F62B7E38b7E742b203916ac801Fc45e2152BC"
+  ]
 
   testCase1:
     phaseType: 1
