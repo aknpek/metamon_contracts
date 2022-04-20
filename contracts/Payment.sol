@@ -116,6 +116,9 @@ contract Payment {
         _;
     }
 
+    // TODO: you should be able to see your total balance
+    // TODO: you should be able to see each phase
+
     function addWithdrawer(
         address phaseType,
         address withdrawer,
@@ -152,6 +155,8 @@ contract Payment {
         address payable withdrawer,
         uint256 amount
     ) public {
+        // TODO: to be able to mint all the different phasese in once
+
         require(msg.sender == withdrawer, "Not withdrawer!"); // validate user itself
 
         require(
