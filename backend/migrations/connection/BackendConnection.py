@@ -1,5 +1,6 @@
 from re import A
 from typing import Dict, List
+from abc import ABC, abstractmethod
 import logging
 import boto3
 import os
@@ -8,44 +9,57 @@ import os
 logger = logging.getLogger(__name__)
 
 
-class DataUpload:
-    def upload_to_dynamo(self, records: List[dict], table: str):
+class IState(ABC):
+    @abstractmethod
+    def download(self):
+        """Downloads data"""
+    
+    def upload(self):
+        """Uploads data"""
+
+class DynamoState(IState):
+    def upload(
+            self, 
+            records: List[dict], 
+            table: str, 
+            resource: str="dynamodb"
+        ):
         try: 
-            table = self.dynamodb_connection.Table(table)
+            table = self.connections[resource].Table(table)
             table.put_item(Item=records)
         
         except Exception as exception:
             logger.info(f'{exception}')
     
-    def upload_to_s3(
+    def download(self):
+        pass
+    
+class S3State(IState):
+    def upload(
             self, 
             path_s3: str, 
             bucket_name: str, 
             local_file_path: str,
+            resource: str="s3"
         ):
-        
         try: 
-            if self.session:
-                self.session.resource('s3').Bucket(bucket_name).upload_file(local_file_path, path_s3)
+            self.connections[resource].Bucket(bucket_name).upload_file(local_file_path, path_s3)
 
-            else:
-                boto3.resource('s3').Bucket(bucket_name).upload_file(local_file_path, path_s3)
-                
         except Exception as exception:
             logger.info(f'{exception}')
 
-
-class DataDownload:
-    pass
-
+    def download(
+            self
+        ):
+        pass
 
 class ConnectAws:
     connections: Dict[boto3.connections]
     session: boto3.Session
         
-    def __init__(self, ):
-        pass
-    
+    def __init__(self, app_dev):
+        self._init_connection(app_dev)
+        self._get_connected()
     
     def _init_connection(self, app_dev: bool) -> None:
         if app_dev:
@@ -78,15 +92,19 @@ class ConnectAws:
         except Exception as exception:
             logger.info(f'Can not connect to backend {exception}')
             
-        
-    
-class BackendConnection(ConnectAws, DataUpload):
+class BackendConnection(ConnectAws):
+    backend_handler: Dict[str ,IState]
     
     def __init__(self, app_dev: bool = True):
         super().__init__(app_dev=app_dev)
+
+    @property.setter
+    def set_backend_object(self, resource: str, region: str, backend_handler: IState):
+        self._init_connection(resource, region)
+        self.backend_handler[resource] = backend_handler
         
+    def upload_data(self, resource: str, **kwargs):
+        self.backend_handler[resource].upload(**kwargs)
         
-    def upload_data(self, ):
-        pass
-    
-   
+    def download_data(self, resource: str, **kwargs):
+        self.backend_handler[resource].download(**kwargs)
