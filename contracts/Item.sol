@@ -19,8 +19,6 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
 
     address payable public paymentContractAddress;
 
-    mapping(address => bool) public isAllowlistAddress;
-
     uint8 private TEAR_OF_THE_GODDESS = 1;
     uint8 private LUCKY_TOTEM = 2;
     uint8 private SPIRIT_OF_FIRE = 3;
@@ -55,7 +53,6 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     string private itemBaseURI;
     string private baseURI;
     string private passWord = "MADECHANGE";
-    bool private onlyAllowList = true;
 
     mapping(uint256 => uint8) public tokenItemTypes;
     mapping(address => uint256[]) public tokenOwner; // Represents owner's tokens *tokenIds
@@ -95,26 +92,6 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
             "Token not match!"
         );
         _;
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Allow List Functions
-    ///////////////////////////////////////////////////////////////////////////
-    function allowlistAddresses(address[] calldata wAddresses, bool allow)
-        external
-        onlyOwner
-    {
-        for (uint256 i = 0; i < wAddresses.length; i++) {
-            isAllowlistAddress[wAddresses[i]] = allow;
-        }
-    }
-
-    function allowlistAddress(address wAddress, bool allow) external onlyOwner {
-        isAllowlistAddress[wAddress] = allow;
-    }
-
-    function toggleOnlyAllowList() external onlyOwner {
-        onlyAllowList = !onlyAllowList;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -223,13 +200,6 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
         uint8 _itemType,
         uint256 _quantity
     ) external payable passCheck(_passCode) nonReentrant {
-        //Checks if address is allow listed
-        if (onlyAllowList && msg.sender != owner()) {
-            require(
-                isAllowlistAddress[msg.sender],
-                "Caller is not allow listed"
-            );
-        }
 
         uint256 _itemSupplyLeft = getSupplyLeft(_itemType);
 
