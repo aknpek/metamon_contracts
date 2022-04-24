@@ -1,0 +1,14 @@
+{
+    "title": "Clothing",
+    "items": [
+        {
+            "shape": "clothes",
+            "colorItems": [
+                {
+                    "title": "clothe",
+                    "imageUrl": "WClothes"
+                }
+            ]
+        }
+    ]
+}
