@@ -6,8 +6,6 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-
-
 //Owner => token id => supply
 //address => Id => Int
 contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
@@ -53,6 +51,8 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     string private itemBaseURI;
     string private baseURI;
     string private passWord = "MADECHANGE";
+
+    mapping (uint256 => string) private uris;
 
     mapping(uint256 => uint8) public tokenItemTypes;
     mapping(address => uint256[]) public tokenOwner; // Represents owner's tokens *tokenIds
@@ -237,6 +237,14 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Backend URIs
     ///////////////////////////////////////////////////////////////////////////
+    function uri(uint256 tokenId) override public view returns (string memory){
+        return(uris[tokenId]);
+    }
+
+    function setTokenUri(uint256 tokenId, string memory uri) public onlyOwner {
+        uris[tokenId] = uri;
+    }
+
     function setURI(string memory newuri) external onlyOwner 
     {
         _setURI(newuri);
