@@ -132,3 +132,8 @@ PaymentContract:
     percantage3: 30
      
     moneySender: "0xab27364D028d739f5d9A1265bEe84Cb636e1AD17"
+
+MetaTrainer:
+  contractName: MetaTrainer
+  contractAddress: "0x2192685b29D4F45854ffE1430452800Ec9b23366"
+  
