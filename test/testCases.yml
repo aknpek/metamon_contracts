@@ -102,8 +102,8 @@ PaymentContract:
   contractName: Payment
   contractAddress: "0x8feD387De5a2E2A56155Ab122a41B4C21eD07256"
   contractConcensus: [
-    "0x99B6cde1603fa6b80e2861078354df1dDF198c59",
-    "0xE41F62B7E38b7E742b203916ac801Fc45e2152BC"
+    "0x2ef318124Cc419B09c77754a4f6b0162c084FdD6",
+    "0xFE8488a178EF9B5b00fE7C4e1Fe41947Ea70a6B9"
   ]
 
   testCase1:
@@ -135,5 +135,14 @@ PaymentContract:
 
 MetaTrainer:
   contractName: MetaTrainer
-  contractAddress: "0x2192685b29D4F45854ffE1430452800Ec9b23366"
-  
+  contractAddress: "0x4680Ba63ebfbBE80C660E418113E30aaf3FCe0f9"
+
+  baseUri: "www.example.com/"
+
+  testCase1: 
+    foreigner: "0x99B6cde1603fa6b80e2861078354df1dDF198c59"
+    amountMinted: 1
+
+  testCase2:  
+    foreigner: "0xd001a3a79CE8655521615E1125A9868C647d0D3f"
+    amountMinted: 2       
