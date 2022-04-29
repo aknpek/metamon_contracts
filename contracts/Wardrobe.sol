@@ -20,6 +20,8 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     //Map from item type to price
     mapping(uint256 => uint256) itemPrices;
 
+    mapping(uint256 => string) private _uris;
+
     ///////////////////////////////////////////////////////////////////////////
     // Events
     ///////////////////////////////////////////////////////////////////////////
@@ -153,7 +155,7 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         _mint(_recipient, _itemType, _quantity, "");
     }
 
-    function claimAirdropItems(
+    function airdropMultipleItems(
         address _recipient,
         uint256[] memory _itemTypes,
         uint256[] memory _quantity
@@ -164,9 +166,12 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Backend URIs
     ///////////////////////////////////////////////////////////////////////////
-    function setURI(string memory newuri) external onlyOwner 
+    function uri(uint256 tokenId) override public view returns (string memory){
+        return(_uris[tokenId]);
+    }
+    function setTokenUri(uint256 tokenId, string memory newUri) external onlyOwner 
     {
-        _setURI(newuri);
+        _uris[tokenId] = newUri;
     }
 
     ///////////////////////////////////////////////////////////////////////////
