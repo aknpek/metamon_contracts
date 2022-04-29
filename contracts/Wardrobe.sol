@@ -4,6 +4,7 @@ pragma solidity ^0.8.2;
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 // address => ID => Integer
 // address => tokenId => balance
@@ -15,13 +16,9 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     string public name;
     string public symbol;
 
-    uint8[] public itemTypes;
-
-    uint256[] private itemFloor;
-    uint256 private tokenIds;
-
-    string private itemBaseURI;
-    string private baseURI;
+    uint256[] public itemTypes;
+    //Map from item type to price
+    mapping(uint256 => uint256) itemPrices;
 
     ///////////////////////////////////////////////////////////////////////////
     // Events
@@ -32,9 +29,9 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Cons
     ///////////////////////////////////////////////////////////////////////////
-    constructor() payable ERC1155() {
+    constructor() payable ERC1155("https://gateway.pinata.cloud/ipfs/INSERT_IPFS_HASH_HERE/{id}.json") {
         name = "Metamon Wardrobe Collection";
-        symbol = "Minimetamon-WC"
+        symbol = "Minimetamon-WC";
     }
 
     fallback() external payable {}
@@ -46,55 +43,55 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Pre-Function Conditions
     ///////////////////////////////////////////////////////////////////////////
-    modifier itemType(uint256 _itemType) {
+    modifier itemTypeCheck(uint256 _itemType) {
         require(1 <= _itemType && _itemType <= itemTypes.length, "Item Type out of scope!");
         _;
+    }
+
+    modifier itemTypesCheck(uint256[] memory _itemTypes){
+        for(uint i = 0; i < itemTypes.length; i++){
+            require(1 <= _itemTypes[i] && _itemTypes[i] <= itemTypes.length, "Item Type is out of scope!");
+        }
+        _;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Pre-Function Conditions
+    ///////////////////////////////////////////////////////////////////////////
+    function addWardrobeItem(uint256 _itemType, uint256 _itemPrice) external onlyOwner{
+        //Do we want control of where the itemType appears in the array?
+        //Do we want the types to just increment linearly, or do we want to mark out certain parts?
+        //For examples hats are item type 0 - 100, hair is 101-200 etc? Might be easier to handle?
+
+        for(uint256 i = 0; i < itemTypes.length; i++ ){
+            if(_itemType == itemTypes[i]){
+                revert("Item type already exists");
+            }
+        }
+
+        //We have checked if it exists, so let's make this entry
+        itemTypes.push(_itemType);
+        itemPrices[_itemType] = _itemPrice;
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Get/Set State Changes
     ///////////////////////////////////////////////////////////////////////////
-    function changeFloorPrice(uint256 _new_price, uint8 _itemType)
+    function changeItemPrice(uint256 _new_price, uint256 _itemType)
         external
         onlyOwner
-        itemType(_itemType)
+        itemTypeCheck(_itemType)
     {
-        itemFloor[_itemType - 1] = _new_price;
+        itemPrices[_itemType] = _new_price;
     }
 
-    function getFloorPrice(uint8 _itemType)
+    function getItemPrice(uint256 _itemType)
         public
         view
-        itemType(_itemType)
+        itemTypeCheck(_itemType)
         returns (uint256)
     {
-        return itemFloor[_itemType - 1];
-    }
-
-    function specificItemOwnership(address _owner, uint8 _itemType)
-        public
-        view
-        returns (uint256)
-    {
-        // check whether owner owns specific ITEM token
-        uint256 total_ownership = tokenOwners[_owner][_itemType].length;
-        return total_ownership;
-    }
-
-    function mintableLeft(uint256 _quantity, uint256 _itemSupplyLeft)
-        internal
-        pure
-        returns (uint256)
-    {
-        if (_quantity <= _itemSupplyLeft) {
-            return _quantity;
-        } else {
-            if (_itemSupplyLeft == 0) {
-                revert("Item supply not enough!");
-            } else {
-                return _itemSupplyLeft;
-            }
-        }
+        return itemPrices[_itemType];
     }
 
     function totalItemTypes() public view returns (uint256) {
@@ -111,74 +108,65 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Mint Tokens
     ///////////////////////////////////////////////////////////////////////////
+
+    // Do we even want to mint tokens via a payable?
+
     function mintSale(
-        string memory _passCode,
         address _recipient,
-        uint8 _itemType,
+        uint256 _itemType,
         uint256 _quantity
-    ) external payable passCheck(_passCode) nonReentrant {
+    ) external payable itemTypeCheck(_itemType) nonReentrant {
+        _mint(_recipient, _itemType, _quantity, "");
+    }
 
-        uint256 _itemSupplyLeft = getSupplyLeft(_itemType);
+    function mintMultipleSale(
+        address _recipient,
+        uint256[] memory _itemTypes,
+        uint256[] memory _quantity
+    ) external payable itemTypesCheck(_itemTypes) nonReentrant {
+        _mintBatch(_recipient, _itemTypes, _quantity, "");
+    }
 
-        uint256 _totalOwned = specificItemOwnership(_recipient, _itemType);
-        uint256 _maxOwnable = maxOwnable[_itemType - 1];
-        require(
-            _totalOwned + _quantity <= _maxOwnable,
-            "Max ownable quantity reached!"
-        );
+    // How should we decide who can claim the item?
+    // Merkletree? Signatures? Based on another item that they hold?
+    function claimItem(
+        address _recipient,
+        uint256 _itemType,
+        uint256 _quantity
+    ) external itemTypeCheck(_itemType) nonReentrant {
+        _mint(_recipient, _itemType, _quantity, "");
+    }
 
-        uint256 _itemFloor = getFloorPrice(_itemType);
+    function claimMultipleItems(
+        address _recipient,
+        uint256[] memory _itemTypes,
+        uint256[] memory _quantity
+    ) external itemTypesCheck(_itemTypes) nonReentrant {
+        _mintBatch(_recipient, _itemTypes, _quantity, "");
+    }
 
-        uint256 _maxMintable = mintableLeft(_quantity, _itemSupplyLeft);
-        if (msg.sender != owner()) {
-            require(
-                _maxMintable * _itemFloor <= msg.value,
-                "Not exact coin send!"
-            );
-        }
+    function airdropItem(
+        address _recipient,
+        uint256 _itemType,
+        uint256 _quantity
+    ) external itemTypeCheck(_itemType) nonReentrant {
+        _mint(_recipient, _itemType, _quantity, "");
+    }
 
-        uint256 j = tokenIds;
-
-        for (uint256 i = 0; i < _quantity; i++) {
-            j++;
-            _mint(_recipient, j);
-            tokenOwners[_recipient][_itemType].push(j);
-            tokenOwner[_recipient].push(j);
-            tokenItemTypes[j] = _itemType;
-            itemSupplies[_itemType - 1] = itemSupplies[_itemType - 1] - 1;
-            emit ItemMinted(_recipient, j);
-        }
-        tokenIds = j;
+    function claimAirdropItems(
+        address _recipient,
+        uint256[] memory _itemTypes,
+        uint256[] memory _quantity
+    ) external payable itemTypesCheck(_itemTypes) nonReentrant {
+        _mintBatch(_recipient, _itemTypes, _quantity, "");
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Backend URIs
     ///////////////////////////////////////////////////////////////////////////
-    function setBaseURI(string memory _baseURILink) external onlyOwner {
-        baseURI = _baseURILink;
-    }
-
-    function getBaseURI() external view onlyOwner returns (string memory) {
-        return baseURI;
-    }
-
-    function _baseURI() internal view virtual override returns (string memory) {
-        return baseURI;
-    }
-
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        virtual
-        override
-        returns (string memory)
+    function setURI(string memory newuri) external onlyOwner 
     {
-        require(_exists(tokenId), "Nonexistent token!");
-
-        return
-            bytes(baseURI).length > 0
-                ? string(abi.encodePacked(baseURI, tokenId.toString(), ".json"))
-                : "";
+        _setURI(newuri);
     }
 
     ///////////////////////////////////////////////////////////////////////////
