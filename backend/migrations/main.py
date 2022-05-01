@@ -39,10 +39,11 @@ def pinata_connection(backend_connection: BackendConnection):
         resource="pinata",
     )
 
-    backend_connection.get_data(
+    pin_list = backend_connection.get_data(
         resource="pinata",
         url=pinata_end_point
     )
+
 
 
 def main():
