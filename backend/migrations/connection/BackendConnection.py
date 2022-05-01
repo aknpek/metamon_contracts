@@ -1,5 +1,6 @@
-from typing import Dict, List
-from abc import ABC, abstractmethod
+from typing import Dict
+from IService import IService
+
 import logging
 import boto3
 import os
@@ -7,59 +8,8 @@ import os
 logger = logging.getLogger(__name__)
 
 
-class IState(ABC):
-    @abstractmethod
-    def download(self, **kwargs):
-        """Downloads data"""
-
-    def upload(self, **kwargs):
-        """Uploads data"""
-
-
-class DynamoState(IState):
-    connections = None
-
-    def upload(
-            self,
-            records: List[dict],
-            table: str,
-            resource: str = "dynamodb"
-    ):
-        try:
-            table = self.connections[resource].Table(table)
-            table.put_item(Item=records)
-
-        except Exception as exception:
-            logger.info(f'{exception}')
-
-    def download(self):
-        pass
-
-
-class S3State(IState):
-    connections = None
-
-    def upload(
-            self,
-            path_s3: str,
-            bucket_name: str,
-            local_file_path: str,
-            resource: str = "s3"
-    ):
-        try:
-            self.connections[resource].Bucket(bucket_name).upload_file(local_file_path, path_s3)
-
-        except Exception as exception:
-            logger.info(f'{exception}')
-
-    def download(
-            self
-    ):
-        pass
-
-
 class ConnectAws:
-    connections: Dict[str, boto3.resource]
+    connections: Dict[str, boto3.resource] = {}
     session: boto3.Session
 
     def __init__(self, app_dev):
@@ -97,17 +47,19 @@ class ConnectAws:
 
 
 class BackendConnection(ConnectAws):
-    backend_handler: Dict[str, IState]
+    backend_handler: Dict[str, IService] = {}
 
     def __init__(self, app_dev: bool = True):
         super().__init__(app_dev=app_dev)
 
-    def set_backend_object(self, resource: str, region: str, backend_handler: IState):
-        self._get_connected(resource=resource, aws_region=region)
-        self.backend_handler[resource] = backend_handler
+    def set_backend_object(self, resource: str, region: str, backend_handler: IService, service: str ="Aws"):
+        if service == "Aws":
+            self._get_connected(resource=resource, aws_region=region)
+
+        self.backend_handler[resource] = backend_handler.__init__()
 
     def upload_data(self, resource: str, **kwargs):
-        self.backend_handler[resource].upload(**kwargs)
+        self.backend_handler[resource].upload(connection=self.connections[resource], **kwargs)
 
     def download_data(self, resource: str, **kwargs):
-        self.backend_handler[resource].download(**kwargs)
+        self.backend_handler[resource].download(connection=self.connections[resource], **kwargs)
