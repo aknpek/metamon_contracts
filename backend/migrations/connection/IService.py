@@ -9,3 +9,7 @@ class IService(ABC):
     @abstractmethod
     def upload(self, **kwargs):
         """Uploads data"""
+
+    @abstractmethod
+    def get(self, **kwargs):
+        """Gets data"""
