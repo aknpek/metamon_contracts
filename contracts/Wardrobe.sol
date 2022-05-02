@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 // address => ID => Integer
-// address => tokenId => balance
+// address => tokenTypeId => balance
 contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     using Strings for uint256;
 
@@ -16,6 +16,8 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     string public name;
     string public symbol;
 
+    //Could use struct here for itemTypes and itemPrices
+    // struct with mapping
     uint256[] public itemTypes;
     //Map from item type to price
     mapping(uint256 => uint256) itemPrices;
@@ -26,7 +28,7 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     // Events
     ///////////////////////////////////////////////////////////////////////////
     event ReceivedEth(address _sender, uint256 _value);
-    event ItemMinted(address _reciever, uint256 _tokenId);
+    event ItemMinted(address _receiver, uint256 _tokenId);
 
     ///////////////////////////////////////////////////////////////////////////
     // Cons
@@ -64,6 +66,8 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         //Do we want control of where the itemType appears in the array?
         //Do we want the types to just increment linearly, or do we want to mark out certain parts?
         //For examples hats are item type 0 - 100, hair is 101-200 etc? Might be easier to handle?
+
+        //Maybe we don't care about the token types being in order - easier to handle.
 
         for(uint256 i = 0; i < itemTypes.length; i++ ){
             if(_itemType == itemTypes[i]){
@@ -112,7 +116,7 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
 
     // Do we even want to mint tokens via a payable?
-
+    // If msg.sender == owner then we can aidrop to a recipient address (no mint price)
     function mintSale(
         address _recipient,
         uint256 _itemType,
@@ -131,6 +135,7 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
 
     // How should we decide who can claim the item?
     // Merkletree? Signatures? Based on another item that they hold?
+    //Speak to metamon contract... need prerequisite per item type (array of token ids for metamons)
     function claimItem(
         address _recipient,
         uint256 _itemType,
@@ -144,22 +149,6 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         uint256[] memory _itemTypes,
         uint256[] memory _quantity
     ) external itemTypesCheck(_itemTypes) nonReentrant {
-        _mintBatch(_recipient, _itemTypes, _quantity, "");
-    }
-
-    function airdropItem(
-        address _recipient,
-        uint256 _itemType,
-        uint256 _quantity
-    ) external itemTypeCheck(_itemType) nonReentrant {
-        _mint(_recipient, _itemType, _quantity, "");
-    }
-
-    function airdropMultipleItems(
-        address _recipient,
-        uint256[] memory _itemTypes,
-        uint256[] memory _quantity
-    ) external payable itemTypesCheck(_itemTypes) nonReentrant {
         _mintBatch(_recipient, _itemTypes, _quantity, "");
     }
 
