@@ -24,3 +24,6 @@ class BackendConnection:
 
     def get_data(self, resource: str, **kwargs):
         self.backend_handler[resource].get(connection=self.instance.connections[resource], **kwargs)
+
+    def remove_data(self, resource: str, **kwargs):
+        self.backend_handler[resource].remove(connection=self.instance.connections[resource], **kwargs)

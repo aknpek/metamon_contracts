@@ -32,6 +32,12 @@ class PinataService(IService):
         response = requests.get(url=url, headers=connection)
         return response.json() if response.ok else RestApiError.error(response)
 
+    def remove(self, url: str, hash: str, connection: Headers):
+        connection["Content-Type"] = "application/json"
+        body = {"ipfs_pin_hash": hash}
+        response = requests.post(url=url, json=body, headers=connection)
+        return {"message": "Removed"} if response.ok else RestApiError.error(response)
+
 
 class ConnectPinata:
     connections: Dict[str, Any] = {}

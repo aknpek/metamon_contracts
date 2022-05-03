@@ -13,3 +13,7 @@ class IService(ABC):
     @abstractmethod
     def get(self, **kwargs):
         """Gets data"""
+
+    @abstractmethod
+    def remove(self, **kwargs):
+        """Remove data"""
