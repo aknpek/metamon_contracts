@@ -6,24 +6,39 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
+//Add later - wont compile if we have this atm as we don't have the contract.
+//   contract Metamon {
+//       mapping(address => mapping(uint256 => bool)) discoveredMetamon;
+//   }
+
 // address => ID => Integer
 // address => tokenTypeId => balance
 contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     using Strings for uint256;
+
+//Add later - wont compile if we have this atm as we don't have the contract.
+    //Metamon metamonContract;
+
+    struct ItemTypeInfo{
+        uint256 itemPrice;
+        uint256 maxMintable;
+        uint256[] requiredMetamon;
+        string uri;
+        bool valid;
+    }
 
     address payable public paymentContractAddress;
 
     string public name;
     string public symbol;
 
-    //Could use struct here for itemTypes and itemPrices
-    // struct with mapping
-    uint256[] public itemTypes;
-    //Map from item type to price
-    mapping(uint256 => uint256) itemPrices;
+    // token type to itemTypeInfo map
+    mapping(uint256 => ItemTypeInfo) itemTypes;
 
-    mapping(uint256 => string) private _uris;
+    //Dummy discovered metamon map
+    mapping(address => mapping(uint256 => bool)) discoveredMetamon;
 
+    uint256 numberOfItemTypes;
     ///////////////////////////////////////////////////////////////////////////
     // Events
     ///////////////////////////////////////////////////////////////////////////
@@ -36,6 +51,8 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     constructor() payable ERC1155("https://gateway.pinata.cloud/ipfs/INSERT_IPFS_HASH_HERE/{id}.json") {
         name = "Metamon Wardrobe Collection";
         symbol = "Minimetamon-WC";
+        //Add later - wont compile if we have this atm as we don't have the contract.
+        //metamonContract = Metamon(metamonContractAddress);
     }
 
     fallback() external payable {}
@@ -48,13 +65,20 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     // Pre-Function Conditions
     ///////////////////////////////////////////////////////////////////////////
     modifier itemTypeCheck(uint256 _itemType) {
-        require(1 <= _itemType && _itemType <= itemTypes.length, "Item Type out of scope!");
+        require(itemTypes[_itemType].valid, "Item Type out of scope!");
         _;
     }
 
     modifier itemTypesCheck(uint256[] memory _itemTypes){
-        for(uint i = 0; i < itemTypes.length; i++){
-            require(1 <= _itemTypes[i] && _itemTypes[i] <= itemTypes.length, "Item Type is out of scope!");
+        for(uint i = 0; i < _itemTypes.length; i++){
+            require(itemTypes[i].valid, "Item Type is out of scope!");
+        }
+        _;
+    }
+
+    modifier requiredMetamonCheck(uint256[] memory _requiredMetamon){
+        for(uint i = 0; i < _requiredMetamon.length; i++){
+            require(discoveredMetamon[msg.sender][i], "Required metamon not held by user");
         }
         _;
     }
@@ -62,33 +86,26 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Pre-Function Conditions
     ///////////////////////////////////////////////////////////////////////////
-    function addWardrobeItem(uint256 _itemType, uint256 _itemPrice) external onlyOwner{
-        //Do we want control of where the itemType appears in the array?
+    function addWardrobeItem(uint256 _itemType,  uint256 _itemPrice, uint256 _maxMintable, uint256[] memory _requiredMetamon, string memory _uri) external onlyOwner{
         //Do we want the types to just increment linearly, or do we want to mark out certain parts?
         //For examples hats are item type 0 - 100, hair is 101-200 etc? Might be easier to handle?
 
         //Maybe we don't care about the token types being in order - easier to handle.
 
-        for(uint256 i = 0; i < itemTypes.length; i++ ){
-            if(_itemType == itemTypes[i]){
-                revert("Item type already exists");
-            }
-        }
-
-        //We have checked if it exists, so let's make this entry
-        itemTypes.push(_itemType);
-        itemPrices[_itemType] = _itemPrice;
+        ItemTypeInfo memory newItemTypeInfo = ItemTypeInfo(_itemPrice, _maxMintable, _requiredMetamon, _uri, true);
+        itemTypes[_itemType] = newItemTypeInfo;
+        numberOfItemTypes++;
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Get/Set State Changes
     ///////////////////////////////////////////////////////////////////////////
-    function changeItemPrice(uint256 _new_price, uint256 _itemType)
+    function setItemPrice(uint256 _newPrice, uint256 _itemType)
         external
         onlyOwner
         itemTypeCheck(_itemType)
     {
-        itemPrices[_itemType] = _new_price;
+        itemTypes[_itemType].itemPrice = _newPrice;
     }
 
     function getItemPrice(uint256 _itemType)
@@ -97,11 +114,45 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         itemTypeCheck(_itemType)
         returns (uint256)
     {
-        return itemPrices[_itemType];
+        return itemTypes[_itemType].itemPrice;
+    }
+
+    function setMaxMintable(uint256 _maxMintable, uint256 _itemType)
+        external
+        onlyOwner
+        itemTypeCheck(_itemType)
+    {
+        itemTypes[_itemType].maxMintable = _maxMintable;
+    }
+
+    function getMaxMintable(uint256 _itemType)
+        public
+        view
+        itemTypeCheck(_itemType)
+        returns (uint256)
+    {
+        return itemTypes[_itemType].maxMintable;
+    }
+
+    function setRequiredMetamon(uint256[] memory _requiredMetamon, uint256 _itemType)
+        external
+        onlyOwner
+        itemTypeCheck(_itemType)
+    {
+        itemTypes[_itemType].requiredMetamon = _requiredMetamon;
+    }
+
+    function getRequiredMetamon(uint256 _itemType)
+        public
+        view
+        itemTypeCheck(_itemType)
+        returns (uint256[] memory)
+    {
+        return itemTypes[_itemType].requiredMetamon;
     }
 
     function totalItemTypes() public view returns (uint256) {
-        return itemTypes.length;
+        return numberOfItemTypes;
     }
 
     function setPayableAddress(address payable _paymentContractAddress)
@@ -120,16 +171,18 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     function mintSale(
         address _recipient,
         uint256 _itemType,
-        uint256 _quantity
-    ) external payable itemTypeCheck(_itemType) nonReentrant {
+        uint256 _quantity,
+        uint256[] memory _requiredMetamon
+    ) external payable itemTypeCheck(_itemType) requiredMetamonCheck(_requiredMetamon) nonReentrant {
         _mint(_recipient, _itemType, _quantity, "");
     }
 
     function mintMultipleSale(
         address _recipient,
         uint256[] memory _itemTypes,
-        uint256[] memory _quantity
-    ) external payable itemTypesCheck(_itemTypes) nonReentrant {
+        uint256[] memory _quantity,
+        uint256[] memory _requiredMetamon
+    ) external payable itemTypesCheck(_itemTypes) requiredMetamonCheck(_requiredMetamon) nonReentrant {
         _mintBatch(_recipient, _itemTypes, _quantity, "");
     }
 
@@ -139,16 +192,18 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     function claimItem(
         address _recipient,
         uint256 _itemType,
-        uint256 _quantity
-    ) external itemTypeCheck(_itemType) nonReentrant {
+        uint256 _quantity,
+        uint256[] memory _requiredMetamon
+    ) external itemTypeCheck(_itemType) requiredMetamonCheck(_requiredMetamon) nonReentrant {
         _mint(_recipient, _itemType, _quantity, "");
     }
 
     function claimMultipleItems(
         address _recipient,
         uint256[] memory _itemTypes,
-        uint256[] memory _quantity
-    ) external itemTypesCheck(_itemTypes) nonReentrant {
+        uint256[] memory _quantity,
+        uint256[] memory _requiredMetamon
+    ) external itemTypesCheck(_itemTypes) requiredMetamonCheck(_requiredMetamon) nonReentrant {
         _mintBatch(_recipient, _itemTypes, _quantity, "");
     }
 
@@ -156,11 +211,11 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     // Backend URIs
     ///////////////////////////////////////////////////////////////////////////
     function uri(uint256 tokenId) override public view returns (string memory){
-        return(_uris[tokenId]);
+        return(itemTypes[tokenId].uri);
     }
     function setTokenUri(uint256 tokenId, string memory newUri) external onlyOwner 
     {
-        _uris[tokenId] = newUri;
+        itemTypes[tokenId].uri = newUri;
     }
 
     ///////////////////////////////////////////////////////////////////////////
