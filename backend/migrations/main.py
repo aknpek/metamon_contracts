@@ -22,7 +22,7 @@ from connection.pinata.PinataData import (
 
 from dotenv import load_dotenv
 from typing import List, Dict
-from helpers.data_files import  read_json
+from helpers.data_files import read_json, write_json
 
 
 def aws_connection(backend_connection: BackendConnection):
@@ -130,7 +130,7 @@ def pinata_connection(backend_connection: BackendConnection):
     path_to_file_6 = "./statics/trainer/files/female/hair/order-hair/"
     path_to_file_7 = "./statics/trainer/files/female/hair/spiky-hair/"
     path_to_file_8 = "./statics/trainer/files/female/hair/tail-hair/"
-    _path_to_file_4_json = "./statics/trainer/metadata/female//hair.json"
+    _path_to_file_4_json = "./statics/trainer/metadata/female/hair/hair.json"
 
     paths = [
         path_to_file_1,
@@ -191,6 +191,28 @@ def pinata_connection(backend_connection: BackendConnection):
     pinata_json_file_3 = create_json_load(pinned_info, path_to_file_3_.replace("./statics/trainer", ""), read_json(path_to_file_3_json))
     pinata_json_file_4 = create_json_load(pinned_info, path_to_file_4_.replace("./statics/trainer", ""), read_json(path_to_file_4_json))
 
+    m_pinata_json_file_1 = create_json_load(pinned_info, path_to_file_1.replace("./statics/trainer", ""), read_json(_path_to_file_1_json))
+    m_pinata_json_file_2 = create_json_load(pinned_info, path_to_file_2.replace("./statics/trainer", ""), read_json(_path_to_file_2_json))
+    m_pinata_json_file_3 = create_json_load(pinned_info, path_to_file_3.replace("./statics/trainer", ""), read_json(_path_to_file_3_json))
+    m_pinata_json_file_4 = create_json_load(pinned_info, path_to_file_4.replace("./statics/trainer", ""), read_json(_path_to_file_4_json))
+
+    male_char = [
+        pinata_json_file_1,
+        pinata_json_file_2,
+        pinata_json_file_3,
+        pinata_json_file_4,
+    ]
+
+    female_char = [
+        m_pinata_json_file_1,
+        m_pinata_json_file_2,
+        m_pinata_json_file_3,
+        m_pinata_json_file_4
+    ]
+
+    write_json("./statics/output/default_male_traits.json", male_char)
+
+    write_json("./statics/output/default_female_traits.json", female_char)
     ############################
     # remove
     ############################
