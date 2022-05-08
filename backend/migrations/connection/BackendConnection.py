@@ -17,13 +17,13 @@ class BackendConnection:
         self.backend_handler[resource] = backend_handler
 
     def upload_data(self, resource: str, **kwargs):
-        self.backend_handler[resource].upload(connection=self.instance.connections[resource], **kwargs)
+        return self.backend_handler[resource].upload(connection=self.instance.connections[resource], **kwargs)
 
     def download_data(self, resource: str, **kwargs):
-        self.backend_handler[resource].download(connection=self.instance.connections[resource], **kwargs)
+        return self.backend_handler[resource].download(connection=self.instance.connections[resource], **kwargs)
 
     def get_data(self, resource: str, **kwargs):
-        self.backend_handler[resource].get(connection=self.instance.connections[resource], **kwargs)
+        return self.backend_handler[resource].get(connection=self.instance.connections[resource], **kwargs)
 
     def remove_data(self, resource: str, **kwargs):
-        self.backend_handler[resource].remove(connection=self.instance.connections[resource], **kwargs)
+        return self.backend_handler[resource].remove(connection=self.instance.connections[resource], **kwargs)
