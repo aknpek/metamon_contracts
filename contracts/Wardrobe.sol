@@ -6,16 +6,17 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-//Add later - wont compile if we have this atm as we don't have the contract.
-//   contract Metamon {
-//       mapping(address => mapping(uint256 => bool)) discoveredMetamon;
-//   }
+
+   interface IMetamon {
+        function metamonOwnership(address owner) external returns(uint256[] memory);
+   }
 
 // address => ID => Integer
 // address => tokenTypeId => balance
 contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     using Strings for uint256;
 
+    IMetamon public metamonContract;
 //Add later - wont compile if we have this atm as we don't have the contract.
     //Metamon metamonContract;
 
@@ -35,9 +36,6 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     // token type to itemTypeInfo map
     mapping(uint256 => ItemTypeInfo) itemTypes;
 
-    //Dummy discovered metamon map
-    mapping(address => mapping(uint256 => bool)) discoveredMetamon;
-
     uint256 numberOfItemTypes;
     ///////////////////////////////////////////////////////////////////////////
     // Events
@@ -48,17 +46,23 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Cons
     ///////////////////////////////////////////////////////////////////////////
-    constructor() payable ERC1155("https://gateway.pinata.cloud/ipfs/INSERT_IPFS_HASH_HERE/{id}.json") {
+    constructor(address metamonAddress) payable ERC1155("https://gateway.pinata.cloud/ipfs/INSERT_IPFS_HASH_HERE/{id}.json") {
         name = "Metamon Wardrobe Collection";
         symbol = "Minimetamon-WC";
-        //Add later - wont compile if we have this atm as we don't have the contract.
-        //metamonContract = Metamon(metamonContractAddress);
+        metamonContract = IMetamon(metamonAddress);
     }
 
     fallback() external payable {}
 
     receive() external payable {
         emit ReceivedEth(msg.sender, msg.value);
+    }
+
+    function setMetamonContractAddress(address _metamonContractAddress)
+        external
+        onlyOwner
+    {
+        metamonContract = IMetamon(_metamonContractAddress);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -77,9 +81,20 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     }
 
     modifier requiredMetamonCheck(uint256[] memory _requiredMetamon){
-        for(uint i = 0; i < _requiredMetamon.length; i++){
-            require(discoveredMetamon[msg.sender][i], "Required metamon not held by user");
+        uint256[] memory ownedMetamon = metamonContract.metamonOwnership(msg.sender);
+        bool metamonFound = true;
+        for(uint i = 0; i < _requiredMetamon.length && metamonFound; i++){
+
+            for(uint j = 0; j < ownedMetamon.length; j++){
+                if(_requiredMetamon[i] == ownedMetamon[j]){
+                    metamonFound = true;
+                    break;
+                }else{
+                    metamonFound = false;
+                }
+            }
         }
+        require(metamonFound, "You do not own all the required metamon");
         _;
     }
 
