@@ -87,7 +87,6 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
 
             for(uint j = 0; j < ownedMetamon.length; j++){
                 if(_requiredMetamon[i] == ownedMetamon[j]){
-                    metamonFound = true;
                     break;
                 }else{
                     metamonFound = false;
