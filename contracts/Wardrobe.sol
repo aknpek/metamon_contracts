@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 
 
    interface IMetamon {
-        function metamonOwnership(address owner) external returns(uint256[] memory);
+        function metamonOwnership(address owner, uint256 requiredMetamon) external returns(bool);
    }
 
 // address => ID => Integer
@@ -80,20 +80,25 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         _;
     }
 
-    modifier requiredMetamonCheck(uint256[] memory _requiredMetamon){
-        uint256[] memory ownedMetamon = metamonContract.metamonOwnership(msg.sender);
-        bool metamonFound = true;
-        for(uint i = 0; i < _requiredMetamon.length && metamonFound; i++){
+    modifier requiredMetamonCheck(uint256 _itemType){
+        uint256[] memory requiredMetamon = itemTypes[_itemType].requiredMetamon;
+        for(uint256 i; i< requiredMetamon.length; i++){
+            if(!metamonContract.metamonOwnership(msg.sender, requiredMetamon[i])){
+                revert("Required metamon not owned by sender");
+            }
+        }
+        _;
+    }
 
-            for(uint j = 0; j < ownedMetamon.length; j++){
-                if(_requiredMetamon[i] == ownedMetamon[j]){
-                    break;
-                }else{
-                    metamonFound = false;
+      modifier requiredMetamonChecks(uint256[] memory _itemTypes){
+        for(uint i = 0; i < _itemTypes.length; i++){
+            uint256[] memory _requiredMetamon = itemTypes[_itemTypes[i]].requiredMetamon;
+            for(uint256 j; j < _requiredMetamon.length; i++){
+                if(!metamonContract.metamonOwnership(msg.sender, _requiredMetamon[j])){
+                    revert("Required metamon not owned by sender");
                 }
             }
         }
-        require(metamonFound, "You do not own all the required metamon");
         _;
     }
 
@@ -185,18 +190,16 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     function mintSale(
         address _recipient,
         uint256 _itemType,
-        uint256 _quantity,
-        uint256[] memory _requiredMetamon
-    ) external payable itemTypeCheck(_itemType) requiredMetamonCheck(_requiredMetamon) nonReentrant {
+        uint256 _quantity
+    ) external payable itemTypeCheck(_itemType) requiredMetamonCheck(_itemType) nonReentrant {
         _mint(_recipient, _itemType, _quantity, "");
     }
 
     function mintMultipleSale(
         address _recipient,
         uint256[] memory _itemTypes,
-        uint256[] memory _quantity,
-        uint256[] memory _requiredMetamon
-    ) external payable itemTypesCheck(_itemTypes) requiredMetamonCheck(_requiredMetamon) nonReentrant {
+        uint256[] memory _quantity
+    ) external payable itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) nonReentrant {
         _mintBatch(_recipient, _itemTypes, _quantity, "");
     }
 
@@ -206,18 +209,16 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     function claimItem(
         address _recipient,
         uint256 _itemType,
-        uint256 _quantity,
-        uint256[] memory _requiredMetamon
-    ) external itemTypeCheck(_itemType) requiredMetamonCheck(_requiredMetamon) nonReentrant {
+        uint256 _quantity
+    ) external itemTypeCheck(_itemType) requiredMetamonCheck(_itemType) nonReentrant {
         _mint(_recipient, _itemType, _quantity, "");
     }
 
     function claimMultipleItems(
         address _recipient,
         uint256[] memory _itemTypes,
-        uint256[] memory _quantity,
-        uint256[] memory _requiredMetamon
-    ) external itemTypesCheck(_itemTypes) requiredMetamonCheck(_requiredMetamon) nonReentrant {
+        uint256[] memory _quantity
+    ) external itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) nonReentrant {
         _mintBatch(_recipient, _itemTypes, _quantity, "");
     }
 
