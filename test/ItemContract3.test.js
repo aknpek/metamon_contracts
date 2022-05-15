@@ -26,7 +26,8 @@ contract("Item", () => {
       first_mint_phase["mintQuantity"]
     );
     const balance = await deployedContract.balanceOf(
-      first_mint_phase["recipient"]
+      first_mint_phase["recipient"],
+      first_mint_phase["itemType"]
     );
     assert(balance.toNumber() === first_mint_phase["mintQuantity"]);
   });
@@ -50,11 +51,11 @@ contract("Item", () => {
         );
         total_minted += complex_mint_phase[i]["mintQuantity"];
       }
-
       const balance = await deployedContract.balanceOf(
         complex_mint_phase[1]["recipient"]
       );
 
+      console.log(balance.toNumber())
       assert(balance.toNumber() === total_minted);
     } catch {
       assert(true);
@@ -129,6 +130,7 @@ contract("Item", () => {
     const balance = await deployedContract.balanceOf(
       complex_mint_phase[1]["recipient"]
     );
+    console.log("Balance = " + balance);
     assert(balance.toNumber() === total_minted);
   });
 
@@ -154,11 +156,11 @@ contract("Item", () => {
 
     try {
       const before_burn_balance = await deployedContract.balanceOf(
-        complex_mint_phase[1]["recipient"]
+        complex_mint_phase[1]["recipient"], tokenId
       );
       await deployedContract.burn(complex_mint_phase[1]["recipient"], tokenId);
       const after_burn_balance = await deployedContract.balanceOf(
-        complex_mint_phase[1]["recipient"]
+        complex_mint_phase[1]["recipient"], tokenId
       );
       assert(after_burn_balance.toNumber() < before_burn_balance.toNumber());
       assert(false);
@@ -173,12 +175,12 @@ contract("Item", () => {
     const tokenId = 1; // Since in the testCases yml, we first mint tokenType 1 tokens, therefore, they are burnable
 
     const before_burn_balance = await deployedContract.balanceOf(
-      complex_mint_phase[1]["recipient"]
+      complex_mint_phase[1]["recipient"], tokenId
     );
     await deployedContract.burn(complex_mint_phase[1]["recipient"], tokenId);
 
     const after_burn_balance = await deployedContract.balanceOf(
-      complex_mint_phase[1]["recipient"]
+      complex_mint_phase[1]["recipient"], tokenId
     );
 
     assert(after_burn_balance.toNumber() < before_burn_balance.toNumber());
