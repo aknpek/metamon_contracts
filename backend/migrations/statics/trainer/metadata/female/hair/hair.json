@@ -1,0 +1,155 @@
+{
+    "title": "Hair",
+    "items": [
+        {
+            "shape": "cap-hair",
+            "colorItems": [
+                {
+                    "title": "black",
+                    "imageUrl": "WCapBlack",
+                    "colorHash": "#44525C"
+                },
+                {
+                    "title": "brown",
+                    "imageUrl": "WCapBrown",
+                    "colorHash": "#987767"
+                },
+                {
+                    "title": "burgundy",
+                    "imageUrl": "WCapBurgundy",
+                    "colorHash": "#8B4C51"
+                },
+                {
+                    "title": "blonde",
+                    "imageUrl": "WCapBlonde",
+                    "colorHash": "#FAE59B"
+                },
+                {
+                    "title": "white",
+                    "imageUrl": "WCapWhite",
+                    "colorHash": "#FAFAFA"
+                }
+            ]
+        },
+        {
+            "shape": "bold-hair",
+            "colorItems": [
+                {
+                    "title": "black",
+                    "imageUrl": "WBoldBlack",
+                    "colorHash": "#44525C"
+                },
+                {
+                    "title": "brown",
+                    "imageUrl": "WBoldBrown",
+                    "colorHash": "#987767"
+                },
+                {
+                    "title": "burgundy",
+                    "imageUrl": "WBoldBurgundy",
+                    "colorHash": "#8B4C51"
+                },
+                {
+                    "title": "blonde",
+                    "imageUrl": "WBoldBlonde",
+                    "colorHash": "#FAE59B"
+                },
+                {
+                    "title": "white",
+                    "imageUrl": "WBoldWhite",
+                    "colorHash": "#FAFAFA"
+                }
+            ]
+        },
+        {
+            "shape": "tail-hair",
+            "colorItems": [
+                {
+                    "title": "black",
+                    "imageUrl": "WTailBlack",
+                    "colorHash": "#44525C"
+                },
+                {
+                    "title": "brown",
+                    "imageUrl": "WTailBrown",
+                    "colorHash": "#987767"
+                },
+                {
+                    "title": "burgundy",
+                    "imageUrl": "WTailBurgundy",
+                    "colorHash": "#8B4C51"
+                },
+                {
+                    "title": "blonde",
+                    "imageUrl": "WTailBlonde",
+                    "colorHash": "#FAE59B"
+                },
+                {
+                    "title": "white",
+                    "imageUrl": "WTailWhite",
+                    "colorHash": "#FAFAFA"
+                }
+            ]
+        },
+        {
+            "shape": "order-hair",
+            "colorItems": [
+                {
+                    "title": "black",
+                    "imageUrl": "WOrderBlack",
+                    "colorHash": "#44525C"
+                },
+                {
+                    "title": "brown",
+                    "imageUrl": "WOrderBrown",
+                    "colorHash": "#987767"
+                },
+                {
+                    "title": "burgundy",
+                    "imageUrl": "WOrderBurgundy",
+                    "colorHash": "#8B4C51"
+                },
+                {
+                    "title": "blonde",
+                    "imageUrl": "WOrderBlonde",
+                    "colorHash": "#FAE59B"
+                },
+                {
+                    "title": "white",
+                    "imageUrl": "WOrderWhite",
+                    "colorHash": "#FAFAFA"
+                }
+            ]
+        },
+        {
+            "shape": "spiky-hair",
+            "colorItems": [
+                {
+                    "title": "black",
+                    "imageUrl": "WSpikyBlack",
+                    "colorHash": "#44525C"
+                },
+                {
+                    "title": "brown",
+                    "imageUrl": "WSpikyBrown",
+                    "colorHash": "#987767"
+                },
+                {
+                    "title": "burgundy",
+                    "imageUrl": "WSpikyBurgundy",
+                    "colorHash": "#8B4C51"
+                },
+                {
+                    "title": "blonde",
+                    "imageUrl": "WSpikyBlonde",
+                    "colorHash": "#FAE59B"
+                },
+                {
+                    "title": "white",
+                    "imageUrl": "WSpikyWhite",
+                    "colorHash": "#FAFAFA"
+                }
+            ]
+        }
+    ]
+}

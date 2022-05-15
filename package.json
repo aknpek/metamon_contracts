@@ -1,0 +1,33 @@
+{
+  "name": "metamon_contracts",
+  "version": "1.0.0",
+  "description": "Whole Contracts of the Metamon Project",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aknpek/metamon_contracts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@chainlink/contracts": "^0.4.0",
+    "aws-amplify": "^4.3.17",
+    "dotenv": "^10.0.0",
+    "js-yaml": "^4.1.0",
+    "solc": "^0.8.10",
+    "web3": "^1.6.1"
+  },
+  "bugs": {
+    "url": "https://github.com/aknpek/metamon_contracts/issues"
+  },
+  "homepage": "https://github.com/aknpek/metamon_contracts#readme",
+  "devDependencies": {
+    "@openzeppelin/contracts": "^4.6.0"
+  }
+}

@@ -1,0 +1,35 @@
+{
+    "title": "Skin tone",
+    "items": [
+        {
+            "shape": "body",
+            "colorItems": [
+                {
+                    "title": "white",
+                    "imageUrl": "WWhiteBody",
+                    "colorHash": "#FDEEE7"
+                },
+                {
+                    "title": "light",
+                    "imageUrl": "WLightBody",
+                    "colorHash": "#F0CFB8"
+                },
+                {
+                    "title": "normal",
+                    "imageUrl": "WNormalBody",
+                    "colorHash": "#E3B4A3"
+                },
+                {
+                    "title": "dark",
+                    "imageUrl": "WDarkBody",
+                    "colorHash": "#A27667"
+                },
+                {
+                    "title": "more-dark",
+                    "imageUrl": "WMoreDarkBody",
+                    "colorHash": "#8A6258"
+                }
+            ]
+        }
+    ]
+}

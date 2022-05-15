@@ -1,0 +1,155 @@
+{
+  "title": "Hair",
+  "items": [
+    {
+      "shape": "cap-hair",
+      "colorItems": [
+        {
+          "title": "black",
+          "imageUrl": "CapBlack",
+          "colorHash": "#44525C"
+        },
+        {
+          "title": "brown",
+          "imageUrl": "CapBrown",
+          "colorHash": "#987767"
+        },
+        {
+          "title": "burgundy",
+          "imageUrl": "CapBurgundy",
+          "colorHash": "#8B4C51"
+        },
+        {
+          "title": "blonde",
+          "imageUrl": "CapBlonde",
+          "colorHash": "#FAE59B"
+        },
+        {
+          "title": "white",
+          "imageUrl": "CapWhite",
+          "colorHash": "#FAFAFA"
+        }
+      ]
+    },
+    {
+      "shape": "bold-hair",
+      "colorItems": [
+        {
+          "title": "black",
+          "imageUrl": "BoldBlack",
+          "colorHash": "#44525C"
+        },
+        {
+          "title": "brown",
+          "imageUrl": "BoldBrown",
+          "colorHash": "#987767"
+        },
+        {
+          "title": "burgundy",
+          "imageUrl": "BoldBurgundy",
+          "colorHash": "#8B4C51"
+        },
+        {
+          "title": "blonde",
+          "imageUrl": "BoldBlonde",
+          "colorHash": "#FAE59B"
+        },
+        {
+          "title": "white",
+          "imageUrl": "BoldWhite",
+          "colorHash": "#FAFAFA"
+        }
+      ]
+    },
+    {
+      "shape": "tail-hair",
+      "colorItems": [
+        {
+          "title": "black",
+          "imageUrl": "TailBlack",
+          "colorHash": "#44525C"
+        },
+        {
+          "title": "brown",
+          "imageUrl": "TailBrown",
+          "colorHash": "#987767"
+        },
+        {
+          "title": "burgundy",
+          "imageUrl": "TailBurgundy",
+          "colorHash": "#8B4C51"
+        },
+        {
+          "title": "blonde",
+          "imageUrl": "TailBlonde",
+          "colorHash": "#FAE59B"
+        },
+        {
+          "title": "white",
+          "imageUrl": "TailWhite",
+          "colorHash": "#FAFAFA"
+        }
+      ]
+    },
+    {
+      "shape": "order-hair",
+      "colorItems": [
+        {
+          "title": "black",
+          "imageUrl": "OrderBlack",
+          "colorHash": "#44525C"
+        },
+        {
+          "title": "brown",
+          "imageUrl": "OrderBrown",
+          "colorHash": "#987767"
+        },
+        {
+          "title": "burgundy",
+          "imageUrl": "OrderBurgundy",
+          "colorHash": "#8B4C51"
+        },
+        {
+          "title": "blonde",
+          "imageUrl": "OrderBlonde",
+          "colorHash": "#FAE59B"
+        },
+        {
+          "title": "white",
+          "imageUrl": "OrderWhite",
+          "colorHash": "#FAFAFA"
+        }
+      ]
+    },
+    {
+      "shape": "spiky-hair",
+      "colorItems": [
+        {
+          "title": "black",
+          "imageUrl": "SpikyBlack",
+          "colorHash": "#44525C"
+        },
+        {
+          "title": "brown",
+          "imageUrl": "SpikyBrown",
+          "colorHash": "#987767"
+        },
+        {
+          "title": "burgundy",
+          "imageUrl": "SpikyBurgundy",
+          "colorHash": "#8B4C51"
+        },
+        {
+          "title": "blonde",
+          "imageUrl": "SpikyBlonde",
+          "colorHash": "#FAE59B"
+        },
+        {
+          "title": "white",
+          "imageUrl": "SpikyWhite",
+          "colorHash": "#FAFAFA"
+        }
+      ]
+    }
+  ]
+}
