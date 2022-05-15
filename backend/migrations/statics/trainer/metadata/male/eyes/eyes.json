@@ -1,0 +1,50 @@
+{
+  "title": "Eyes",
+  "items": [
+    {
+      "shape": "small-eyes",
+      "colorItems": [
+        {
+          "title": "black",
+          "imageUrl": "BlackEyes",
+          "colorHash": "#5E5E5E"
+        },
+        {
+          "title": "brown",
+          "imageUrl": "BrownEyes",
+          "colorHash": "#A7676B"
+        },
+        {
+          "title": "grey",
+          "imageUrl": "GreyEyes",
+          "colorHash": "#90A3A4"
+        },
+        {
+          "title": "green",
+          "imageUrl": "GreenEyes",
+          "colorHash": "#59B087"
+        },
+        {
+          "title": "hazel",
+          "imageUrl": "HazelEyes",
+          "colorHash": "#EDD899"
+        },
+        {
+          "title": "white",
+          "imageUrl": "WhiteEyes",
+          "colorHash": "#FFFFFF"
+        },
+        {
+          "title": "blue",
+          "imageUrl": "BlueEyes",
+          "colorHash": "#4D8FC5"
+        },
+        {
+          "title": "red",
+          "imageUrl": "RedEyes",
+          "colorHash": "#F29B64"
+        }
+      ]
+    }
+  ]
+}
