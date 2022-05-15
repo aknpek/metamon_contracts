@@ -23,12 +23,12 @@ ItemContract:
   mintComplex: [
     {
       itemType: 2,
-      mintQuantity: 10,
+      mintQuantity: 1,
       recipient: "0xF4a615744B90900542749eB3e043148899d36Eb7"
       },
     {
       itemType: 3,
-      mintQuantity: 12,
+      mintQuantity: 1,
       recipient: "0xF4a615744B90900542749eB3e043148899d36Eb7"
     }
   ]
