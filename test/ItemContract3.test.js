@@ -20,7 +20,6 @@ contract("Item", () => {
 
   it("Check Mint as Owner", async () => {
     await deployedContract.mintSale(
-      pass_code,
       first_mint_phase["recipient"],
       first_mint_phase["itemType"],
       first_mint_phase["mintQuantity"]
@@ -39,7 +38,6 @@ contract("Item", () => {
       let _send_eth = _floor * complex_mint_phase[i]["mintQuantity"];
 
       await deployedContract.mintSale(
-        pass_code,
         complex_mint_phase[i]["recipient"],
         complex_mint_phase[i]["itemType"],
         complex_mint_phase[i]["mintQuantity"],

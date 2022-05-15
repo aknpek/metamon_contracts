@@ -84,16 +84,6 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
         _;
     }
 
-    modifier passCheck(string memory _passCode) {
-        // This modifier limits the access into mintFunction
-        require(
-            keccak256(abi.encodePacked(_passCode)) ==
-                keccak256(abi.encodePacked(passWord)),
-            "Token not match!"
-        );
-        _;
-    }
-
     ///////////////////////////////////////////////////////////////////////////
     // Get/Set State Changes
     ///////////////////////////////////////////////////////////////////////////
@@ -195,11 +185,10 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     // Mint Tokens
     ///////////////////////////////////////////////////////////////////////////
     function mintSale(
-        string memory _passCode,
         address _recipient,
         uint8 _itemType,
         uint256 _quantity
-    ) external payable passCheck(_passCode) nonReentrant {
+    ) external payable nonReentrant {
 
         uint256 _totalOwned = specificItemOwnership(_recipient, _itemType);
         require(_totalOwned + _quantity <= maxOwnable[_itemType - 1], "Max ownable quantity reached!");

@@ -5,6 +5,11 @@ Whole Contracts of the Metamon Project
 
 - Make sure you have "ganache" installed already
 - Run "ganache" and check "truffle-config.js" file comment-out
+- Persist ganache cli accounts to create same accounts.
+- Change development network PORT and HOST in truffle-config.js.
+```
+ganache-cli server -d
+```
 
 ```bash
         development: {
@@ -25,7 +30,7 @@ truffle migrate --network development
 ```
 
 ```
-truffle migrate --network development -f 4 // this will migrate 4_ contract which is payment contract
+truffle migrate --network development -f 4 --to 4 // this will migrate 4_ contract which is payment contract
 ```
 
 - Get the contract details and update ./test/
@@ -36,6 +41,7 @@ truffle test
 ```
 
 - Inside the ./test folder we have testCases, where you should update **itemContractAddress** and **metamonContractAddress** variables.
+
 
 
 # VRF Explanation
