@@ -228,7 +228,7 @@ def pinata_connection(backend_connection: BackendConnection):
 def main():
     load_dotenv()
     backend_connection = BackendConnection(app_dev=True, service=ConnectPinata)
-    pinata_connection(backend_connection=backend_connection)
+    # pinata_connection(backend_connection=backend_connection)
 
 
 if __name__ == "__main__":
