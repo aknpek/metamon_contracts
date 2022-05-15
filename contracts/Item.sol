@@ -201,15 +201,10 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
         uint256 _quantity
     ) external payable passCheck(_passCode) nonReentrant {
 
-        uint256 _itemSupplyLeft = getSupplyLeft(_itemType);
-
         uint256 _totalOwned = specificItemOwnership(_recipient, _itemType);
-        uint256 _maxOwnable = maxOwnable[_itemType - 1];
-        require(
-            _totalOwned + _quantity <= _maxOwnable,
-            "Max ownable quantity reached!"
-        );
+        require(_totalOwned + _quantity <= maxOwnable[_itemType - 1], "Max ownable quantity reached!");
 
+        uint256 _itemSupplyLeft = getSupplyLeft(_itemType);
         uint256 _itemFloor = getFloorPrice(_itemType);
 
         uint256 _maxMintable = mintableLeft(_quantity, _itemSupplyLeft);
