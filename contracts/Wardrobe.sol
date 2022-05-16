@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
-
+import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
    interface IMetamon {
         function metamonOwnership(address owner, uint256 requiredMetamon) external returns(bool);
@@ -24,6 +24,7 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         uint256 itemPrice;
         uint256 maxMintable;
         uint256[] requiredMetamon;
+        bytes32 merkleRoot;
         string uri;
         bool valid;
     }
@@ -90,7 +91,7 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         _;
     }
 
-      modifier requiredMetamonChecks(uint256[] memory _itemTypes){
+    modifier requiredMetamonChecks(uint256[] memory _itemTypes){
         for(uint i = 0; i < _itemTypes.length; i++){
             uint256[] memory _requiredMetamon = itemTypes[_itemTypes[i]].requiredMetamon;
             for(uint256 j; j < _requiredMetamon.length; i++){
@@ -102,16 +103,32 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         _;
     }
 
+    modifier requiredWhitelist(uint256 _itemType, bytes32[] calldata _merkleProof){
+        if(itemTypes[_itemType].merkleRoot.length > 0){
+            require(MerkleProof.verify(_merkleProof, itemTypes[_itemType].merkleRoot, keccak256(abi.encodePacked(msg.sender))), "Invalid proof - Caller not whitelisted");
+        }
+        _;
+    }
+
+    modifier requiredWhitelists(uint256[] memory _itemTypes, bytes32[][] calldata _merkleProofs){
+        for(uint i = 0; i < _itemTypes.length; i++){
+            if(itemTypes[_itemTypes[i]].merkleRoot.length > 0){
+                require(MerkleProof.verify(_merkleProofs[i], itemTypes[i].merkleRoot, keccak256(abi.encodePacked(msg.sender))), "Invalid proof - caller not whitelisted");
+            }
+        }
+        _;
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Pre-Function Conditions
     ///////////////////////////////////////////////////////////////////////////
-    function addWardrobeItem(uint256 _itemType,  uint256 _itemPrice, uint256 _maxMintable, uint256[] memory _requiredMetamon, string memory _uri) external onlyOwner{
+    function addWardrobeItem(uint256 _itemType,  uint256 _itemPrice, uint256 _maxMintable, uint256[] memory _requiredMetamon, bytes32 _merkleRoot, string memory _uri) external onlyOwner{
         //Do we want the types to just increment linearly, or do we want to mark out certain parts?
         //For examples hats are item type 0 - 100, hair is 101-200 etc? Might be easier to handle?
 
         //Maybe we don't care about the token types being in order - easier to handle.
 
-        ItemTypeInfo memory newItemTypeInfo = ItemTypeInfo(_itemPrice, _maxMintable, _requiredMetamon, _uri, true);
+        ItemTypeInfo memory newItemTypeInfo = ItemTypeInfo(_itemPrice, _maxMintable, _requiredMetamon, _merkleRoot, _uri, true);
         itemTypes[_itemType] = newItemTypeInfo;
         numberOfItemTypes++;
     }
@@ -170,6 +187,14 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         return itemTypes[_itemType].requiredMetamon;
     }
 
+    function setMerkleRoot(bytes32 _merkleRoot, uint256 _itemType) external onlyOwner itemTypeCheck(_itemType){
+        itemTypes[_itemType].merkleRoot = _merkleRoot;
+    }
+
+    function getMerkleRoot(uint256 _itemType) external view onlyOwner returns (bytes32)  {
+        return itemTypes[_itemType].merkleRoot;
+    }
+
     function totalItemTypes() public view returns (uint256) {
         return numberOfItemTypes;
     }
@@ -190,16 +215,18 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     function mintSale(
         address _recipient,
         uint256 _itemType,
-        uint256 _quantity
-    ) external payable itemTypeCheck(_itemType) requiredMetamonCheck(_itemType) nonReentrant {
+        uint256 _quantity,
+        bytes32[] calldata _merkleProof
+    ) external payable itemTypeCheck(_itemType) requiredMetamonCheck(_itemType) requiredWhitelist(_itemType, _merkleProof) nonReentrant {
         _mint(_recipient, _itemType, _quantity, "");
     }
 
     function mintMultipleSale(
         address _recipient,
         uint256[] memory _itemTypes,
-        uint256[] memory _quantity
-    ) external payable itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) nonReentrant {
+        uint256[] memory _quantity,
+        bytes32[][] calldata _merkelProofs
+    ) external payable itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) requiredWhitelists(_itemTypes, _merkelProofs) nonReentrant {
         _mintBatch(_recipient, _itemTypes, _quantity, "");
     }
 
@@ -209,16 +236,18 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     function claimItem(
         address _recipient,
         uint256 _itemType,
-        uint256 _quantity
-    ) external itemTypeCheck(_itemType) requiredMetamonCheck(_itemType) nonReentrant {
+        uint256 _quantity,
+        bytes32[] calldata _merkleProof
+    ) external itemTypeCheck(_itemType) requiredMetamonCheck(_itemType) requiredWhitelist(_itemType, _merkleProof) nonReentrant {
         _mint(_recipient, _itemType, _quantity, "");
     }
 
     function claimMultipleItems(
         address _recipient,
         uint256[] memory _itemTypes,
-        uint256[] memory _quantity
-    ) external itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) nonReentrant {
+        uint256[] memory _quantity,
+        bytes32[][] calldata _merkleProofs
+    ) external itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) requiredWhitelists(_itemTypes, _merkleProofs) nonReentrant {
         _mintBatch(_recipient, _itemTypes, _quantity, "");
     }
 
