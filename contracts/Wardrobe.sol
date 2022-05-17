@@ -259,6 +259,17 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         _mintBatch(msg.sender, _itemTypes, _quantity, "");
     }
 
+    function specialRewardForUser(
+        address _user,
+        uint256 _quantity,
+        uint256 _itemType
+    ) external itemTypeCheck(_itemType) nonReentrant {
+        require(msg.sender == address(this) || msg.sender == address(metamonContract), "Caller not valid");
+        if(balanceOf(_user, _itemType) >= itemTypes[_itemType].maxMintable){
+            _mint(_user, _itemType, _quantity, "");
+        }
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Backend URIs
     ///////////////////////////////////////////////////////////////////////////
