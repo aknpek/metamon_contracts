@@ -47,10 +47,9 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Cons
     ///////////////////////////////////////////////////////////////////////////
-    constructor(address metamonAddress) payable ERC1155("https://gateway.pinata.cloud/ipfs/INSERT_IPFS_HASH_HERE/{id}.json") {
+    constructor() payable ERC1155("https://gateway.pinata.cloud/ipfs/INSERT_IPFS_HASH_HERE/{id}.json") {
         name = "Metamon Wardrobe Collection";
         symbol = "Minimetamon-WC";
-        metamonContract = IMetamon(metamonAddress);
     }
 
     fallback() external payable {}
@@ -213,42 +212,51 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     // Do we even want to mint tokens via a payable?
     // If msg.sender == owner then we can aidrop to a recipient address (no mint price)
     function mintSale(
-        address _recipient,
         uint256 _itemType,
         uint256 _quantity,
         bytes32[] calldata _merkleProof
     ) external payable itemTypeCheck(_itemType) requiredMetamonCheck(_itemType) requiredWhitelist(_itemType, _merkleProof) nonReentrant {
-        _mint(_recipient, _itemType, _quantity, "");
+        if(balanceOf(msg.sender, _itemType) < itemTypes[_itemType].maxMintable){
+            _mint(msg.sender, _itemType, _quantity, "");
+        }
+
     }
 
     function mintMultipleSale(
-        address _recipient,
         uint256[] memory _itemTypes,
         uint256[] memory _quantity,
         bytes32[][] calldata _merkelProofs
     ) external payable itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) requiredWhitelists(_itemTypes, _merkelProofs) nonReentrant {
-        _mintBatch(_recipient, _itemTypes, _quantity, "");
+        for(uint i = 0; i < _itemTypes.length; i++){
+            if(balanceOf(msg.sender, i) >= itemTypes[i].maxMintable){
+                revert("Caller has reached the maximum mintable of one of these items");
+            }
+        }
+        _mintBatch(msg.sender, _itemTypes, _quantity, "");
     }
 
-    // How should we decide who can claim the item?
-    // Merkletree? Signatures? Based on another item that they hold?
-    //Speak to metamon contract... need prerequisite per item type (array of token ids for metamons)
     function claimItem(
-        address _recipient,
         uint256 _itemType,
         uint256 _quantity,
         bytes32[] calldata _merkleProof
     ) external itemTypeCheck(_itemType) requiredMetamonCheck(_itemType) requiredWhitelist(_itemType, _merkleProof) nonReentrant {
-        _mint(_recipient, _itemType, _quantity, "");
+        if(balanceOf(msg.sender, _itemType) < itemTypes[_itemType].maxMintable){
+            _mint(msg.sender, _itemType, _quantity, "");
+        }
+
     }
 
     function claimMultipleItems(
-        address _recipient,
         uint256[] memory _itemTypes,
         uint256[] memory _quantity,
         bytes32[][] calldata _merkleProofs
     ) external itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) requiredWhitelists(_itemTypes, _merkleProofs) nonReentrant {
-        _mintBatch(_recipient, _itemTypes, _quantity, "");
+        for(uint i = 0; i < _itemTypes.length; i++){
+            if(balanceOf(msg.sender, i) >= itemTypes[i].maxMintable){
+                revert("Caller has reached the maximum mintable of one of these items");
+            }
+        }
+        _mintBatch(msg.sender, _itemTypes, _quantity, "");
     }
 
     ///////////////////////////////////////////////////////////////////////////
