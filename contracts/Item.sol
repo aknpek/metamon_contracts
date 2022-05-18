@@ -25,6 +25,20 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     uint8 private SPIRIT_OF_ELECTRICTY = 6;
     uint8 private ASTRAL_SPIRIT = 7;
 
+    uint8 private ARTIFACT1 = 8;
+    uint8 private ARTIFACT2 = 9;
+    uint8 private ARTIFACT3 = 10;
+    uint8 private ARTIFACT4 = 11;
+    uint8 private ARTIFACT5 = 12;
+    uint8 private ARTIFACT6 = 13;
+    uint8 private ARTIFACT7 = 14;
+    uint8 private ARTIFACT8 = 15;
+
+    uint8 private COMPLITIONIST = 16;
+
+
+    uint256 private totalSupply = 8;
+
     uint8[7] public itemBurnable = [1, 0, 0, 0, 0, 0, 0];
     uint8[7] public itemTypes = [TEAR_OF_THE_GODDESS,
                                  LUCKY_TOTEM,
@@ -33,6 +47,18 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
                                  SPIRIT_OF_EARTH,
                                  SPIRIT_OF_ELECTRICTY,
                                  ASTRAL_SPIRIT];
+    
+    uint8[8] public artifactType = [ARTIFACT1,
+                                    ARTIFACT2,
+                                    ARTIFACT3,
+                                    ARTIFACT4,
+                                    ARTIFACT5,
+                                    ARTIFACT6,
+                                    ARTIFACT7,
+                                    ARTIFACT8];
+
+    uint8[1] public complicionstNFT = [COMPLITIONIST];
+
     uint8[7] public maxOwnable = [10, 1, 1, 1, 1, 1, 1];
     uint32[7] public itemSupplies = [2500, 2500, 1000, 1000, 1000, 1000, 1000];
 
