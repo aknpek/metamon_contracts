@@ -24,18 +24,21 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         uint256 itemPrice;
         uint256 maxMintable;
         uint256[] requiredMetamon;
-        bytes32 merkleRoot;
         string uri;
         bool valid;
     }
 
     address payable public paymentContractAddress;
 
+    bytes32 public merkleRoot;
+
     string public name;
     string public symbol;
 
     // token type to itemTypeInfo map
     mapping(uint256 => ItemTypeInfo) itemTypes;
+    
+    mapping(address => mapping(uint256 => uint256)) itemsMinted;
 
     uint256 numberOfItemTypes;
     ///////////////////////////////////////////////////////////////////////////
@@ -101,33 +104,16 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         }
         _;
     }
-
-    modifier requiredWhitelist(uint256 _itemType, bytes32[] calldata _merkleProof){
-        if(itemTypes[_itemType].merkleRoot.length > 0){
-            require(MerkleProof.verify(_merkleProof, itemTypes[_itemType].merkleRoot, keccak256(abi.encodePacked(msg.sender))), "Invalid proof - Caller not whitelisted");
-        }
-        _;
-    }
-
-    modifier requiredWhitelists(uint256[] memory _itemTypes, bytes32[][] calldata _merkleProofs){
-        for(uint i = 0; i < _itemTypes.length; i++){
-            if(itemTypes[_itemTypes[i]].merkleRoot.length > 0){
-                require(MerkleProof.verify(_merkleProofs[i], itemTypes[i].merkleRoot, keccak256(abi.encodePacked(msg.sender))), "Invalid proof - caller not whitelisted");
-            }
-        }
-        _;
-    }
-
     ///////////////////////////////////////////////////////////////////////////
     // Pre-Function Conditions
     ///////////////////////////////////////////////////////////////////////////
-    function addWardrobeItem(uint256 _itemType,  uint256 _itemPrice, uint256 _maxMintable, uint256[] memory _requiredMetamon, bytes32 _merkleRoot, string memory _uri) external onlyOwner{
+    function addWardrobeItem(uint256 _itemType,  uint256 _itemPrice, uint256 _maxMintable, uint256[] memory _requiredMetamon, string memory _uri) external onlyOwner{
         //Do we want the types to just increment linearly, or do we want to mark out certain parts?
         //For examples hats are item type 0 - 100, hair is 101-200 etc? Might be easier to handle?
 
         //Maybe we don't care about the token types being in order - easier to handle.
 
-        ItemTypeInfo memory newItemTypeInfo = ItemTypeInfo(_itemPrice, _maxMintable, _requiredMetamon, _merkleRoot, _uri, true);
+        ItemTypeInfo memory newItemTypeInfo = ItemTypeInfo(_itemPrice, _maxMintable, _requiredMetamon, _uri, true);
         itemTypes[_itemType] = newItemTypeInfo;
         numberOfItemTypes++;
     }
@@ -186,12 +172,12 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         return itemTypes[_itemType].requiredMetamon;
     }
 
-    function setMerkleRoot(bytes32 _merkleRoot, uint256 _itemType) external onlyOwner itemTypeCheck(_itemType){
-        itemTypes[_itemType].merkleRoot = _merkleRoot;
+    function setMerkleRoot(bytes32 newMerkleRoot) external onlyOwner {
+        merkleRoot = newMerkleRoot;
     }
 
-    function getMerkleRoot(uint256 _itemType) external view onlyOwner returns (bytes32)  {
-        return itemTypes[_itemType].merkleRoot;
+    function getMerkleRoot() external view onlyOwner returns (bytes32)  {
+        return merkleRoot;
     }
 
     function totalItemTypes() public view returns (uint256) {
@@ -209,53 +195,76 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     // Mint Tokens
     ///////////////////////////////////////////////////////////////////////////
 
-    // Do we even want to mint tokens via a payable?
-    // If msg.sender == owner then we can aidrop to a recipient address (no mint price)
     function mintSale(
         uint256 _itemType,
-        uint256 _quantity,
-        bytes32[] calldata _merkleProof
-    ) external payable itemTypeCheck(_itemType) requiredMetamonCheck(_itemType) requiredWhitelist(_itemType, _merkleProof) nonReentrant {
-        if(balanceOf(msg.sender, _itemType) < itemTypes[_itemType].maxMintable){
-            _mint(msg.sender, _itemType, _quantity, "");
-        }
+        uint256 _quantity
+    ) external payable itemTypeCheck(_itemType) nonReentrant {
+        require(itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable, "User is trying to mint more than allocated.");
+        require(itemTypes[_itemType].requiredMetamon.length == 0, "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
+        require(msg.value == itemTypes[_itemType].itemPrice * _quantity, "Not enough ETH to mint!");
 
+        itemsMinted[msg.sender][_itemType] += _quantity;
+
+        _mint(msg.sender, _itemType, _quantity, "");
     }
 
     function mintMultipleSale(
         uint256[] memory _itemTypes,
-        uint256[] memory _quantity,
-        bytes32[][] calldata _merkelProofs
-    ) external payable itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) requiredWhitelists(_itemTypes, _merkelProofs) nonReentrant {
+        uint256[] memory _quantity
+    ) external payable itemTypesCheck(_itemTypes) nonReentrant {
+        uint256 totalMintCost;
         for(uint i = 0; i < _itemTypes.length; i++){
-            if(balanceOf(msg.sender, i) >= itemTypes[i].maxMintable){
-                revert("Caller has reached the maximum mintable of one of these items");
-            }
+                require(itemsMinted[msg.sender][i] + _quantity[i] <= itemTypes[i].maxMintable, "User is trying to mint more than allocated.");
+                require(itemTypes[i].requiredMetamon.length == 0, "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
+                totalMintCost += itemTypes[i].itemPrice * _quantity[i];
         }
+
+        // Messy, don't like this but we can't update these in the original for loop as it might fail a require
+        for(uint i = 0; i < _itemTypes.length; i++){
+            itemsMinted[msg.sender][i] += _quantity[i];
+        }
+
+        require(msg.value == totalMintCost, "Not enough ETH to mint!");
         _mintBatch(msg.sender, _itemTypes, _quantity, "");
+    }
+
+    function mintSpecialItem(
+        uint256 _itemType,
+        uint256 _quantity,
+        bytes32[] calldata _merkleProof
+    ) external payable itemTypeCheck(_itemType) nonReentrant {
+        require(MerkleProof.verify(_merkleProof, merkleRoot, keccak256(abi.encodePacked(msg.sender))), "Invalid proof - Caller not whitelisted");
+        require(itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable, "User is trying to mint more than allocated.");
+        require(itemTypes[_itemType].requiredMetamon.length == 0, "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
+        require(msg.value == itemTypes[_itemType].itemPrice * _quantity, "Not enough ETH to mint!");
+        _mint(msg.sender, _itemType, _quantity, "");
     }
 
     function claimItem(
         uint256 _itemType,
-        uint256 _quantity,
-        bytes32[] calldata _merkleProof
-    ) external itemTypeCheck(_itemType) requiredMetamonCheck(_itemType) requiredWhitelist(_itemType, _merkleProof) nonReentrant {
-        if(balanceOf(msg.sender, _itemType) < itemTypes[_itemType].maxMintable){
-            _mint(msg.sender, _itemType, _quantity, "");
-        }
+        uint256 _quantity
+    ) external itemTypeCheck(_itemType) requiredMetamonCheck(_itemType) nonReentrant {
+        require(itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable, "User is claming more items than allocated.");
+        require(itemTypes[_itemType].itemPrice == 0, "Item being claimed must be a free mint");
 
+        itemsMinted[msg.sender][_itemType] += _quantity;
+        _mint(msg.sender, _itemType, _quantity, "");
     }
 
     function claimMultipleItems(
         uint256[] memory _itemTypes,
-        uint256[] memory _quantity,
-        bytes32[][] calldata _merkleProofs
-    ) external itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) requiredWhitelists(_itemTypes, _merkleProofs) nonReentrant {
+        uint256[] memory _quantity
+    ) external itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) nonReentrant {
         for(uint i = 0; i < _itemTypes.length; i++){
-            if(balanceOf(msg.sender, i) >= itemTypes[i].maxMintable){
-                revert("Caller has reached the maximum mintable of one of these items");
-            }
+            require(itemsMinted[msg.sender][i] + _quantity[i] <= itemTypes[i].maxMintable, "User is claming more items than allocated.");
+            require(itemTypes[i].itemPrice == 0, "Item being claimed must be a free mint");
         }
+
+        // Messy, don't like this but we can't update these in the original for loop as it might fail a require
+        for(uint i = 0; i < _itemTypes.length; i++){
+            itemsMinted[msg.sender][i] += _quantity[i];
+        }
+
         _mintBatch(msg.sender, _itemTypes, _quantity, "");
     }
 
@@ -265,15 +274,15 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         uint256 _itemType
     ) external itemTypeCheck(_itemType) nonReentrant {
         require(msg.sender == address(this) || msg.sender == address(metamonContract), "Caller not valid");
-        if(balanceOf(_user, _itemType) >= itemTypes[_itemType].maxMintable){
-            _mint(_user, _itemType, _quantity, "");
-        }
+        require(itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable, "User is claming more items than allocated.");
+        itemsMinted[msg.sender][_itemType] += _quantity;
+        _mint(_user, _itemType, _quantity, "");
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Backend URIs
     ///////////////////////////////////////////////////////////////////////////
-    function uri(uint256 tokenId) override public view returns (string memory){
+    function uri(uint256 tokenId) override public view returns (string memory) {
         return(itemTypes[tokenId].uri);
     }
     function setTokenUri(uint256 tokenId, string memory newUri) external onlyOwner 
