@@ -4,8 +4,8 @@ ItemContract:
   contractName: "Item"
   contractRealName: "Metamon Item Collection"
   contractSymbol: "NFT"
-  contractAddress: "0xBaa90A333C63A8086083EbAb2a249B561298548F"
-  contractOwnerAddress: "0x9A49a55307ABd7f62E082677dE33C7EF38312c29"
+  contractAddress: "0xF7D386fbd4661fd9B40d79BB728FB3Fb34eF51Bc"
+  contractOwnerAddress: "0xec31ef27a7ce54f283d57916b3D3017433CbBD9D"
 
   itemBurnable: [1, 0, 0, 0, 0, 0, 0]
   itemTypes: [1, 2, 3, 4, 5, 6, 7]
@@ -40,8 +40,8 @@ MetamonContract:
   contractName: "Metamon"
   contractRealName: "Metamon NFT Collection"
   contractSymbol: "NFT"
-  contractAddress: "0x587187070e036fa1cF9B10669F81788ff2DC1137"
-  contractOwnerAddress: "0x9A49a55307ABd7f62E082677dE33C7EF38312c29"
+  contractAddress: "0x9E5f3fCeEEE77f1aDbD9F7122bfcdFDbaa4F97e9"
+  contractOwnerAddress: "0xec31ef27a7ce54f283d57916b3D3017433CbBD9D"
   passCode: MADECHANGE
   currentMintPhase : 1
 
@@ -100,7 +100,7 @@ MetamonContract:
 
 PaymentContract:
   contractName: Payment
-  contractAddress: "0x8feD387De5a2E2A56155Ab122a41B4C21eD07256"
+  contractAddress: "0x9529FE8c798a211778830f21149fc9721a3addaa"
   contractConcensus: [
     "0x2ef318124Cc419B09c77754a4f6b0162c084FdD6",
     "0xFE8488a178EF9B5b00fE7C4e1Fe41947Ea70a6B9"
@@ -135,7 +135,7 @@ PaymentContract:
 
 MetaTrainer:
   contractName: MetaTrainer
-  contractAddress: "0x4680Ba63ebfbBE80C660E418113E30aaf3FCe0f9"
+  contractAddress: "0x0f4a0E2eF2f4CC3c8484d367b07557D976B7d42c"
 
   baseUri: "www.example.com/"
 
@@ -145,4 +145,11 @@ MetaTrainer:
 
   testCase2:  
     foreigner: "0xd001a3a79CE8655521615E1125A9868C647d0D3f"
-    amountMinted: 2       
+    amountMinted: 2 
+
+WardrobeContract:
+  contractName: Wardobe
+  contractRealName: "Metamon Trainer Wardobe Collection"
+  contractSymbol: "MTWC"
+  contractAddress: "0xD2B1Bbb97003dFd800BC7b918635db0f326b267f"
+  contractOwnerAddress: "0xec31ef27a7ce54f283d57916b3D3017433CbBD9D"      

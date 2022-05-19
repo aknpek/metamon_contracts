@@ -240,7 +240,7 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         _mint(msg.sender, _itemType, _quantity, "");
     }
 
-    function claimItem(
+    function claimCollectionReward(
         uint256 _itemType,
         uint256 _quantity
     ) external itemTypeCheck(_itemType) requiredMetamonCheck(_itemType) nonReentrant {
@@ -251,32 +251,32 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         _mint(msg.sender, _itemType, _quantity, "");
     }
 
-    function claimMultipleItems(
-        uint256[] memory _itemTypes,
-        uint256[] memory _quantity
-    ) external itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) nonReentrant {
-        for(uint i = 0; i < _itemTypes.length; i++){
-            require(itemsMinted[msg.sender][i] + _quantity[i] <= itemTypes[i].maxMintable, "User is claming more items than allocated.");
-            require(itemTypes[i].itemPrice == 0, "Item being claimed must be a free mint");
-        }
+    //Might need this - Nick says No we don't need this
+    // function claimMultipleItems(
+    //     uint256[] memory _itemTypes,
+    //     uint256[] memory _quantity
+    // ) external itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) nonReentrant {
+    //     for(uint i = 0; i < _itemTypes.length; i++){
+    //         require(itemsMinted[msg.sender][i] + _quantity[i] <= itemTypes[i].maxMintable, "User is claming more items than allocated.");
+    //         require(itemTypes[i].itemPrice == 0, "Item being claimed must be a free mint");
+    //     }
 
-        // Messy, don't like this but we can't update these in the original for loop as it might fail a require
-        for(uint i = 0; i < _itemTypes.length; i++){
-            itemsMinted[msg.sender][i] += _quantity[i];
-        }
+    //     // Messy, don't like this but we can't update these in the original for loop as it might fail a require
+    //     for(uint i = 0; i < _itemTypes.length; i++){
+    //         itemsMinted[msg.sender][i] += _quantity[i];
+    //     }
 
-        _mintBatch(msg.sender, _itemTypes, _quantity, "");
-    }
+    //     _mintBatch(msg.sender, _itemTypes, _quantity, "");
+    // }
 
-    function specialRewardForUser(
+    function happyEnding(
         address _user,
-        uint256 _quantity,
         uint256 _itemType
     ) external itemTypeCheck(_itemType) nonReentrant {
         require(msg.sender == address(this) || msg.sender == address(metamonContract), "Caller not valid");
-        require(itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable, "User is claming more items than allocated.");
-        itemsMinted[msg.sender][_itemType] += _quantity;
-        _mint(_user, _itemType, _quantity, "");
+        require(itemsMinted[msg.sender][_itemType] + 1 <= itemTypes[_itemType].maxMintable, "User is claming more items than allocated.");
+        itemsMinted[msg.sender][_itemType] += 1;
+        _mint(_user, _itemType, 1, "");
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -300,3 +300,6 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         require(success, "Transfer failed.");
     }
 }
+
+//Change item to wardrobe
+//Collection rewards for claim
