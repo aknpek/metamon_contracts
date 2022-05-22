@@ -7,27 +7,26 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
-   interface IMetamon {
-        function metamonOwnership(address owner, uint256 requiredMetamon) external returns(bool);
-   }
+interface IMetamon {
+    function metamonOwnership(address owner, uint256 requiredMetamon)
+        external
+        returns (bool);
+}
 
-// address => ID => Integer
-// address => tokenTypeId => balance
+struct ItemTypeInfo {
+    uint256 itemPrice;
+    uint256 maxMintable;
+    uint256[] requiredMetamon;
+    string uri;
+    bool valid;
+}
+
 contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     using Strings for uint256;
 
     IMetamon public metamonContract;
-//Add later - wont compile if we have this atm as we don't have the contract.
-    //Metamon metamonContract;
 
-    struct ItemTypeInfo{
-        uint256 itemPrice;
-        uint256 maxMintable;
-        uint256[] requiredMetamon;
-        string uri;
-        bool valid;
-    }
-
+    address payable public breedingContractAddress;
     address payable public paymentContractAddress;
 
     bytes32 public merkleRoot;
@@ -35,22 +34,22 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     string public name;
     string public symbol;
 
-    // token type to itemTypeInfo map
     mapping(uint256 => ItemTypeInfo) itemTypes;
-    
-    mapping(address => mapping(uint256 => uint256)) itemsMinted;
 
     uint256 numberOfItemTypes;
+
     ///////////////////////////////////////////////////////////////////////////
     // Events
     ///////////////////////////////////////////////////////////////////////////
     event ReceivedEth(address _sender, uint256 _value);
     event ItemMinted(address _receiver, uint256 _tokenId);
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Cons
-    ///////////////////////////////////////////////////////////////////////////
-    constructor() payable ERC1155("https://gateway.pinata.cloud/ipfs/INSERT_IPFS_HASH_HERE/{id}.json") {
+    constructor()
+        payable
+        ERC1155(
+            "https://gateway.pinata.cloud/ipfs/INSERT_IPFS_HASH_HERE/{id}.json"
+        )
+    {
         name = "Metamon Wardrobe Collection";
         symbol = "Minimetamon-WC";
     }
@@ -61,13 +60,6 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         emit ReceivedEth(msg.sender, msg.value);
     }
 
-    function setMetamonContractAddress(address _metamonContractAddress)
-        external
-        onlyOwner
-    {
-        metamonContract = IMetamon(_metamonContractAddress);
-    }
-
     ///////////////////////////////////////////////////////////////////////////
     // Pre-Function Conditions
     ///////////////////////////////////////////////////////////////////////////
@@ -76,50 +68,75 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         _;
     }
 
-    modifier itemTypesCheck(uint256[] memory _itemTypes){
-        for(uint i = 0; i < _itemTypes.length; i++){
+    modifier itemTypesCheck(uint256[] memory _itemTypes) {
+        for (uint i = 0; i < _itemTypes.length; i++) {
             require(itemTypes[i].valid, "Item Type is out of scope!");
         }
         _;
     }
 
-    modifier requiredMetamonCheck(uint256 _itemType){
+    modifier requiredMetamonCheck(uint256 _itemType) {
         uint256[] memory requiredMetamon = itemTypes[_itemType].requiredMetamon;
-        for(uint256 i; i< requiredMetamon.length; i++){
-            if(!metamonContract.metamonOwnership(msg.sender, requiredMetamon[i])){
+        for (uint256 i; i < requiredMetamon.length; i++) {
+            if (
+                !metamonContract.metamonOwnership(
+                    msg.sender,
+                    requiredMetamon[i]
+                )
+            ) {
                 revert("Required metamon not owned by sender");
             }
         }
         _;
     }
 
-    modifier requiredMetamonChecks(uint256[] memory _itemTypes){
-        for(uint i = 0; i < _itemTypes.length; i++){
-            uint256[] memory _requiredMetamon = itemTypes[_itemTypes[i]].requiredMetamon;
-            for(uint256 j; j < _requiredMetamon.length; i++){
-                if(!metamonContract.metamonOwnership(msg.sender, _requiredMetamon[j])){
+    modifier requiredMetamonChecks(uint256[] memory _itemTypes) {
+        for (uint i = 0; i < _itemTypes.length; i++) {
+            uint256[] memory _requiredMetamon = itemTypes[_itemTypes[i]]
+                .requiredMetamon;
+            for (uint256 j; j < _requiredMetamon.length; i++) {
+                if (
+                    !metamonContract.metamonOwnership(
+                        msg.sender,
+                        _requiredMetamon[j]
+                    )
+                ) {
                     revert("Required metamon not owned by sender");
                 }
             }
         }
         _;
     }
-    ///////////////////////////////////////////////////////////////////////////
-    // Pre-Function Conditions
-    ///////////////////////////////////////////////////////////////////////////
-    function addWardrobeItem(uint256 _itemType,  uint256 _itemPrice, uint256 _maxMintable, uint256[] memory _requiredMetamon, string memory _uri) external onlyOwner{
-        //Do we want the types to just increment linearly, or do we want to mark out certain parts?
-        //For examples hats are item type 0 - 100, hair is 101-200 etc? Might be easier to handle?
 
-        //Maybe we don't care about the token types being in order - easier to handle.
-
-        ItemTypeInfo memory newItemTypeInfo = ItemTypeInfo(_itemPrice, _maxMintable, _requiredMetamon, _uri, true);
-        itemTypes[_itemType] = newItemTypeInfo;
+    ///////////////////////////////////////////////////////////////////////////
+    // Add/Del State Changes
+    ///////////////////////////////////////////////////////////////////////////
+    function addWardrobeItem(
+        uint256 _itemType,
+        uint256 _itemPrice,
+        uint256 _maxMintable,
+        uint256[] memory _requiredMetamon,
+        string memory _uri
+    ) external onlyOwner {
+        itemTypes[_itemType] = ItemTypeInfo(
+            _itemPrice,
+            _maxMintable,
+            _requiredMetamon,
+            _uri,
+            true
+        );
         numberOfItemTypes++;
     }
 
+    function setWardrobeItemValid(uint256 _itemType, bool _valid)
+        external
+        onlyOwner
+    {
+        itemTypes[_itemType].valid = _valid;
+    }
+
     ///////////////////////////////////////////////////////////////////////////
-    // Get/Set State Changes
+    // Get/Set/Add State Changes
     ///////////////////////////////////////////////////////////////////////////
     function setItemPrice(uint256 _newPrice, uint256 _itemType)
         external
@@ -155,11 +172,10 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         return itemTypes[_itemType].maxMintable;
     }
 
-    function setRequiredMetamon(uint256[] memory _requiredMetamon, uint256 _itemType)
-        external
-        onlyOwner
-        itemTypeCheck(_itemType)
-    {
+    function setRequiredMetamon(
+        uint256[] memory _requiredMetamon,
+        uint256 _itemType
+    ) external onlyOwner itemTypeCheck(_itemType) {
         itemTypes[_itemType].requiredMetamon = _requiredMetamon;
     }
 
@@ -176,7 +192,7 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         merkleRoot = newMerkleRoot;
     }
 
-    function getMerkleRoot() external view onlyOwner returns (bytes32)  {
+    function getMerkleRoot() external view onlyOwner returns (bytes32) {
         return merkleRoot;
     }
 
@@ -191,19 +207,43 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         paymentContractAddress = _paymentContractAddress;
     }
 
+    function setMetamonContractAddress(address _metamonContractAddress)
+        external
+        onlyOwner
+    {
+        metamonContract = IMetamon(_metamonContractAddress);
+    }
+
+    function setContractAddresses(
+        uint256 _type,
+        address payable _contractAddress
+    ) external onlyOwner {
+        if (_type == 1) {
+            paymentContractAddress = _contractAddress;
+        } else if (_type == 2) {
+            breedingContractAddress = _contractAddress;
+        }
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Mint Tokens
     ///////////////////////////////////////////////////////////////////////////
-
-    function mintSale(
-        uint256 _itemType,
-        uint256 _quantity
-    ) external payable itemTypeCheck(_itemType) nonReentrant {
-        require(itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable, "User is trying to mint more than allocated.");
-        require(itemTypes[_itemType].requiredMetamon.length == 0, "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
-        require(msg.value == itemTypes[_itemType].itemPrice * _quantity, "Not enough ETH to mint!");
-
-        itemsMinted[msg.sender][_itemType] += _quantity;
+    function mintSale(uint256 _itemType, uint256 _quantity)
+        external
+        payable
+        itemTypeCheck(_itemType)
+        nonReentrant
+    {
+        require(
+            balanceOf(msg.sender, _itemType) + _quantity <=
+                itemTypes[_itemType].maxMintable,
+            "Max Mintable"
+        );
+        require(itemTypes[_itemType].requiredMetamon.length == 0, "Claim only");
+        require(
+            msg.value == itemTypes[_itemType].itemPrice * _quantity,
+            "Not enough ETH"
+        );
 
         _mint(msg.sender, _itemType, _quantity, "");
     }
@@ -213,18 +253,17 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         uint256[] memory _quantity
     ) external payable itemTypesCheck(_itemTypes) nonReentrant {
         uint256 totalMintCost;
-        for(uint i = 0; i < _itemTypes.length; i++){
-                require(itemsMinted[msg.sender][i] + _quantity[i] <= itemTypes[i].maxMintable, "User is trying to mint more than allocated.");
-                require(itemTypes[i].requiredMetamon.length == 0, "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
-                totalMintCost += itemTypes[i].itemPrice * _quantity[i];
+        for (uint i = 0; i < _itemTypes.length; i++) {
+            require(
+                balanceOf(msg.sender, i) + _quantity[i] <=
+                    itemTypes[i].maxMintable,
+                "Max Mintable!"
+            );
+            require(itemTypes[i].requiredMetamon.length == 0, "Claim only!");
+            totalMintCost += itemTypes[i].itemPrice * _quantity[i];
         }
 
-        // Messy, don't like this but we can't update these in the original for loop as it might fail a require
-        for(uint i = 0; i < _itemTypes.length; i++){
-            itemsMinted[msg.sender][i] += _quantity[i];
-        }
-
-        require(msg.value == totalMintCost, "Not enough ETH to mint!");
+        require(msg.value == totalMintCost, "Not enough ETH!");
         _mintBatch(msg.sender, _itemTypes, _quantity, "");
     }
 
@@ -233,59 +272,67 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         uint256 _quantity,
         bytes32[] calldata _merkleProof
     ) external payable itemTypeCheck(_itemType) nonReentrant {
-        require(MerkleProof.verify(_merkleProof, merkleRoot, keccak256(abi.encodePacked(msg.sender))), "Invalid proof - Caller not whitelisted");
-        require(itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable, "User is trying to mint more than allocated.");
-        require(itemTypes[_itemType].requiredMetamon.length == 0, "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
-        require(msg.value == itemTypes[_itemType].itemPrice * _quantity, "Not enough ETH to mint!");
+        require(
+            MerkleProof.verify(
+                _merkleProof,
+                merkleRoot,
+                keccak256(abi.encodePacked(msg.sender))
+            ),
+            "Caller not whitelisted"
+        );
+        require(
+            balanceOf(msg.sender, _itemType) + _quantity <=
+                itemTypes[_itemType].maxMintable,
+            "Max Mintable"
+        );
+        require(itemTypes[_itemType].requiredMetamon.length == 0, "Claim only");
+        require(
+            msg.value == itemTypes[_itemType].itemPrice * _quantity,
+            "Not enough ETH"
+        );
         _mint(msg.sender, _itemType, _quantity, "");
     }
 
-    function claimCollectionReward(
-        uint256 _itemType,
-        uint256 _quantity
-    ) external itemTypeCheck(_itemType) requiredMetamonCheck(_itemType) nonReentrant {
-        require(itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable, "User is claming more items than allocated.");
-        require(itemTypes[_itemType].itemPrice == 0, "Item being claimed must be a free mint");
+    function claimCollectionReward(uint256 _itemType, uint256 _quantity)
+        external
+        itemTypeCheck(_itemType)
+        requiredMetamonCheck(_itemType)
+        nonReentrant
+    {
+        require(
+            balanceOf(msg.sender, _itemType) + _quantity <=
+                itemTypes[_itemType].maxMintable,
+            "Max Mintable"
+        );
+        require(itemTypes[_itemType].itemPrice == 0, "must be a free mint");
 
-        itemsMinted[msg.sender][_itemType] += _quantity;
         _mint(msg.sender, _itemType, _quantity, "");
     }
 
-    //Might need this - Nick says No we don't need this
-    // function claimMultipleItems(
-    //     uint256[] memory _itemTypes,
-    //     uint256[] memory _quantity
-    // ) external itemTypesCheck(_itemTypes) requiredMetamonChecks(_itemTypes) nonReentrant {
-    //     for(uint i = 0; i < _itemTypes.length; i++){
-    //         require(itemsMinted[msg.sender][i] + _quantity[i] <= itemTypes[i].maxMintable, "User is claming more items than allocated.");
-    //         require(itemTypes[i].itemPrice == 0, "Item being claimed must be a free mint");
-    //     }
-
-    //     // Messy, don't like this but we can't update these in the original for loop as it might fail a require
-    //     for(uint i = 0; i < _itemTypes.length; i++){
-    //         itemsMinted[msg.sender][i] += _quantity[i];
-    //     }
-
-    //     _mintBatch(msg.sender, _itemTypes, _quantity, "");
-    // }
-
-    function happyEnding(
-        address _user,
-        uint256 _itemType
-    ) external itemTypeCheck(_itemType) nonReentrant {
-        require(msg.sender == address(this) || msg.sender == address(metamonContract), "Caller not valid");
-        require(itemsMinted[msg.sender][_itemType] + 1 <= itemTypes[_itemType].maxMintable, "User is claming more items than allocated.");
-        itemsMinted[msg.sender][_itemType] += 1;
+    function happyEnding(address _user, uint256 _itemType)
+        external
+        itemTypeCheck(_itemType)
+        nonReentrant
+    {
+        require(msg.sender == address(metamonContract), "Caller not valid");
+        require(
+            balanceOf(msg.sender, _itemType) + 1 <=
+                itemTypes[_itemType].maxMintable,
+            "Max Mintable"
+        );
         _mint(_user, _itemType, 1, "");
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Backend URIs
     ///////////////////////////////////////////////////////////////////////////
-    function uri(uint256 tokenId) override public view returns (string memory) {
-        return(itemTypes[tokenId].uri);
+    function uri(uint256 tokenId) public view override returns (string memory) {
+        return (itemTypes[tokenId].uri);
     }
-    function setTokenUri(uint256 tokenId, string memory newUri) external onlyOwner 
+
+    function setTokenUri(uint256 tokenId, string memory newUri)
+        external
+        onlyOwner
     {
         itemTypes[tokenId].uri = newUri;
     }
@@ -300,6 +347,3 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         require(success, "Transfer failed.");
     }
 }
-
-//Change item to wardrobe
-//Collection rewards for claim
