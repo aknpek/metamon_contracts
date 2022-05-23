@@ -295,6 +295,10 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
                 "User is trying to mint more than allocated.");
 
             require(
+                totalSupply(_itemTypes[i]) + _quantity[i] <= itemTypes[i].itemSupply,
+                "User is trying to mint more than total supply.");
+
+            require(
                 itemTypes[i].requiredMetamon.length == 0,
                 "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
             
