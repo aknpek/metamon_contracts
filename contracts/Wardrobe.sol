@@ -77,6 +77,13 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         _;
     }
 
+    modifier maxMintableCheck(uint256 _itemType, uint256 _quantity){
+           require(
+            itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable,
+            "User is trying to mint more than allocated.");
+            _;
+    }
+
     modifier requiredMetamonCheck(uint256 _itemType) {
         uint256[] memory requiredMetamon = itemTypes[_itemType].requiredMetamon;
         for (uint256 i; i < requiredMetamon.length; i++) {
@@ -190,8 +197,8 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         return itemTypes[_itemType].requiredMetamon;
     }
 
-    function setMerkleRoot(bytes32 newMerkleRoot) external onlyOwner {
-        merkleRoot = newMerkleRoot;
+    function setMerkleRoot(bytes32 _newMerkleRoot) external onlyOwner {
+        merkleRoot = _newMerkleRoot;
     }
 
     function getMerkleRoot() external view onlyOwner returns (bytes32) {
@@ -234,12 +241,10 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         external
         payable
         itemTypeCheck(_itemType)
+        maxMintableCheck(_itemType, _quantity)
         nonReentrant
     {
-        require(
-            itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable,
-            "User is trying to mint more than allocated.");
-
+     
         require(
             itemTypes[_itemType].requiredMetamon.length == 0,
             "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
@@ -250,7 +255,6 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         );
 
         itemsMinted[msg.sender][_itemType] += _quantity;
-
         _mint(msg.sender, _itemType, _quantity, "");
     }
 
@@ -258,8 +262,11 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         uint256[] memory _itemTypes,
         uint256[] memory _quantity
     ) external payable itemTypesCheck(_itemTypes) nonReentrant {
+
         uint256 totalMintCost;
+
         for (uint i = 0; i < _itemTypes.length; i++) {
+
             require(
                 itemsMinted[msg.sender][i] + _quantity[i] <= itemTypes[i].maxMintable,
                 "User is trying to mint more than allocated.");
@@ -284,7 +291,12 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         uint256 _itemType,
         uint256 _quantity,
         bytes32[] calldata _merkleProof
-    ) external payable itemTypeCheck(_itemType) nonReentrant {
+    ) external
+      payable 
+      itemTypeCheck(_itemType)
+      maxMintableCheck(_itemType, _quantity) 
+      nonReentrant {
+        
         require(
             MerkleProof.verify(
                 _merkleProof,
@@ -293,10 +305,6 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
             ),
             "Caller not whitelisted"
         );
-
-        require(
-            itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable,
-            "User is trying to mint more than allocated.");
 
         require(
             itemTypes[_itemType].requiredMetamon.length == 0,
@@ -314,12 +322,10 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
     function claimCollectionReward(uint256 _itemType, uint256 _quantity)
         external
         itemTypeCheck(_itemType)
+        maxMintableCheck(_itemType, _quantity)
         requiredMetamonCheck(_itemType)
         nonReentrant
     {
-        require(
-            itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable, 
-            "User is claming more items than allocated.");
 
         require(
             itemTypes[_itemType].itemPrice == 0, 
@@ -333,14 +339,13 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         address _user,
         uint256 _itemType,
         uint256 _quantity
-    ) external itemTypeCheck(_itemType) nonReentrant {
+    ) external 
+      itemTypeCheck(_itemType)
+      maxMintableCheck(_itemType, _quantity)
+      nonReentrant {
         require(
             msg.sender == address(metamonContract), 
             "Caller not valid");
-
-        require(
-            itemsMinted[msg.sender][_itemType] + 1 <= itemTypes[_itemType].maxMintable, 
-            "User is claming more items than allocated.");
             
         itemsMinted[msg.sender][_itemType] += _quantity;
         _mint(_user, _itemType, _quantity, "");
