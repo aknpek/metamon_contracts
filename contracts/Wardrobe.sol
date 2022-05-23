@@ -132,6 +132,7 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         uint256[] memory _requiredMetamon,
         string memory _uri
     ) external onlyOwner {
+        require(!itemTypes[_itemType].valid, "Item type ID has already been used");
         itemTypes[_itemType] = ItemTypeInfo(
             _itemPrice,
             _maxMintable,
