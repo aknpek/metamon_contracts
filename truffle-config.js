@@ -48,9 +48,9 @@ module.exports = {
     },
     // Another network with more advanced options...
     advanced: {
-      port: 7545, // Custom port
+      port: 8545, // Custom port
       network_id: 5777, // Custom network
-      gas: 12500000, // Gas sent with each transaction (default: ~6700000)
+      gas: 25000000, // Gas sent with each transaction (default: ~6700000)
       gasPrice: 20000000000, // 20 gwei (in wei) (default: 100 gwei)
       from: "0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1", // Account to send txs from (default: accounts[0])
       websocket: true, // Enable EventEmitter interface for web3 (default: false)
@@ -81,15 +81,14 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.2", // Fetch exact version from solc-bin (default: truffle's version)
-      // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
-      // settings: {          // See the solidity docs for advice about optimization and evmVersion
-      //  optimizer: {
-      //    enabled: false,
-      //    runs: 200
-      //  },
-      //  evmVersion: "byzantium"
-      // }
+      version: "^0.8.2",
+      settings: {
+        evmVersion: "byzantium", // Default: "petersburg"
+        optimizer: {
+          enabled: true,
+          runs: 1500,
+        },
+      },
     },
   },
 

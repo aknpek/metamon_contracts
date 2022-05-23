@@ -100,7 +100,7 @@ MetamonContract:
 
 PaymentContract:
   contractName: Payment
-  contractAddress: "0xb09bCc172050fBd4562da8b229Cf3E45Dc3045A6"
+  contractAddress: "0x9529FE8c798a211778830f21149fc9721a3addaa"
   contractConcensus: [
     "0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0",
     "0x22d491Bde2303f2f43325b2108D26f1eAbA1e32b"
@@ -144,5 +144,14 @@ MetaTrainer:
     amountMinted: 1
 
   testCase2:  
+    foreigner: "0xd001a3a79CE8655521615E1125A9868C647d0D3f"
+    amountMinted: 2 
+
+WardrobeContract:
+  contractName: Wardobe
+  contractRealName: "Metamon Trainer Wardobe Collection"
+  contractSymbol: "MTWC"
+  contractAddress: "0xD2B1Bbb97003dFd800BC7b918635db0f326b267f"
+  contractOwnerAddress: "0xec31ef27a7ce54f283d57916b3D3017433CbBD9D"      
     foreigner: "0xd03ea8624C8C5987235048901fB614fDcA89b117"
     amountMinted: 2       
