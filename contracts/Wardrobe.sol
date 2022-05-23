@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.2;
 
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
@@ -16,12 +16,13 @@ interface IMetamon {
 struct ItemTypeInfo {
     uint256 itemPrice;
     uint256 maxMintable;
+    uint256 itemSupply;
     uint256[] requiredMetamon;
     string uri;
     bool valid;
 }
 
-contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
+contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
     using Strings for uint256;
 
     IMetamon public metamonContract;
@@ -81,6 +82,9 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
            require(
             itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable,
             "User is trying to mint more than allocated.");
+            require(
+            totalSupply(_itemType) + _quantity <= itemTypes[_itemType].itemSupply,
+            "User is trying to mint more than total supply.");
             _;
     }
 
@@ -124,12 +128,14 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         uint256 _itemType,
         uint256 _itemPrice,
         uint256 _maxMintable,
+        uint256 _itemSupply,
         uint256[] memory _requiredMetamon,
         string memory _uri
     ) external onlyOwner {
         itemTypes[_itemType] = ItemTypeInfo(
             _itemPrice,
             _maxMintable,
+            _itemSupply,
             _requiredMetamon,
             _uri,
             true
@@ -179,6 +185,23 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         returns (uint256)
     {
         return itemTypes[_itemType].maxMintable;
+    }
+
+    function setItemSupply(uint256 _itemSupply, uint256 _itemType)
+        external
+        onlyOwner
+        itemTypeCheck(_itemType)
+    {
+        itemTypes[_itemType].itemSupply = _itemSupply;
+    }
+
+    function getItemSupply(uint256 _itemType)
+        public
+        view
+        itemTypeCheck(_itemType)
+        returns (uint256)
+    {
+        return itemTypes[_itemType].itemSupply;
     }
 
     function setRequiredMetamon(
