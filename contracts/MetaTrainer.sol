@@ -15,10 +15,17 @@ contract MetaTrainer is ERC1155, Ownable {
 
     string public baseUri;
 
+    event ReceivedEth(address sender, uint256 value);
     event ReceiveEth(address _sender, uint256 _amount);
     event TrainerCreated(address _minter, uint256 _tokenId);
 
     constructor() payable ERC1155("Meta Trainer NFT") {}
+
+    fallback() external payable {}
+
+    receive() external payable {
+        emit ReceivedEth(msg.sender, msg.value);
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Mint Functions
@@ -35,9 +42,12 @@ contract MetaTrainer is ERC1155, Ownable {
         emit TrainerCreated(minter, trainerId);
     }
 
-    function withdraw() external onlyOwner {
-        (bool owner, ) = address(this).call{value: address(this).balance}("");
-        require(owner);
+    function withdraw(address payable receiver, uint256 amount)
+        public
+        onlyOwner
+    {
+        require(amount <= address(this).balance, "Too much asked!");
+        receiver.transfer(amount);
     }
 
     function setTokenUri(string memory _uri) public onlyOwner {
@@ -58,7 +68,6 @@ contract MetaTrainer is ERC1155, Ownable {
         uint256 amount,
         bytes memory data
     ) public virtual override {
-        // TODO: cancel safe transfer
         revert("Secondary sale not possible");
     }
 

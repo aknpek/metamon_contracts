@@ -2,10 +2,10 @@ otherOwner: "0xFB5159e3751828B2c558e18b624Bc45c67DD30CD"
 
 ItemContract:
   contractName: "Item"
-  contractRealName: "Metamon Item Collection"
-  contractSymbol: "NFT"
-  contractAddress: "0xF7D386fbd4661fd9B40d79BB728FB3Fb34eF51Bc"
-  contractOwnerAddress: "0xec31ef27a7ce54f283d57916b3D3017433CbBD9D"
+  contractRealName: "MiniMetamon Item"
+  contractSymbol: "MiniMetamon-Item"
+  contractAddress: "0x4339316e04CFfB5961D1c41fEF8E44bfA2A7fBd1"
+  contractOwnerAddress: "0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1"
 
   itemBurnable: [1, 0, 0, 0, 0, 0, 0]
   itemTypes: [1, 2, 3, 4, 5, 6, 7]
@@ -18,18 +18,18 @@ ItemContract:
   mintPhaseFirst: 
     itemType: 1
     mintQuantity: 10
-    recipient: "0xF4a615744B90900542749eB3e043148899d36Eb7"
+    recipient: "0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0"
 
   mintComplex: [
     {
       itemType: 2,
-      mintQuantity: 10,
-      recipient: "0xF4a615744B90900542749eB3e043148899d36Eb7"
+      mintQuantity: 1,
+      recipient: "0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0"
       },
     {
       itemType: 3,
-      mintQuantity: 12,
-      recipient: "0xF4a615744B90900542749eB3e043148899d36Eb7"
+      mintQuantity: 1,
+      recipient: "0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0"
     }
   ]
   
@@ -40,8 +40,8 @@ MetamonContract:
   contractName: "Metamon"
   contractRealName: "Metamon NFT Collection"
   contractSymbol: "NFT"
-  contractAddress: "0x9E5f3fCeEEE77f1aDbD9F7122bfcdFDbaa4F97e9"
-  contractOwnerAddress: "0xec31ef27a7ce54f283d57916b3D3017433CbBD9D"
+  contractAddress: "0xA94B7f0465E98609391C623d0560C5720a3f2D33"
+  contractOwnerAddress: "0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1"
   passCode: MADECHANGE
   currentMintPhase : 1
 
@@ -102,45 +102,45 @@ PaymentContract:
   contractName: Payment
   contractAddress: "0x9529FE8c798a211778830f21149fc9721a3addaa"
   contractConcensus: [
-    "0x2ef318124Cc419B09c77754a4f6b0162c084FdD6",
-    "0xFE8488a178EF9B5b00fE7C4e1Fe41947Ea70a6B9"
+    "0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0",
+    "0x22d491Bde2303f2f43325b2108D26f1eAbA1e32b"
   ]
 
   testCase1:
     phaseType: 1
 
-    withDrawer1: "0x99B6cde1603fa6b80e2861078354df1dDF198c59"
+    withDrawer1: "0xE11BA2b4D45Eaed5996Cd0823791E0C93114882d"
     percantage1: 5
 
-    withDrawer2: "0xE41F62B7E38b7E742b203916ac801Fc45e2152BC"
+    withDrawer2: "0xd03ea8624C8C5987235048901fB614fDcA89b117"
     percantage2: 5
 
-    withDrawer3: "0xFE8488a178EF9B5b00fE7C4e1Fe41947Ea70a6B9"
+    withDrawer3: "0x95cED938F7991cd0dFcb48F0a06a40FA1aF46EBC"
     percantage3: 5
 
   
   testCase2:
     phaseType: 1
 
-    withDrawer1: "0xFE8488a178EF9B5b00fE7C4e1Fe41947Ea70a6B9"
+    withDrawer1: "0x3E5e9111Ae8eB78Fe1CC3bb8915d5D461F3Ef9A9"
     percantage1: 20
 
-    withDrawer2: "0xFB5159e3751828B2c558e18b624Bc45c67DD30CD"
+    withDrawer2: "0x28a8746e75304c0780E011BEd21C72cD78cd535E"
     percantage2: 50
 
-    withDrawer3: "0xb1Fb1785Bb0D6b0C519299fD366d3B03eE66485E"
+    withDrawer3: "0xACa94ef8bD5ffEE41947b4585a84BdA5a3d3DA6E"
     percantage3: 30
      
-    moneySender: "0xab27364D028d739f5d9A1265bEe84Cb636e1AD17"
+    moneySender: "0x1dF62f291b2E969fB0849d99D9Ce41e2F137006e"
 
 MetaTrainer:
   contractName: MetaTrainer
-  contractAddress: "0x0f4a0E2eF2f4CC3c8484d367b07557D976B7d42c"
+  contractAddress: "0x5f8e26fAcC23FA4cbd87b8d9Dbbd33D5047abDE1"
 
   baseUri: "www.example.com/"
 
   testCase1: 
-    foreigner: "0x99B6cde1603fa6b80e2861078354df1dDF198c59"
+    foreigner: "0xE11BA2b4D45Eaed5996Cd0823791E0C93114882d"
     amountMinted: 1
 
   testCase2:  
@@ -153,3 +153,5 @@ WardrobeContract:
   contractSymbol: "MTWC"
   contractAddress: "0xD2B1Bbb97003dFd800BC7b918635db0f326b267f"
   contractOwnerAddress: "0xec31ef27a7ce54f283d57916b3D3017433CbBD9D"      
+    foreigner: "0xd03ea8624C8C5987235048901fB614fDcA89b117"
+    amountMinted: 2       

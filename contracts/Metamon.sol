@@ -2,22 +2,24 @@
 pragma solidity ^0.8.2;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-
 interface ItemContract {
     function getFloorPrice(uint8 _itemType) external view returns (uint256);
-    function specificItemOwnership(address _owner, uint8 _itemType) external view returns (uint256);
-    function burn(address _burner, uint256 _tokenId) external payable;
-    function balanceOf(address _owner) external view returns(uint256);
-}
 
+    function specificItemOwnership(address _owner, uint8 _itemType)
+        external
+        view
+        returns (uint256);
+
+    function burn(address _burner, uint256 _tokenId) external payable;
+
+    function balanceOf(address _owner) external view returns (uint256);
+}
 
 // Pick during the meeting 1/10000
 // Shiny logic (every mint reset, if you have lucky totem higher chance, if you mintQuantity 10, it increments the probability of minting shiny on each loop of mint
 
-// Before the personalities in 1/10 chance call the chainlink contract 
+// Before the personalities in 1/10 chance call the chainlink contract
 // Batch actions
-
-
 
 contract Metamon is ERC721 {
     using Strings for uint256;
@@ -25,8 +27,7 @@ contract Metamon is ERC721 {
     address payable public owner;
     address _itemContractAddress = 0xd2a5bC10698FD955D1Fe6cb468a17809A08fd005; // TODO: we will hardcode it for now
 
-    ItemContract _item = ItemContract(_itemContractAddress);  // TODO: move this declaration outside of this function
-
+    ItemContract _item = ItemContract(_itemContractAddress); // TODO: move this declaration outside of this function
 
     string private itemBaseURI;
     string private metamonBaseURI;
@@ -39,14 +40,37 @@ contract Metamon is ERC721 {
     event MetamonBurn(uint256 _tokenId, uint8 _dexId, address _burner);
 
     uint8 public currentMintPhase = 1;
-    uint8[5] private withLuckyTotem = [99, 98, 97, 96, 95];  // TODO: total count of 100 probabilities
-    uint32[5] private withoutLuckyTotem = [296, 292, 288, 284, 280];  // TODO: total number of 100 probabilities
+    uint8[5] private withLuckyTotem = [99, 98, 97, 96, 95]; // TODO: total count of 100 probabilities
+    uint32[5] private withoutLuckyTotem = [296, 292, 288, 284, 280]; // TODO: total number of 100 probabilities
     uint256[8] private metamonDex = [1, 2, 3, 4, 5, 6, 7, 10]; // REPR: METAMONT DEX NUMBERS
-    uint256[13] private evalutionMintDex = [2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17, 18, 20];
+    uint256[13] private evalutionMintDex = [
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17,
+        18,
+        20
+    ];
     uint256[8] private metamonSupply = [1000, 0, 0, 2000, 0, 0, 1000, 3000]; // REPR: STARTS FROM TOKEN IDS
     uint256[8] private metamonMinted = [0, 0, 0, 0, 0, 0, 0, 0]; // REPR: STARTS FROM TOKEN IDS
     uint256[8] private metamonMintable = [1, 0, 0, 1, 0, 0, 0, 1]; // REPR: DIRECTLY MINTABLE METAMON DEXIDS
-    uint256[8] private metamonFloor = [.05 ether, 0 ether, 0 ether, .025 ether, 0.035 ether, 0.045 ether, 0.055 ether, 0.065 ether];
+    uint256[8] private metamonFloor = [
+        .05 ether,
+        0 ether,
+        0 ether,
+        .025 ether,
+        0.035 ether,
+        0.045 ether,
+        0.055 ether,
+        0.065 ether
+    ];
 
     uint256 private _tokenIds;
 
@@ -67,7 +91,7 @@ contract Metamon is ERC721 {
     constructor() payable ERC721("Metamon NFT", "NFT") {
         owner = payable(msg.sender);
 
-        artifactBatches[1] = [1, 4, 7, 20, 86, 133];  // TODO: we can use metmaon Mint phases, it can be removed
+        artifactBatches[1] = [1, 4, 7, 20, 86, 133]; // TODO: we can use metmaon Mint phases, it can be removed
 
         // FILLING INFORMATION OF METAMAN AND EVALUATION
         burnEvaluation[1] = 2;
@@ -97,20 +121,14 @@ contract Metamon is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     // State Changes
     ///////////////////////////////////////////////////////////////////////////
-    function changeFloorPrice(
-        uint256 _new_price,
-        uint8 _dexId
-    )
+    function changeFloorPrice(uint256 _new_price, uint8 _dexId)
         external
         onlyOwner(msg.sender)
     {
         metamonFloor[_dexId - 1] = _new_price;
     }
 
-    function changeSupplyDexId(
-        uint256 _new_supply,
-        uint8 _dexId
-    )
+    function changeSupplyDexId(uint256 _new_supply, uint8 _dexId)
         external
         onlyOwner(msg.sender)
     {
@@ -120,11 +138,7 @@ contract Metamon is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     // State Info
     ///////////////////////////////////////////////////////////////////////////
-    function getFloorPrice(uint8 _dexId)
-        public
-        view
-        returns (uint256)
-    {
+    function getFloorPrice(uint8 _dexId) public view returns (uint256) {
         return metamonFloor[_dexId - 1];
     }
 
@@ -137,11 +151,7 @@ contract Metamon is ERC721 {
         return address(this).balance;
     }
 
-    function getSupplyDex(uint8 _dexId)
-        public
-        view
-        returns (uint256)
-    {
+    function getSupplyDex(uint8 _dexId) public view returns (uint256) {
         return metamonSupply[_dexId - 1] - metamonMinted[_dexId - 1];
     }
 
@@ -211,14 +221,18 @@ contract Metamon is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     // Mint / Randomness Mockup TODO: remove this section when Coinbase Implementation
     ///////////////////////////////////////////////////////////////////////////
-    function _mockupRandomPersonality() internal pure returns(uint8) {
+    function _mockupRandomPersonality() internal pure returns (uint8) {
         uint8[4] memory personality = [1, 2, 3, 4];
         return personality[0];
     }
 
-    function _mockupRandomShiny(uint256 _quantity, bool lucky) internal view returns(bool) {
+    function _mockupRandomShiny(uint256 _quantity, bool lucky)
+        internal
+        view
+        returns (bool)
+    {
         // TODO: randomness comes from the loop
-        if (lucky){
+        if (lucky) {
             uint256 probability = withLuckyTotem[_quantity];
             // TODO: there should be some randomness based on the probability
             return true;
@@ -227,13 +241,16 @@ contract Metamon is ERC721 {
             // TODO: there should be some randomness based on the probability
             return false;
         }
-
     }
 
-    function _checkLuckyOwnership(address _recipient) internal view returns (bool){
+    function _checkLuckyOwnership(address _recipient)
+        internal
+        view
+        returns (bool)
+    {
         // TODO: lucky item hardcoded as "2" for this
         uint256 total_ownership = _item.specificItemOwnership(_recipient, 2); // Checks whether Lucky Totem has been owned/or not
-        if (total_ownership == 0){
+        if (total_ownership == 0) {
             return false;
         } else {
             return true;
@@ -243,20 +260,20 @@ contract Metamon is ERC721 {
     ///////////////////////////////////////////////////////////////////////////
     // Mint  Phases
     ///////////////////////////////////////////////////////////////////////////
-    function mintableDex(uint8 _dexId) public view returns(bool){
+    function mintableDex(uint8 _dexId) public view returns (bool) {
         // Helper function checks if Dex Id can be mintable for current mint phase
-        for (uint i=0; i < metamonMintPhases[currentMintPhase].length; i ++){
-            if (_dexId == metamonMintPhases[currentMintPhase][i]){
+        for (uint i = 0; i < metamonMintPhases[currentMintPhase].length; i++) {
+            if (_dexId == metamonMintPhases[currentMintPhase][i]) {
                 return true;
             }
         }
         return false;
     }
 
-    function mintableSpecial(uint8 _dexId) public view returns(bool){
+    function mintableSpecial(uint8 _dexId) public view returns (bool) {
         // Helper function checks if Dex Id can be specially mintable for evalution
-        for (uint8 i=0; i < evalutionMintDex.length; i ++ ){
-            if (_dexId == evalutionMintDex[i]){
+        for (uint8 i = 0; i < evalutionMintDex.length; i++) {
+            if (_dexId == evalutionMintDex[i]) {
                 return true;
             }
         }
@@ -264,16 +281,16 @@ contract Metamon is ERC721 {
     }
 
     modifier mintableDexPhase(uint8 _dexId) {
-        require(mintableDex(_dexId) == true, 'Not Mintable Dex');
+        require(mintableDex(_dexId) == true, "Not Mintable Dex");
         _;
     }
 
     modifier mintalbeSpecialDex(uint8 _dexId) {
-        require(mintableSpecial(_dexId) == true, 'Not Mintable Special Dex');
+        require(mintableSpecial(_dexId) == true, "Not Mintable Special Dex");
         _;
     }
 
-    modifier mintableSupply(uint8 _dexId, uint256 _quantity){
+    modifier mintableSupply(uint8 _dexId, uint256 _quantity) {
         require(_quantity <= getSupplyDex(_dexId));
         _;
     }
@@ -285,8 +302,8 @@ contract Metamon is ERC721 {
     ) internal {
         bool lucky = _checkLuckyOwnership(_recipient);
         uint256 j = _tokenIds;
-        for (uint256 i = 0; i < _quantity; i ++){
-            j ++;
+        for (uint256 i = 0; i < _quantity; i++) {
+            j++;
             _mint(_recipient, j);
             metamonInfoPersonality[j] = _mockupRandomPersonality();
             metamonInfoShiny[j] = _mockupRandomShiny(i, lucky);
@@ -295,23 +312,29 @@ contract Metamon is ERC721 {
             ownerCollectedMetamons[_recipient].push(j);
             emit MetamonMint(j, _recipient);
         }
-         metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + _quantity;
+        metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + _quantity;
         _tokenIds = j;
     }
 
     function mintSale(
-            string memory _passCode,
-            address _recipient,
-            uint256 _quantity,
-            uint8 _dexId // TODO: talk to Nick about the RNG of the dexID
-        ) external payable mintableDexPhase(_dexId) mintableSupply(_dexId, _quantity) {
-
+        string memory _passCode,
+        address _recipient,
+        uint256 _quantity,
+        uint8 _dexId // TODO: talk to Nick about the RNG of the dexID
+    )
+        external
+        payable
+        mintableDexPhase(_dexId)
+        mintableSupply(_dexId, _quantity)
+    {
         uint256 floorPrice = getFloorPrice(_dexId);
         if (msg.sender != owner) {
             require(msg.value == floorPrice * _quantity, "Not Enough Balance!");
         }
 
-        bool lucky = false;  // TODO: _checkLuckyOwnership(_recipient);
+        // TODO hold mapping how many minted perhase
+
+        bool lucky = false; // TODO: _checkLuckyOwnership(_recipient);
 
         uint256 j = _tokenIds;
         for (uint256 i = 0; i < _quantity; i++) {
@@ -323,38 +346,41 @@ contract Metamon is ERC721 {
             ownerCollectedMetamons[_recipient].push(j);
             emit MetamonMint(j, _recipient);
         }
-       metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + _quantity;
+        metamonMinted[_dexId - 1] = metamonMinted[_dexId - 1] + _quantity;
         _tokenIds = j;
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Mint / Burn Phases
     ///////////////////////////////////////////////////////////////////////////
-    function artifactCollectTime(bool _collect) public onlyOwner(msg.sender){
+    function artifactCollectTime(bool _collect) public onlyOwner(msg.sender) {
         collectArtifact = _collect;
     }
 
-    modifier artifactCollectibe(){
-        require(collectArtifact == true, 'Artifacts not collectible');
+    modifier artifactCollectibe() {
+        require(collectArtifact == true, "Artifacts not collectible");
         _;
     }
 
-    function mintArtifact(address _recipient, uint8 _targetArtifact) external artifactCollectibe() {
+    function mintArtifact(address _recipient, uint8 _targetArtifact)
+        external
+        artifactCollectibe
+    {}
 
-
-    }
-
-    function specificDexIdOwned(address _recipient, uint8 _dexId) internal returns(uint256[] memory) {
+    function specificDexIdOwned(address _recipient, uint8 _dexId)
+        internal
+        returns (uint256[] memory)
+    {
         // Return owned dexId's tokenIds
         uint256 counter = 0;
         uint256[] memory collectedMetamons = ownerCollectedMetamons[_recipient];
         uint256[] memory specificDexTokenIds;
-        for (uint256 i=0; i < collectedMetamons.length; i++) {
-            if (_dexId == mintedMetamonDexId[collectedMetamons[i]]){
+        for (uint256 i = 0; i < collectedMetamons.length; i++) {
+            if (_dexId == mintedMetamonDexId[collectedMetamons[i]]) {
                 specificDexTokenIds[i] = collectedMetamons[i];
             }
         }
-        return(specificDexTokenIds);
+        return (specificDexTokenIds);
     }
 
     modifier ownerOfMetamon(address _recipient, uint256 _sendDexTokenId) {
@@ -374,13 +400,15 @@ contract Metamon is ERC721 {
         mintSpecial(_recipient, _dexId, 1);
     }
 
-    function checkTokensDexId(uint256 _dexId, uint256[] memory _sendDexTokensId) internal {
-        for (uint256 i; i < _sendDexTokensId.length; i++){
+    function checkTokensDexId(uint256 _dexId, uint256[] memory _sendDexTokensId)
+        internal
+    {
+        for (uint256 i; i < _sendDexTokensId.length; i++) {
             require(_dexId == mintedMetamonDexId[i], "Not all same dex id");
         }
     }
 
-    modifier checkTokensDex(uint256 _dexId, uint256[] memory  _sendDexTokensId){
+    modifier checkTokensDex(uint256 _dexId, uint256[] memory _sendDexTokensId) {
         checkTokensDexId(_dexId, _sendDexTokensId);
         _;
     }
@@ -390,34 +418,33 @@ contract Metamon is ERC721 {
         uint8 _dexId,
         uint256[] memory _sendDexTokenId,
         uint256 _quantitySend
-        ) public payable checkTokensDex(_dexId, _sendDexTokenId) {
+    ) public payable checkTokensDex(_dexId, _sendDexTokenId) {
         // TODO: only burn metamon for evalution # ownerOfMetamon(_recipient, _sendDexTokenId)
 
         uint256 _quantityCondition = burnEvaluation[_dexId];
-        uint256[] memory _collectedMetamons = ownerCollectedMetamons[_recipient];
+        uint256[] memory _collectedMetamons = ownerCollectedMetamons[
+            _recipient
+        ];
         // check number of metamon ownership to check _quantityCondition
-        for (uint i; i < _sendDexTokenId.length; i ++){
+        for (uint i; i < _sendDexTokenId.length; i++) {
             _burn(_sendDexTokenId[i]);
         }
         uint8 dexId = familyMetamon[_dexId];
         mintSpecial(_recipient, dexId, 1);
     }
 
-
     ///////////////////////////////////////////////////////////////////////////
     // Item Contract Calls
     ///////////////////////////////////////////////////////////////////////////
-    function checkItemOwnership(
-        address _owner
-    ) public view returns(uint256){
+    function checkItemOwnership(address _owner) public view returns (uint256) {
         uint256 balance = _item.balanceOf(_owner);
         return balance;
     }
 
-    function burnItem(
-        address _reciever,
-        uint256 _sendItemTokenId
-    ) public payable {
+    function burnItem(address _reciever, uint256 _sendItemTokenId)
+        public
+        payable
+    {
         _item.burn(_reciever, _sendItemTokenId);
     }
 }

@@ -1,19 +1,64 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.2;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract Item is ERC721, Ownable, ReentrancyGuard {
-    using Strings for uint256;
+//Owner => token id => supply
+//address => Id => Int
+contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
+    using Strings for string;
+
+    //Set contract name and symbol
+    string public name = "MiniMetamon Item";
+    string public symbol = "MiniMetamon-Item";
 
     address payable public paymentContractAddress;
 
-    mapping(address => bool) public isAllowlistAddress;
+    uint8 private TEAR_OF_THE_GODDESS = 1;
+    uint8 private LUCKY_TOTEM = 2;
+    uint8 private SPIRIT_OF_FIRE = 3;
+    uint8 private SPIRIT_OF_WATER = 4;
+    uint8 private SPIRIT_OF_EARTH = 5;
+    uint8 private SPIRIT_OF_ELECTRICTY = 6;
+    uint8 private ASTRAL_SPIRIT = 7;
+
+    uint8 private ARTIFACT1 = 8;
+    uint8 private ARTIFACT2 = 9;
+    uint8 private ARTIFACT3 = 10;
+    uint8 private ARTIFACT4 = 11;
+    uint8 private ARTIFACT5 = 12;
+    uint8 private ARTIFACT6 = 13;
+    uint8 private ARTIFACT7 = 14;
+    uint8 private ARTIFACT8 = 15;
+
+    uint8 private COMPLITIONIST = 16;
+
+
+    uint256 private totalSupply = 8;
 
     uint8[7] public itemBurnable = [1, 0, 0, 0, 0, 0, 0];
-    uint8[7] public itemTypes = [1, 2, 3, 4, 5, 6, 7];
+    uint8[7] public itemTypes = [TEAR_OF_THE_GODDESS,
+                                 LUCKY_TOTEM,
+                                 SPIRIT_OF_FIRE,
+                                 SPIRIT_OF_WATER,
+                                 SPIRIT_OF_EARTH,
+                                 SPIRIT_OF_ELECTRICTY,
+                                 ASTRAL_SPIRIT];
+    
+    uint8[8] public artifactType = [ARTIFACT1,
+                                    ARTIFACT2,
+                                    ARTIFACT3,
+                                    ARTIFACT4,
+                                    ARTIFACT5,
+                                    ARTIFACT6,
+                                    ARTIFACT7,
+                                    ARTIFACT8];
+
+    uint8[1] public complicionstNFT = [COMPLITIONIST];
+
     uint8[7] public maxOwnable = [10, 1, 1, 1, 1, 1, 1];
     uint32[7] public itemSupplies = [2500, 2500, 1000, 1000, 1000, 1000, 1000];
 
@@ -32,7 +77,8 @@ contract Item is ERC721, Ownable, ReentrancyGuard {
     string private itemBaseURI;
     string private baseURI;
     string private passWord = "MADECHANGE";
-    bool private onlyAllowList = true;
+
+    mapping (uint256 => string) private uris;
 
     mapping(uint256 => uint8) public tokenItemTypes;
     mapping(address => uint256[]) public tokenOwner; // Represents owner's tokens *tokenIds
@@ -48,7 +94,7 @@ contract Item is ERC721, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Cons
     ///////////////////////////////////////////////////////////////////////////
-    constructor() payable ERC721("Metamon Item Collection", "NFT") {}
+    constructor() payable ERC1155("https://gateway.pinata.cloud/ipfs/INSERT_IPFS_HASH_HERE/{id}.json") {}
 
     fallback() external payable {}
 
@@ -62,36 +108,6 @@ contract Item is ERC721, Ownable, ReentrancyGuard {
     modifier itemType(uint256 _itemType) {
         require(1 <= _itemType && _itemType <= 7, "Item Type out of scope!");
         _;
-    }
-
-    modifier passCheck(string memory _passCode) {
-        // This modifier limits the access into mintFunction
-        require(
-            keccak256(abi.encodePacked(_passCode)) ==
-                keccak256(abi.encodePacked(passWord)),
-            "Token not match!"
-        );
-        _;
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Allow List Functions
-    ///////////////////////////////////////////////////////////////////////////
-    function allowlistAddresses(address[] calldata wAddresses, bool allow)
-        external
-        onlyOwner
-    {
-        for (uint256 i = 0; i < wAddresses.length; i++) {
-            isAllowlistAddress[wAddresses[i]] = allow;
-        }
-    }
-
-    function allowlistAddress(address wAddress, bool allow) external onlyOwner {
-        isAllowlistAddress[wAddress] = allow;
-    }
-
-    function toggleOnlyAllowList() external onlyOwner {
-        onlyAllowList = !onlyAllowList;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -185,39 +201,25 @@ contract Item is ERC721, Ownable, ReentrancyGuard {
         require(itemBurnable[_tokenType - 1] == 1, "Item not burnable!");
 
         if (_deleteOwnerToken(_burner, _tokenId)) {
-            _burn(_tokenId);
+            _burn(_burner, _tokenId, 1);
             emit BurnItem(_burner, _tokenId);
         } else {
             revert("Could not burn the token!");
         }
     }
-
     ///////////////////////////////////////////////////////////////////////////
     // Mint Tokens
     ///////////////////////////////////////////////////////////////////////////
     function mintSale(
-        string memory _passCode,
         address _recipient,
         uint8 _itemType,
         uint256 _quantity
-    ) external payable passCheck(_passCode) nonReentrant {
-        //Checks if address is allow listed
-        if (onlyAllowList && msg.sender != owner()) {
-            require(
-                isAllowlistAddress[msg.sender],
-                "Caller is not allow listed"
-            );
-        }
-
-        uint256 _itemSupplyLeft = getSupplyLeft(_itemType);
+    ) external payable nonReentrant {
 
         uint256 _totalOwned = specificItemOwnership(_recipient, _itemType);
-        uint256 _maxOwnable = maxOwnable[_itemType - 1];
-        require(
-            _totalOwned + _quantity <= _maxOwnable,
-            "Max ownable quantity reached!"
-        );
+        require(_totalOwned + _quantity <= maxOwnable[_itemType - 1], "Max ownable quantity reached!");
 
+        uint256 _itemSupplyLeft = getSupplyLeft(_itemType);
         uint256 _itemFloor = getFloorPrice(_itemType);
 
         uint256 _maxMintable = mintableLeft(_quantity, _itemSupplyLeft);
@@ -232,7 +234,7 @@ contract Item is ERC721, Ownable, ReentrancyGuard {
 
         for (uint256 i = 0; i < _quantity; i++) {
             j++;
-            _mint(_recipient, j);
+            _mint(_recipient, _itemType, 1, "");
             tokenOwners[_recipient][_itemType].push(j);
             tokenOwner[_recipient].push(j);
             tokenItemTypes[j] = _itemType;
@@ -245,31 +247,17 @@ contract Item is ERC721, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Backend URIs
     ///////////////////////////////////////////////////////////////////////////
-    function setBaseURI(string memory _baseURILink) external onlyOwner {
-        baseURI = _baseURILink;
+    function uri(uint256 tokenId) override public view returns (string memory){
+        return(uris[tokenId]);
     }
 
-    function getBaseURI() external view onlyOwner returns (string memory) {
-        return baseURI;
+    function setTokenUri(uint256 tokenId, string memory uri) public onlyOwner {
+        uris[tokenId] = uri;
     }
 
-    function _baseURI() internal view virtual override returns (string memory) {
-        return baseURI;
-    }
-
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        virtual
-        override
-        returns (string memory)
+    function setURI(string memory newuri) external onlyOwner 
     {
-        require(_exists(tokenId), "Nonexistent token!");
-
-        return
-            bytes(baseURI).length > 0
-                ? string(abi.encodePacked(baseURI, tokenId.toString(), ".json"))
-                : "";
+        _setURI(newuri);
     }
 
     ///////////////////////////////////////////////////////////////////////////
