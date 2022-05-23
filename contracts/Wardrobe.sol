@@ -36,6 +36,8 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
 
     mapping(uint256 => ItemTypeInfo) itemTypes;
 
+    mapping(address => mapping(uint256 => uint256)) itemsMinted;
+
     uint256 numberOfItemTypes;
 
     ///////////////////////////////////////////////////////////////////////////
@@ -235,15 +237,19 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         nonReentrant
     {
         require(
-            balanceOf(msg.sender, _itemType) + _quantity <=
-                itemTypes[_itemType].maxMintable,
-            "Max Mintable"
-        );
-        require(itemTypes[_itemType].requiredMetamon.length == 0, "Claim only");
+            itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable,
+            "User is trying to mint more than allocated.");
+
+        require(
+            itemTypes[_itemType].requiredMetamon.length == 0,
+            "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
+        
         require(
             msg.value == itemTypes[_itemType].itemPrice * _quantity,
             "Not enough ETH"
         );
+
+        itemsMinted[msg.sender][_itemType] += _quantity;
 
         _mint(msg.sender, _itemType, _quantity, "");
     }
@@ -255,15 +261,22 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         uint256 totalMintCost;
         for (uint i = 0; i < _itemTypes.length; i++) {
             require(
-                balanceOf(msg.sender, i) + _quantity[i] <=
-                    itemTypes[i].maxMintable,
-                "Max Mintable!"
-            );
-            require(itemTypes[i].requiredMetamon.length == 0, "Claim only!");
+                itemsMinted[msg.sender][i] + _quantity[i] <= itemTypes[i].maxMintable,
+                "User is trying to mint more than allocated.");
+
+            require(
+                itemTypes[i].requiredMetamon.length == 0,
+                "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
+            
             totalMintCost += itemTypes[i].itemPrice * _quantity[i];
         }
 
-        require(msg.value == totalMintCost, "Not enough ETH!");
+        require(msg.value == totalMintCost, "Not enough ETH to mint!");
+        
+        for(uint i = 0; i < _itemTypes.length; i++){
+            itemsMinted[msg.sender][i] += _quantity[i];
+        }
+
         _mintBatch(msg.sender, _itemTypes, _quantity, "");
     }
 
@@ -280,16 +293,21 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
             ),
             "Caller not whitelisted"
         );
+
         require(
-            balanceOf(msg.sender, _itemType) + _quantity <=
-                itemTypes[_itemType].maxMintable,
-            "Max Mintable"
-        );
-        require(itemTypes[_itemType].requiredMetamon.length == 0, "Claim only");
+            itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable,
+            "User is trying to mint more than allocated.");
+
+        require(
+            itemTypes[_itemType].requiredMetamon.length == 0,
+            "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
+        
         require(
             msg.value == itemTypes[_itemType].itemPrice * _quantity,
             "Not enough ETH"
         );
+
+        itemsMinted[msg.sender][_itemType] += _quantity;
         _mint(msg.sender, _itemType, _quantity, "");
     }
 
@@ -300,12 +318,14 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         nonReentrant
     {
         require(
-            balanceOf(msg.sender, _itemType) + _quantity <=
-                itemTypes[_itemType].maxMintable,
-            "Max Mintable"
-        );
-        require(itemTypes[_itemType].itemPrice == 0, "must be a free mint");
+            itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable, 
+            "User is claming more items than allocated.");
 
+        require(
+            itemTypes[_itemType].itemPrice == 0, 
+            "must be a free mint");
+
+        itemsMinted[msg.sender][_itemType] += _quantity;
         _mint(msg.sender, _itemType, _quantity, "");
     }
 
@@ -314,12 +334,15 @@ contract Wardrobe is ERC1155, Ownable, ReentrancyGuard {
         uint256 _itemType,
         uint256 _quantity
     ) external itemTypeCheck(_itemType) nonReentrant {
-        require(msg.sender == address(metamonContract), "Caller not valid");
         require(
-            balanceOf(msg.sender, _itemType) + _quantity <=
-                itemTypes[_itemType].maxMintable,
-            "Max Mintable"
-        );
+            msg.sender == address(metamonContract), 
+            "Caller not valid");
+
+        require(
+            itemsMinted[msg.sender][_itemType] + 1 <= itemTypes[_itemType].maxMintable, 
+            "User is claming more items than allocated.");
+            
+        itemsMinted[msg.sender][_itemType] += _quantity;
         _mint(_user, _itemType, _quantity, "");
     }
 
