@@ -18,6 +18,7 @@ struct ItemTypeInfo {
     uint256 maxMintable;
     uint256 itemSupply;
     uint256[] requiredMetamon;
+    bytes32 itemMerkleRoot;
     string uri;
     bool valid;
 }
@@ -29,8 +30,6 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
 
     address payable public breedingContractAddress;
     address payable public paymentContractAddress;
-
-    bytes32 public merkleRoot;
 
     string public name;
     string public symbol;
@@ -130,6 +129,7 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         uint256 _maxMintable,
         uint256 _itemSupply,
         uint256[] memory _requiredMetamon,
+        bytes32 _itemMerkleRoot,
         string memory _uri
     ) external onlyOwner {
         require(!itemTypes[_itemType].valid, "Item type ID has already been used");
@@ -138,6 +138,7 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
             _maxMintable,
             _itemSupply,
             _requiredMetamon,
+            _itemMerkleRoot,
             _uri,
             true
         );
@@ -221,12 +222,12 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         return itemTypes[_itemType].requiredMetamon;
     }
 
-    function setMerkleRoot(bytes32 _newMerkleRoot) external onlyOwner {
-        merkleRoot = _newMerkleRoot;
+    function setMerkleRoot(bytes32 _newMerkleRoot, uint256 _itemType) external onlyOwner {
+        itemTypes[_itemType].itemMerkleRoot = _newMerkleRoot;
     }
 
-    function getMerkleRoot() external view onlyOwner returns (bytes32) {
-        return merkleRoot;
+    function getMerkleRoot(uint256 _itemType) external view onlyOwner returns (bytes32) {
+        return itemTypes[_itemType].itemMerkleRoot;
     }
 
     function totalItemTypes() public view returns (uint256) {
@@ -268,6 +269,10 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         maxMintableCheck(_itemType, _quantity)
         nonReentrant
     {
+        require(
+            itemTypes[_itemType].itemMerkleRoot == 0,
+            "User is trying to mint a whitelisted item through incorrect function call."
+        );
      
         require(
             itemTypes[_itemType].requiredMetamon.length == 0,
@@ -290,6 +295,10 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         uint256 totalMintCost;
 
         for (uint i = 0; i < _itemTypes.length; i++) {
+
+            require(
+                itemTypes[i].itemMerkleRoot == 0,
+                "User is trying to mint a whitelisted item through incorrect function call.");
 
             require(
                 itemsMinted[msg.sender][i] + _quantity[i] <= itemTypes[i].maxMintable,
@@ -328,7 +337,7 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         require(
             MerkleProof.verify(
                 _merkleProof,
-                merkleRoot,
+                itemTypes[_itemType].itemMerkleRoot,
                 keccak256(abi.encodePacked(msg.sender))
             ),
             "Caller not whitelisted"
