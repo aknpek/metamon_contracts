@@ -36,26 +36,29 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
 
     uint8 private COMPLITIONIST = 16;
 
-
-    uint256 private totalSupply = 8;
+    // uint256 private totalSupply = 8;
 
     uint8[7] public itemBurnable = [1, 0, 0, 0, 0, 0, 0];
-    uint8[7] public itemTypes = [TEAR_OF_THE_GODDESS,
-                                 LUCKY_TOTEM,
-                                 SPIRIT_OF_FIRE,
-                                 SPIRIT_OF_WATER,
-                                 SPIRIT_OF_EARTH,
-                                 SPIRIT_OF_ELECTRICTY,
-                                 ASTRAL_SPIRIT];
-    
-    uint8[8] public artifactType = [ARTIFACT1,
-                                    ARTIFACT2,
-                                    ARTIFACT3,
-                                    ARTIFACT4,
-                                    ARTIFACT5,
-                                    ARTIFACT6,
-                                    ARTIFACT7,
-                                    ARTIFACT8];
+    uint8[7] public itemTypes = [
+        TEAR_OF_THE_GODDESS,
+        LUCKY_TOTEM,
+        SPIRIT_OF_FIRE,
+        SPIRIT_OF_WATER,
+        SPIRIT_OF_EARTH,
+        SPIRIT_OF_ELECTRICTY,
+        ASTRAL_SPIRIT
+    ];
+
+    uint8[8] public artifactType = [
+        ARTIFACT1,
+        ARTIFACT2,
+        ARTIFACT3,
+        ARTIFACT4,
+        ARTIFACT5,
+        ARTIFACT6,
+        ARTIFACT7,
+        ARTIFACT8
+    ];
 
     uint8[1] public complicionstNFT = [COMPLITIONIST];
 
@@ -78,7 +81,7 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     string private baseURI;
     string private passWord = "MADECHANGE";
 
-    mapping (uint256 => string) private uris;
+    mapping(uint256 => string) private uris;
 
     mapping(uint256 => uint8) public tokenItemTypes;
     mapping(address => uint256[]) public tokenOwner; // Represents owner's tokens *tokenIds
@@ -94,7 +97,12 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Cons
     ///////////////////////////////////////////////////////////////////////////
-    constructor() payable ERC1155("https://gateway.pinata.cloud/ipfs/INSERT_IPFS_HASH_HERE/{id}.json") {}
+    constructor()
+        payable
+        ERC1155(
+            "https://gateway.pinata.cloud/ipfs/INSERT_IPFS_HASH_HERE/{id}.json"
+        )
+    {}
 
     fallback() external payable {}
 
@@ -207,6 +215,7 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
             revert("Could not burn the token!");
         }
     }
+
     ///////////////////////////////////////////////////////////////////////////
     // Mint Tokens
     ///////////////////////////////////////////////////////////////////////////
@@ -215,9 +224,11 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
         uint8 _itemType,
         uint256 _quantity
     ) external payable nonReentrant {
-
         uint256 _totalOwned = specificItemOwnership(_recipient, _itemType);
-        require(_totalOwned + _quantity <= maxOwnable[_itemType - 1], "Max ownable quantity reached!");
+        require(
+            _totalOwned + _quantity <= maxOwnable[_itemType - 1],
+            "Max ownable quantity reached!"
+        );
 
         uint256 _itemSupplyLeft = getSupplyLeft(_itemType);
         uint256 _itemFloor = getFloorPrice(_itemType);
@@ -247,16 +258,15 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Backend URIs
     ///////////////////////////////////////////////////////////////////////////
-    function uri(uint256 tokenId) override public view returns (string memory){
-        return(uris[tokenId]);
+    function uri(uint256 tokenId) public view override returns (string memory) {
+        return (uris[tokenId]);
     }
 
     function setTokenUri(uint256 tokenId, string memory uri) public onlyOwner {
         uris[tokenId] = uri;
     }
 
-    function setURI(string memory newuri) external onlyOwner 
-    {
+    function setURI(string memory newuri) external onlyOwner {
         _setURI(newuri);
     }
 
