@@ -249,13 +249,6 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         return numberOfItemTypes;
     }
 
-    function setPayableAddress(address payable _paymentContractAddress)
-        external
-        onlyOwner
-    {
-        paymentContractAddress = _paymentContractAddress;
-    }
-
     function setMetamonContractAddress(address _metamonContractAddress)
         external
         onlyOwner
