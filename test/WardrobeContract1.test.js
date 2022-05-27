@@ -83,4 +83,12 @@ contract("Wardrobe", () => {
         assert(req, [40]);
       });
   });
+
+  it("Set Proof", async () => {
+    await deployedContract.setMerkleRoot(item2["_proof"], item2["_itemType"]);
+
+    await deployedContract.getMerkleRoot(item2["_itemType"]).then((proof) => {
+      assert(proof, item2["_proof"]);
+    });
+  });
 });

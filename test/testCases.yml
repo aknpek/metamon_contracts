@@ -168,6 +168,7 @@ WardrobeContract:
   item2: {
     "_itemType": 1,
     "_itemPrice": 0.06,
+    "_proof": "0x00000001",
   }
 
 
