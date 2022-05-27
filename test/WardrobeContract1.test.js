@@ -98,12 +98,6 @@ contract("Wardrobe", () => {
     });
   });
 
-  it("Set Metamon Contract Address", async () => {
-    await deployedContract.setPayableAddress(
-      yaml_data["WardrobeContract"]["contractPayableAddress"]
-    );
-  });
-
   it("Set Metamon Contract Address 1 Type", async () => {
     await deployedContract.setContractAddresses(
       1,
@@ -123,5 +117,20 @@ contract("Wardrobe", () => {
       1,
       yaml_data["WardrobeContract"]["tokenURI"]
     );
+
+    await deployedContract.uri(1).then((uri) => {
+      assert(uri, yaml_data["WardrobeContract"]["tokenURI"]);
+    });
+  });
+
+  it("Send Money to Contract", async () => {
+    await deployedContract.sendTransaction({
+      from: contract_deployer,
+      value: Web3.utils.toWei("1", "ether"),
+    });
+  });
+
+  it("Withdraw", async () => {
+    await deployedContract.withdraw();
   });
 });
