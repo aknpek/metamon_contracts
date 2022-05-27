@@ -91,4 +91,37 @@ contract("Wardrobe", () => {
       assert(proof, item2["_proof"]);
     });
   });
+
+  it("Total Items returns 1 after adding", async () => {
+    await deployedContract.totalItemTypes().then((total) => {
+      assert(total, 1);
+    });
+  });
+
+  it("Set Metamon Contract Address", async () => {
+    await deployedContract.setPayableAddress(
+      yaml_data["WardrobeContract"]["contractPayableAddress"]
+    );
+  });
+
+  it("Set Metamon Contract Address 1 Type", async () => {
+    await deployedContract.setContractAddresses(
+      1,
+      yaml_data["WardrobeContract"]["contractPayableAddress"]
+    );
+  });
+
+  it("Set Metamon Contract Address 2 Type", async () => {
+    await deployedContract.setContractAddresses(
+      2,
+      yaml_data["WardrobeContract"]["contractPayableAddress"]
+    );
+  });
+
+  it("Set Token URI", async () => {
+    await deployedContract.setTokenUri(
+      1,
+      yaml_data["WardrobeContract"]["tokenURI"]
+    );
+  });
 });

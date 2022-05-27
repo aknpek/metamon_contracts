@@ -171,4 +171,7 @@ WardrobeContract:
     "_proof": "0x00000001",
   }
 
+  contractPayableAddress: "0x9b1f7F645351AF3631a656421eD2e40f2802E6c0"
+  tokenURI: "www.try.com/"
+
 
