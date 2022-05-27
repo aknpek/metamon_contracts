@@ -174,4 +174,13 @@ WardrobeContract:
   contractPayableAddress: "0x9b1f7F645351AF3631a656421eD2e40f2802E6c0"
   tokenURI: "www.try.com/"
 
+  item3: {
+    "_itemType": 2,
+    "_itemPrice": 0.05,
+    "_maxMintable": 10,
+    "_itemSupply": 500,
+    "_requiredMetamon": [],
+    "_proof": "0x00000000",
+    "_uri": ""
+  }
 

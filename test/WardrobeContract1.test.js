@@ -11,7 +11,6 @@ const contract_address = yaml_data["WardrobeContract"]["contractAddress"];
 const contract_symbol = yaml_data["WardrobeContract"]["contractSymbol"];
 
 const item1 = yaml_data["WardrobeContract"]["item1"];
-
 const item2 = yaml_data["WardrobeContract"]["item2"];
 
 contract("Wardrobe", () => {
@@ -132,5 +131,16 @@ contract("Wardrobe", () => {
 
   it("Withdraw", async () => {
     await deployedContract.withdraw();
+  });
+
+  it("Mint try on non-special item", async () => {
+    try {
+      await deployedContract.mintSale(1, 1);
+      assert(false);
+      return;
+    } catch (e) {
+      assert(true);
+      return;
+    }
   });
 });
