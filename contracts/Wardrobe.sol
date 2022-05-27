@@ -77,14 +77,18 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         _;
     }
 
-    modifier maxMintableCheck(uint256 _itemType, uint256 _quantity){
-           require(
-            itemsMinted[msg.sender][_itemType] + _quantity <= itemTypes[_itemType].maxMintable,
-            "User is trying to mint more than allocated.");
-            require(
-            totalSupply(_itemType) + _quantity <= itemTypes[_itemType].itemSupply,
-            "User is trying to mint more than total supply.");
-            _;
+    modifier maxMintableCheck(uint256 _itemType, uint256 _quantity) {
+        require(
+            itemsMinted[msg.sender][_itemType] + _quantity <=
+                itemTypes[_itemType].maxMintable,
+            "User is trying to mint more than allocated."
+        );
+        require(
+            totalSupply(_itemType) + _quantity <=
+                itemTypes[_itemType].itemSupply,
+            "User is trying to mint more than total supply."
+        );
+        _;
     }
 
     modifier requiredMetamonCheck(uint256 _itemType) {
@@ -132,7 +136,10 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         bytes32 _itemMerkleRoot,
         string memory _uri
     ) external onlyOwner {
-        require(!itemTypes[_itemType].valid, "Item type ID has already been used");
+        require(
+            !itemTypes[_itemType].valid,
+            "Item type ID has already been used"
+        );
         itemTypes[_itemType] = ItemTypeInfo(
             _itemPrice,
             _maxMintable,
@@ -222,11 +229,19 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         return itemTypes[_itemType].requiredMetamon;
     }
 
-    function setMerkleRoot(bytes32 _newMerkleRoot, uint256 _itemType) external onlyOwner {
+    function setMerkleRoot(bytes32 _newMerkleRoot, uint256 _itemType)
+        external
+        onlyOwner
+    {
         itemTypes[_itemType].itemMerkleRoot = _newMerkleRoot;
     }
 
-    function getMerkleRoot(uint256 _itemType) external view onlyOwner returns (bytes32) {
+    function getMerkleRoot(uint256 _itemType)
+        external
+        view
+        onlyOwner
+        returns (bytes32)
+    {
         return itemTypes[_itemType].itemMerkleRoot;
     }
 
@@ -273,11 +288,12 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
             itemTypes[_itemType].itemMerkleRoot == 0,
             "User is trying to mint a whitelisted item through incorrect function call."
         );
-     
+
         require(
             itemTypes[_itemType].requiredMetamon.length == 0,
-            "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
-        
+            "User is trying to mint a wardrobe item with metamon requirements - Claim only!"
+        );
+
         require(
             msg.value == itemTypes[_itemType].itemPrice * _quantity,
             "Not enough ETH"
@@ -291,33 +307,37 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         uint256[] memory _itemTypes,
         uint256[] memory _quantity
     ) external payable itemTypesCheck(_itemTypes) nonReentrant {
-
         uint256 totalMintCost;
 
         for (uint i = 0; i < _itemTypes.length; i++) {
-
             require(
                 itemTypes[i].itemMerkleRoot == 0,
-                "User is trying to mint a whitelisted item through incorrect function call.");
+                "User is trying to mint a whitelisted item through incorrect function call."
+            );
 
             require(
-                itemsMinted[msg.sender][i] + _quantity[i] <= itemTypes[i].maxMintable,
-                "User is trying to mint more than allocated.");
+                itemsMinted[msg.sender][i] + _quantity[i] <=
+                    itemTypes[i].maxMintable,
+                "User is trying to mint more than allocated."
+            );
 
             require(
-                totalSupply(_itemTypes[i]) + _quantity[i] <= itemTypes[i].itemSupply,
-                "User is trying to mint more than total supply.");
+                totalSupply(_itemTypes[i]) + _quantity[i] <=
+                    itemTypes[i].itemSupply,
+                "User is trying to mint more than total supply."
+            );
 
             require(
                 itemTypes[i].requiredMetamon.length == 0,
-                "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
-            
+                "User is trying to mint a wardrobe item with metamon requirements - Claim only!"
+            );
+
             totalMintCost += itemTypes[i].itemPrice * _quantity[i];
         }
 
         require(msg.value == totalMintCost, "Not enough ETH to mint!");
-        
-        for(uint i = 0; i < _itemTypes.length; i++){
+
+        for (uint i = 0; i < _itemTypes.length; i++) {
             itemsMinted[msg.sender][i] += _quantity[i];
         }
 
@@ -328,12 +348,13 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         uint256 _itemType,
         uint256 _quantity,
         bytes32[] calldata _merkleProof
-    ) external
-      payable 
-      itemTypeCheck(_itemType)
-      maxMintableCheck(_itemType, _quantity) 
-      nonReentrant {
-        
+    )
+        external
+        payable
+        itemTypeCheck(_itemType)
+        maxMintableCheck(_itemType, _quantity)
+        nonReentrant
+    {
         require(
             MerkleProof.verify(
                 _merkleProof,
@@ -345,8 +366,9 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
 
         require(
             itemTypes[_itemType].requiredMetamon.length == 0,
-            "User is trying to mint a wardrobe item with metamon requirements - Claim only!");
-        
+            "User is trying to mint a wardrobe item with metamon requirements - Claim only!"
+        );
+
         require(
             msg.value == itemTypes[_itemType].itemPrice * _quantity,
             "Not enough ETH"
@@ -363,10 +385,7 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         requiredMetamonCheck(_itemType)
         nonReentrant
     {
-
-        require(
-            itemTypes[_itemType].itemPrice == 0, 
-            "must be a free mint");
+        require(itemTypes[_itemType].itemPrice == 0, "must be a free mint");
 
         itemsMinted[msg.sender][_itemType] += _quantity;
         _mint(msg.sender, _itemType, _quantity, "");
@@ -376,14 +395,14 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         address _user,
         uint256 _itemType,
         uint256 _quantity
-    ) external 
-      itemTypeCheck(_itemType)
-      maxMintableCheck(_itemType, _quantity)
-      nonReentrant {
-        require(
-            msg.sender == address(metamonContract), 
-            "Caller not valid");
-            
+    )
+        external
+        itemTypeCheck(_itemType)
+        maxMintableCheck(_itemType, _quantity)
+        nonReentrant
+    {
+        require(msg.sender == address(metamonContract), "Caller not valid");
+
         itemsMinted[msg.sender][_itemType] += _quantity;
         _mint(_user, _itemType, _quantity, "");
     }

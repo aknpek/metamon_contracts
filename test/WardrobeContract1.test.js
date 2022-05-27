@@ -41,6 +41,7 @@ contract("Wardrobe", () => {
       item1["_maxMintable"],
       item1["_itemSupply"],
       item1["_requiredMetamon"],
+      item1["_proof"],
       item1["_uri"]
     );
     assert(true);
