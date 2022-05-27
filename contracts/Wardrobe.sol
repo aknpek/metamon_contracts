@@ -96,7 +96,7 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
 
     modifier requiredMetamonCheck(uint256 _itemType) {
         uint256[] memory requiredMetamon = itemTypes[_itemType].requiredMetamon;
-        for (uint256 i; i < requiredMetamon.length; i++) {
+        for (uint256 i = 0; i < requiredMetamon.length; i++) {
             if (
                 !metamonContract.metamonOwnership(
                     msg.sender,
@@ -113,10 +113,10 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         for (uint i = 0; i < _itemTypes.length; i++) {
             uint256[] memory _requiredMetamon = itemTypes[_itemTypes[i]]
                 .requiredMetamon;
-            for (uint256 j; j < _requiredMetamon.length; i++) {
+            for (uint256 j = 0; j < _requiredMetamon.length; i++) {
                 if (
                     !metamonContract.metamonOwnership(
-                        msg.sender,
+                        msg.sender, 
                         _requiredMetamon[j]
                     )
                 ) {
@@ -307,34 +307,34 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
 
         for (uint i = 0; i < _itemTypes.length; i++) {
             require(
-                itemTypes[i].itemMerkleRoot == 0,
+                itemTypes[_itemTypes[i]].itemMerkleRoot == 0,
                 "User is trying to mint a whitelisted item through incorrect function call."
             );
 
             require(
-                itemsMinted[msg.sender][i] + _quantity[i] <=
-                    itemTypes[i].maxMintable,
+                itemsMinted[msg.sender][_itemTypes[i]] + _quantity[i] <=
+                    itemTypes[_itemTypes[i]].maxMintable,
                 "User is trying to mint more than allocated."
             );
 
             require(
-                totalSupply(_itemTypes[i]) + _quantity[i] <=
-                    itemTypes[i].itemSupply,
+                totalSupply(itemTypes[_itemTypes[i]]) + _quantity[i] <=
+                    itemTypes[_itemTypes[i]].itemSupply,
                 "User is trying to mint more than total supply."
             );
 
             require(
-                itemTypes[i].requiredMetamon.length == 0,
+                itemTypes[_itemTypes[i]].requiredMetamon.length == 0,
                 "User is trying to mint a wardrobe item with metamon requirements - Claim only!"
             );
 
-            totalMintCost += itemTypes[i].itemPrice * _quantity[i];
+            totalMintCost += itemTypes[_itemTypes[i]].itemPrice * _quantity[i];
         }
 
         require(msg.value == totalMintCost, "Not enough ETH to mint!");
 
         for (uint i = 0; i < _itemTypes.length; i++) {
-            itemsMinted[msg.sender][i] += _quantity[i];
+            itemsMinted[msg.sender][_itemTypes[i]] += _quantity[i];
         }
 
         _mintBatch(msg.sender, _itemTypes, _quantity, "");
