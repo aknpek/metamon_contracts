@@ -40,4 +40,25 @@ contract("Wardrobe", () => {
       ),
     });
   });
+
+  it("Mint sale second time", async () => {
+    try {
+      await deployedContract.mintSale(
+        item3["_itemType"],
+        item3["_maxMintable"],
+        {
+          from: contract_deployer,
+          value: Web3.utils.toWei(
+            `${item3["_itemPrice"] * item3["_maxMintable"]}`,
+            "ether"
+          ),
+        }
+      );
+      assert(false);
+      return;
+    } catch {
+      assert(true);
+      return;
+    }
+  });
 });
