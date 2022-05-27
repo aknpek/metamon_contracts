@@ -177,7 +177,7 @@ WardrobeContract:
   item3: {
     "_itemType": 2,
     "_itemPrice": 0.05,
-    "_maxMintable": 10,
+    "_maxMintable": 100,
     "_itemSupply": 500,
     "_requiredMetamon": [],
     "_proof": "0x00000000",
@@ -187,7 +187,7 @@ WardrobeContract:
   item4: {
     "_itemType": 3,
     "_itemPrice": 0.05,
-    "_maxMintable": 10,
+    "_maxMintable": 200,
     "_itemSupply": 500,
     "_requiredMetamon": [],
     "_proof": "0x00000000",
@@ -197,7 +197,7 @@ WardrobeContract:
   item5: {
     "_itemType": 4,
     "_itemPrice": 0.05,
-    "_maxMintable": 10,
+    "_maxMintable": 200,
     "_itemSupply": 500,
     "_requiredMetamon": [],
     "_proof": "0x00000000",

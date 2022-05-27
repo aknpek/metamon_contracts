@@ -72,7 +72,10 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
 
     modifier itemTypesCheck(uint256[] memory _itemTypes) {
         for (uint i = 0; i < _itemTypes.length; i++) {
-            require(itemTypes[i].valid, "Item Type is out of scope!");
+            require(
+                itemTypes[_itemTypes[i]].valid,
+                "Item Type is out of scope!"
+            );
         }
         _;
     }

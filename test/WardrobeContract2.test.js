@@ -45,17 +45,10 @@ contract("Wardrobe", () => {
 
   it("Mint sale second time", async () => {
     try {
-      await deployedContract.mintSale(
-        item3["_itemType"],
-        item3["_maxMintable"],
-        {
-          from: contract_deployer,
-          value: Web3.utils.toWei(
-            `${item3["_itemPrice"] * item3["_maxMintable"]}`,
-            "ether"
-          ),
-        }
-      );
+      await deployedContract.mintSale(item3["_itemType"], 5, {
+        from: contract_deployer,
+        value: Web3.utils.toWei(`${item3["_itemPrice"] * 5}`, "ether"),
+      });
       assert(false);
       return;
     } catch {
@@ -69,7 +62,7 @@ contract("Wardrobe", () => {
       item4["_itemType"],
       Web3.utils.toWei(`${item4["_itemPrice"]}`, "ether"),
       item4["_maxMintable"],
-      item4["_itemSupply"],
+      item4["_itemSupply"] * 2,
       item4["_requiredMetamon"],
       item4["_proof"],
       item4["_uri"]
@@ -86,19 +79,21 @@ contract("Wardrobe", () => {
   });
 
   it("Mint multiple-items", async () => {
-    await deployedContract.mintSale(
+    await deployedContract.mintMultipleSale(
       [item4["_itemType"], item5["_itemType"]],
-      [item4["_maxMintable"], item5["_maxMintable"]],
+      [5, 5],
       {
         from: contract_deployer,
         value: Web3.utils.toWei(
-          `${
-            item4["_itemPrice"] * item4["_maxMintable"] +
-            item5["_itemPrice"] * item5["_maxMintable"]
-          }`,
+          `${item4["_itemPrice"] * 5 + item5["_itemPrice"] * 5}`,
           "ether"
         ),
       }
     );
+  });
+
+  it("Total Item Types", async () => {
+    const totalItemTypes = await deployedContract.totalItemTypes();
+    assert.equal(totalItemTypes, 3);
   });
 });
