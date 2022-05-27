@@ -11,6 +11,8 @@ const contract_address = yaml_data["WardrobeContract"]["contractAddress"];
 const contract_symbol = yaml_data["WardrobeContract"]["contractSymbol"];
 
 const item3 = yaml_data["WardrobeContract"]["item3"];
+const item4 = yaml_data["WardrobeContract"]["item4"];
+const item5 = yaml_data["WardrobeContract"]["item5"];
 
 contract("Wardrobe", () => {
   let deployedContract = null;
@@ -60,5 +62,43 @@ contract("Wardrobe", () => {
       assert(true);
       return;
     }
+  });
+
+  it("Add more items for mint", async () => {
+    await deployedContract.addWardrobeItem(
+      item4["_itemType"],
+      Web3.utils.toWei(`${item4["_itemPrice"]}`, "ether"),
+      item4["_maxMintable"],
+      item4["_itemSupply"],
+      item4["_requiredMetamon"],
+      item4["_proof"],
+      item4["_uri"]
+    );
+    await deployedContract.addWardrobeItem(
+      item5["_itemType"],
+      Web3.utils.toWei(`${item5["_itemPrice"]}`, "ether"),
+      item5["_maxMintable"],
+      item5["_itemSupply"],
+      item5["_requiredMetamon"],
+      item5["_proof"],
+      item5["_uri"]
+    );
+  });
+
+  it("Mint multiple-items", async () => {
+    await deployedContract.mintSale(
+      [item4["_itemType"], item5["_itemType"]],
+      [item4["_maxMintable"], item5["_maxMintable"]],
+      {
+        from: contract_deployer,
+        value: Web3.utils.toWei(
+          `${
+            item4["_itemPrice"] * item4["_maxMintable"] +
+            item5["_itemPrice"] * item5["_maxMintable"]
+          }`,
+          "ether"
+        ),
+      }
+    );
   });
 });
