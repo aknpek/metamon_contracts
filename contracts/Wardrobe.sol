@@ -318,7 +318,7 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
             );
 
             require(
-                totalSupply(itemTypes[_itemTypes[i]]) + _quantity[i] <=
+                totalSupply(_itemTypes[i]) + _quantity[i] <=
                     itemTypes[_itemTypes[i]].itemSupply,
                 "User is trying to mint more than total supply."
             );
