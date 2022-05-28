@@ -44,7 +44,8 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
     // Events
     ///////////////////////////////////////////////////////////////////////////
     event ReceivedEth(address _sender, uint256 _value);
-    event ItemMinted(address _receiver, uint256 _tokenId);
+    event ItemMinted(address _receiver, uint256 _tokenId, uint256 _quantity);
+    event ItemsMinted(address _receiver, uint256[] _tokenId, uint256[] _quantity);
 
     constructor()
         payable
@@ -297,6 +298,7 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
 
         itemsMinted[msg.sender][_itemType] += _quantity;
         _mint(msg.sender, _itemType, _quantity, "");
+        emit ItemMinted(msg.sender, _itemType, _quantity);
     }
 
     function mintMultipleSale(
@@ -338,6 +340,7 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         }
 
         _mintBatch(msg.sender, _itemTypes, _quantity, "");
+        emit ItemsMinted(msg.sender, _itemTypes, _quantity);
     }
 
     function mintSpecialItem(
@@ -372,6 +375,8 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
 
         itemsMinted[msg.sender][_itemType] += _quantity;
         _mint(msg.sender, _itemType, _quantity, "");
+        
+        emit ItemMinted(msg.sender, _itemType, _quantity);
     }
 
     function claimCollectionReward(uint256 _itemType, uint256 _quantity)
@@ -385,6 +390,8 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
 
         itemsMinted[msg.sender][_itemType] += _quantity;
         _mint(msg.sender, _itemType, _quantity, "");
+
+        emit ItemMinted(msg.sender, _itemType, _quantity);
     }
 
     function happyEnding(
@@ -401,6 +408,8 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
 
         itemsMinted[msg.sender][_itemType] += _quantity;
         _mint(_user, _itemType, _quantity, "");
+
+        emit ItemMinted(_user, _itemType, _quantity);
     }
 
     ///////////////////////////////////////////////////////////////////////////
