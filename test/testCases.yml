@@ -153,6 +153,9 @@ WardrobeContract:
   contractSymbol: "Minimetamon-WC"
   contractAddress: "0x9b1f7F645351AF3631a656421eD2e40f2802E6c0"
   contractOwnerAddress: "0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1"
+  contractNamePayment: WardrobePaymentSplitter
+  contractAddressPay: "0xe97DbD7116D168190F8A6E7beB1092c103c53a12"
+  otherOwner: "0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0"
 
   item1: {
     "_itemType": 1,
