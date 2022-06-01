@@ -114,7 +114,7 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         for (uint i = 0; i < _itemTypes.length; i++) {
             uint256[] memory _requiredMetamon = itemTypes[_itemTypes[i]]
                 .requiredMetamon;
-            for (uint256 j = 0; j < _requiredMetamon.length; i++) {
+            for (uint256 j = 0; j < _requiredMetamon.length; j++) {
                 if (
                     !metamonContract.metamonOwnership(
                         msg.sender, 
@@ -386,6 +386,11 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         requiredMetamonCheck(_itemType)
         nonReentrant
     {
+        require(
+            itemTypes[_itemType].itemMerkleRoot == 0,
+            "User is trying to mint a whitelisted item through incorrect function call."
+        );
+
         require(itemTypes[_itemType].itemPrice == 0, "must be a free mint");
 
         itemsMinted[msg.sender][_itemType] += _quantity;
@@ -401,12 +406,23 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
     )
         external
         itemTypeCheck(_itemType)
-        maxMintableCheck(_itemType, _quantity)
         nonReentrant
     {
         require(msg.sender == address(metamonContract), "Caller not valid");
 
-        itemsMinted[msg.sender][_itemType] += _quantity;
+        require(
+            itemsMinted[_user][_itemType] + _quantity <=
+                itemTypes[_itemType].maxMintable,
+            "User is trying to mint more than allocated."
+        );
+
+        require(
+            totalSupply(_itemType) + _quantity <=
+                itemTypes[_itemType].itemSupply,
+            "User is trying to mint more than total supply."
+        );
+        
+        itemsMinted[_user][_itemType] += _quantity;
         _mint(_user, _itemType, _quantity, "");
 
         emit ItemMinted(_user, _itemType, _quantity);
@@ -415,15 +431,15 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Backend URIs
     ///////////////////////////////////////////////////////////////////////////
-    function uri(uint256 tokenId) public view override returns (string memory) {
-        return (itemTypes[tokenId].uri);
+    function uri(uint256 _itemType) public view override returns (string memory) {
+        return (itemTypes[_itemType].uri);
     }
 
-    function setTokenUri(uint256 tokenId, string memory newUri)
+    function setTokenUri(uint256 _itemType, string memory newUri)
         external
         onlyOwner
     {
-        itemTypes[tokenId].uri = newUri;
+        itemTypes[_itemType].uri = newUri;
     }
 
     ///////////////////////////////////////////////////////////////////////////
