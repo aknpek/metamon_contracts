@@ -28,7 +28,6 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
 
     IMetamon public metamonContract;
 
-    address payable public breedingContractAddress;
     address payable public paymentContractAddress;
 
     string public name;
@@ -55,12 +54,6 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
     {
         name = "Metamon Wardrobe Collection";
         symbol = "Minimetamon-WC";
-    }
-
-    fallback() external payable {}
-
-    receive() external payable {
-        emit ReceivedEth(msg.sender, msg.value);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -260,15 +253,10 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         metamonContract = IMetamon(_metamonContractAddress);
     }
 
-    function setContractAddresses(
-        uint256 _type,
+    function setPaymentAddresse(
         address payable _contractAddress
     ) external onlyOwner {
-        if (_type == 1) {
             paymentContractAddress = _contractAddress;
-        } else if (_type == 2) {
-            breedingContractAddress = _contractAddress;
-        }
     }
 
     ///////////////////////////////////////////////////////////////////////////
