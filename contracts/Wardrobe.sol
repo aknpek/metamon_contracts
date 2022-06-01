@@ -42,7 +42,6 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Events
     ///////////////////////////////////////////////////////////////////////////
-    event ReceivedEth(address _sender, uint256 _value);
     event ItemMinted(address _receiver, uint256 _tokenId, uint256 _quantity);
     event ItemsMinted(address _receiver, uint256[] _tokenId, uint256[] _quantity);
 
@@ -105,8 +104,7 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
 
     modifier requiredMetamonChecks(uint256[] memory _itemTypes) {
         for (uint i = 0; i < _itemTypes.length; i++) {
-            uint256[] memory _requiredMetamon = itemTypes[_itemTypes[i]]
-                .requiredMetamon;
+            uint256[] memory _requiredMetamon = itemTypes[_itemTypes[i]].requiredMetamon;
             for (uint256 j = 0; j < _requiredMetamon.length; j++) {
                 if (
                     !metamonContract.metamonOwnership(
@@ -220,6 +218,7 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
     function getRequiredMetamon(uint256 _itemType)
         public
         view
+        onlyOwner
         itemTypeCheck(_itemType)
         returns (uint256[] memory)
     {
@@ -253,10 +252,14 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
         metamonContract = IMetamon(_metamonContractAddress);
     }
 
-    function setPaymentAddresse(
+    function setPaymentAddress(
         address payable _contractAddress
     ) external onlyOwner {
             paymentContractAddress = _contractAddress;
+    }
+
+     function getPaymentAddress() public view onlyOwner returns (address){
+        return paymentContractAddress;
     }
 
     ///////////////////////////////////////////////////////////////////////////
