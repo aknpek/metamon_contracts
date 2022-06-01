@@ -218,7 +218,6 @@ contract Wardrobe is ERC1155Supply, Ownable, ReentrancyGuard {
     function getRequiredMetamon(uint256 _itemType)
         public
         view
-        onlyOwner
         itemTypeCheck(_itemType)
         returns (uint256[] memory)
     {
