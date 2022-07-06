@@ -2,13 +2,12 @@
 pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
+import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-//Owner => token id => supply
-//address => Id => Int
-contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
+contract Item is ERC1155Supply, ERC1155Burnable, Ownable, ReentrancyGuard {
     using Strings for string;
 
     //Set contract name and symbol
@@ -37,6 +36,7 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Events
     ///////////////////////////////////////////////////////////////////////////
+    
     event ReceivedEth(address _sender, uint256 _value);
     event ItemsMinted(address _receiver, uint256[] _tokenIds, uint256[] _quantity);
     event ItemsBurned(address _burner, uint256[] _tokenIds, uint256[] _quantity);
@@ -44,6 +44,7 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Cons
     ///////////////////////////////////////////////////////////////////////////
+    
     constructor() 
         payable 
         ERC1155("https://gateway.pinata.cloud/ipfs/INSERT_IPFS_HASH_HERE/{id}.json") 
@@ -61,7 +62,8 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Pre-Function Conditions
     ///////////////////////////////////////////////////////////////////////////
-     modifier itemTypeCheck(uint256 _itemType) {
+    
+    modifier itemTypeCheck(uint256 _itemType) {
         require(itemTypes[_itemType].valid, "Item Type out of scope!");
         _;
     }
@@ -89,10 +91,12 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
         );
         _;
     }
+
     ///////////////////////////////////////////////////////////////////////////
     // Get/Set State Changes
     ///////////////////////////////////////////////////////////////////////////
-     function getItemPrice(uint256 _itemType)
+    
+    function getItemPrice(uint256 _itemType)
         public
         view
         itemTypeCheck(_itemType)
@@ -167,15 +171,20 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     // Burn Tokens
     ///////////////////////////////////////////////////////////////////////////
 
-    function burnItem(uint256[] memory itemTypes, uint256[] memory quantities)
+    function burnItems(uint256[] memory _itemTypes, uint256[] memory _quantities)
         external
+        itemTypesCheck(_itemTypes)
     {
-        _burnBatch(msg.sender, itemTypes, quantities);
+        //We need to probably make this so only the metamon contract can actually burn
+        //rather than any user
+        _burnBatch(msg.sender, _itemTypes, _quantities);
+        emit ItemsBurned(msg.sender, _itemTypes, _quantities);
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Mint Tokens
     ///////////////////////////////////////////////////////////////////////////
+    
     function mintSale(
         uint256[] memory _itemTypes,
         uint256[] memory _quantity
@@ -207,9 +216,11 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
         _mintBatch(msg.sender, _itemTypes, _quantity, "");
         emit ItemsMinted(msg.sender, _itemTypes, _quantity);
     }
+
     ///////////////////////////////////////////////////////////////////////////
     // Backend URIs
     ///////////////////////////////////////////////////////////////////////////
+    
     function uri(uint256 _itemType) public view override returns (string memory) {
         return (itemTypes[_itemType].uri);
     }
@@ -224,6 +235,7 @@ contract Item is ERC1155Supply, Ownable, ReentrancyGuard {
     ///////////////////////////////////////////////////////////////////////////
     // Withdraw
     ///////////////////////////////////////////////////////////////////////////
+    
     function withdraw() external onlyOwner nonReentrant {
         (bool success, ) = paymentContractAddress.call{
             value: address(this).balance
