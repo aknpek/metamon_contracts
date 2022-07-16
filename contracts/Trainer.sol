@@ -71,8 +71,8 @@ contract Trainer is ERC721A, Ownable, ReentrancyGuard {
         _baseTokenURI = baseURI;
     }
 
-    function setTransferAllowed(bool transferAllows) external onlyOwner {
-
+    function setTransferAllowed(bool transferAllowed) external onlyOwner {
+        _transferAllowed = transferAllowed;
     }
 
     function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
